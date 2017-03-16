@@ -1,0 +1,33 @@
+<?php
+namespace shop\behaviors;
+use Yii;
+
+class EmailHelper extends \app\behaviors\EmailHelper
+{
+	public function sendRegistrationSuccessEmailToCustomer($customer) {
+		$siteName = Yii::$app->name;
+		return $this->sendMail(
+			[ Yii::$app->params['supportEmail'] => $siteName ],
+			$customer->email,
+			$siteName.' - Thank you for registering',
+			'@shop/mail/registration-customer', 
+			[
+				'siteName' => $siteName,
+			]
+		);
+	}
+
+	public function sendRegistrationAlertEmailToAdmin($customer) {
+		$siteName = Yii::$app->name;
+		return $this->sendMail(
+			[ Yii::$app->params['supportEmail'] => $siteName ],
+			Yii::$app->params['adminEmail'],
+			'New customer', 
+			'@shop/mail/registration-admin', 
+			[
+				'siteName' => $siteName,
+				'customer' => $customer,
+			]
+		);
+	}
+}
