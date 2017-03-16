@@ -27,9 +27,10 @@ $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 		],
 		'assetManager' => [
 			'hashCallback' => function ($path) {
+				$p = dirname($path);
 				// make user friendly path
-				$s2 = basename($path);
-				$s1 = basename(dirname($path));
+				$s2 = basename($p);
+				$s1 = basename(dirname($p));
 				return "$s1-$s2";
 			}
 		],

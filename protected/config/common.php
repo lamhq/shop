@@ -8,6 +8,7 @@ $result = [
 	'params' => [
 		'adminEmail' => 'admin@example.com',
 		'supportEmail' => 'support@example.com',
+		'storagePath' => 'storage',
 		'user.passwordResetTokenExpire' => 3600,
 	],
 	'components' => [
