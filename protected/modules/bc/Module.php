@@ -9,17 +9,17 @@ use yii\base\Controller;
  */
 class Module extends \yii\base\Module
 {
-    /**
-     * @inheritdoc
-     */
-    public $controllerNamespace = 'bc\controllers';
+	/**
+	 * @inheritdoc
+	 */
+	public $controllerNamespace = 'bc\controllers';
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        // custom initialization code goes here
-        parent::init();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function init()
+	{
+		// custom initialization code goes here
+		parent::init();
+	}
 }

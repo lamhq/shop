@@ -2,7 +2,6 @@
 $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 	'id' => 'car',
 	'name' => 'Booking Car',
-	'defaultRoute'=>'backend',
 	'components' => [
 		'view' => [
 			'theme' => [

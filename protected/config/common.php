@@ -52,7 +52,7 @@ foreach ($modules as $module) {
 	$configFile = sprintf('%s/%s/config.php', $mp, $module);
 	if (is_dir($mp.'/'.$module) && !in_array($module, ['.', '..']) 
 		&& is_file($configFile)) {
-		$result = array_merge_recursive($result, include($configFile));
+		$result = \yii\helpers\ArrayHelper::merge($result, include($configFile));
 	}
 }
 
