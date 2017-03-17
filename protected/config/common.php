@@ -10,6 +10,7 @@ $result = [
 		'supportEmail' => 'support@example.com',
 		'storagePath' => 'storage',
 		'user.passwordResetTokenExpire' => 3600,
+		'cookieLifeTime' => 3600,
 	],
 	'components' => [
 		'db' => [
