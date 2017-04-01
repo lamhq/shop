@@ -6,8 +6,8 @@ $result = [
 	'language'=>'vi-VN',
 	'sourceLanguage'=>'en-US',
 	'params' => [
-		'adminEmail' => 'admin@example.com',
-		'supportEmail' => 'support@example.com',
+		'adminEmail' => 'mailer@local.app',
+		'supportEmail' => 'ubuntu@local.app',
 		'storagePath' => 'storage',
 		'user.passwordResetTokenExpire' => 3600,
 		'cookieLifeTime' => 3600,
@@ -26,7 +26,8 @@ $result = [
 			// send all mails to a file by default. You have to set
 			// 'useFileTransport' to false and configure a transport
 			// for the mailer to send real emails.
-			'useFileTransport' => true,
+			'useFileTransport' => false,
+			'textLayout' => false,
 		],
 		'i18n' => [
 			'translations' => [
