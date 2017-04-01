@@ -35,6 +35,9 @@ $result = [
 		'cache' => [
 			'class' => 'yii\caching\FileCache',
 		],
+		'helper' => [
+			'class' => 'app\components\Helper',
+		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,
 			'targets' => [
