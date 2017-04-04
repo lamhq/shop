@@ -38,6 +38,8 @@ $result = [
 		],
 		'helper' => [
 			'class' => 'app\components\Helper',
+			'as emailHelper' => ['class' => 'shop\behaviors\EmailHelper'],
+			'as appHelper' => ['class' => 'app\behaviors\AppHelper'],
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d5eba3a4b754a48834ad27da6c45da6",
+    "content-hash": "594b2fd2926dc88ea4c4ef476874aa54",
     "packages": [
         {
             "name": "bower-asset/admin-lte",
@@ -270,6 +270,37 @@
             ]
         },
         {
+            "name": "bower-asset/magnific-popup",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimsemenov/Magnific-Popup.git",
+                "reference": "6b7a8088783cbce01034414c1fd2d8e1889093ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimsemenov/Magnific-Popup/zipball/6b7a8088783cbce01034414c1fd2d8e1889093ae",
+                "reference": "6b7a8088783cbce01034414c1fd2d8e1889093ae",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.8.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/jquery.magnific-popup.js",
+                    "dist/magnific-popup.css"
+                ],
+                "bower-asset-ignore": [
+                    "node_modules/",
+                    "components/",
+                    "website/",
+                    "libs/"
+                ]
+            }
+        },
+        {
             "name": "bower-asset/moment",
             "version": "dev-master",
             "source": {
@@ -313,6 +344,32 @@
             "time": "2016-12-04 05:41:33"
         },
         {
+            "name": "bower-asset/notifyjs",
+            "version": "v0.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jpillora/notifyjs.git",
+                "reference": "9e61e5418d07e0ea83814feada41d5ecb5df0d56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jpillora/notifyjs/zipball/9e61e5418d07e0ea83814feada41d5ecb5df0d56",
+                "reference": "9e61e5418d07e0ea83814feada41d5ecb5df0d56",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/notify.js"
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple, versatile notification library",
+            "keywords": [
+                "notification"
+            ]
+        },
+        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
@@ -339,6 +396,71 @@
                     "package.json"
                 ]
             }
+        },
+        {
+            "name": "bower-asset/select2",
+            "version": "4.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2.git",
+                "reference": "566c7846fbf8c3b7674346f26d0ee872c0a77629"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2/zipball/566c7846fbf8c3b7674346f26d0ee872c0a77629",
+                "reference": "566c7846fbf8c3b7674346f26d0ee872c0a77629",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/js/select2.js",
+                    "src/scss/core.scss"
+                ]
+            },
+            "description": "Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results."
+        },
+        {
+            "name": "bower-asset/select2-bootstrap-theme",
+            "version": "0.1.0-beta.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2-bootstrap-theme.git",
+                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2-bootstrap-theme/zipball/7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
+                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.3.4,<4.0.0",
+                "bower-asset/select2": ">=4.0.0,<5.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "src/build.scss",
+                    "src/build.less"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "components"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A theme for Select2 v4 and Bootstrap 3.",
+            "keywords": [
+                "bootstrap",
+                "css",
+                "less",
+                "sass",
+                "select2"
+            ]
         },
         {
             "name": "bower-asset/yii2-pjax",
@@ -482,31 +604,32 @@
             "time": "2017-03-13T06:30:53+00:00"
         },
         {
-            "name": "kartik-v/yii2-krajee-base",
-            "version": "dev-master",
+            "name": "hiqdev/yii2-asset-select2",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "4c26c71ca3f536f0d904de25d1ebffc04e22079c"
+                "url": "https://github.com/hiqdev/yii2-asset-select2.git",
+                "reference": "5154a4221ba3c3fae583fb6ba9aff80c34dbde90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/4c26c71ca3f536f0d904de25d1ebffc04e22079c",
-                "reference": "4c26c71ca3f536f0d904de25d1ebffc04e22079c",
+                "url": "https://api.github.com/repos/hiqdev/yii2-asset-select2/zipball/5154a4221ba3c3fae583fb6ba9aff80c34dbde90",
+                "reference": "5154a4221ba3c3fae583fb6ba9aff80c34dbde90",
                 "shasum": ""
             },
             "require": {
-                "yiisoft/yii2-bootstrap": "@dev"
+                "bower-asset/select2": "^4.0.3",
+                "php": ">5.6",
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "hiqdev/hidev-hiqdev": "<2.0 || dev-master",
+                "hiqdev/hidev-php": "<2.0 || dev-master"
             },
             "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.8.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "kartik\\base\\": ""
+                    "hiqdev\\yii2\\assets\\select2\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -515,75 +638,92 @@
             ],
             "authors": [
                 {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
+                    "name": "Andrii Vasyliev",
+                    "email": "sol@hiqdev.com",
+                    "homepage": "http://hipanel.com/",
+                    "role": "Project lead"
+                },
+                {
+                    "name": "Dmitry Naumenko",
+                    "email": "d.naumenko.a@gmail.com",
+                    "homepage": "http://silverfire.me/",
+                    "role": "Lead backend developer"
+                },
+                {
+                    "name": "Andrey Klochok",
+                    "email": "andreyklochok@gmail.com",
+                    "homepage": "http://hiqdev.com/",
+                    "role": "Lead frontend developer"
+                },
+                {
+                    "name": "Yuriy Myronchuk",
+                    "email": "bladeroot@gmail.com",
+                    "homepage": "http://hiqdev.com/",
+                    "role": "QA Lead"
                 }
             ],
-            "description": "Base library and foundation components for all Yii2 Krajee extensions.",
-            "homepage": "https://github.com/kartik-v/yii2-krajee-base",
+            "description": "Yii2 asset for Select2 plugin",
+            "homepage": "https://github.com/hiqdev/yii2-asset-select2",
             "keywords": [
-                "base",
-                "extension",
-                "foundation",
-                "krajee",
-                "widget",
+                "asset",
+                "select2",
                 "yii2"
             ],
-            "time": "2017-03-06 16:00:52"
+            "time": "2017-02-10T17:12:24+00:00"
         },
         {
-            "name": "kartik-v/yii2-widget-select2",
-            "version": "dev-master",
+            "name": "ivan-chkv/yii2-jquery-magnific-popup",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "9d2f24a3beba5364bc53996f9d7259a13e29e797"
+                "url": "https://github.com/ivan-chkv/yii2-jquery-magnific-popup.git",
+                "reference": "91657a79ff6537c82cdb6a643befe012cd903b3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/9d2f24a3beba5364bc53996f9d7259a13e29e797",
-                "reference": "9d2f24a3beba5364bc53996f9d7259a13e29e797",
+                "url": "https://api.github.com/repos/ivan-chkv/yii2-jquery-magnific-popup/zipball/91657a79ff6537c82cdb6a643befe012cd903b3f",
+                "reference": "91657a79ff6537c82cdb6a643befe012cd903b3f",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-krajee-base": "~1.7"
+                "bower-asset/magnific-popup": "1.1.*",
+                "yiisoft/yii2": ">=2.0.4"
+            },
+            "require-dev": {
+                "ivan-chkv/yii2-phpunit": "2.*"
             },
             "type": "yii2-extension",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "kartik\\select2\\": ""
+                    "yii\\jquery\\magnificpopup\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
+                    "name": "Ivan Chistyakov",
+                    "email": "ivan.chkv@gmail.com"
                 }
             ],
-            "description": "Enhanced Yii2 wrapper for the Select2 jQuery plugin (sub repo split from yii2-widgets).",
-            "homepage": "https://github.com/kartik-v/yii2-widget-select2",
+            "description": "Yii 2 jQuery Magnific Popup Asset",
+            "homepage": "http://dimsemenov.com/plugins/magnific-popup/",
             "keywords": [
-                "dropdown",
-                "extension",
-                "form",
                 "jquery",
-                "plugin",
-                "select2",
-                "widget",
+                "lightbox",
+                "magnific",
+                "popup",
                 "yii2"
             ],
-            "time": "2017-03-07 10:03:08"
+            "time": "2016-07-14T21:14:17+00:00"
         },
         {
             "name": "lamhq/php-helpers",
@@ -638,6 +778,34 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "AdminLTE theme asset bundle for Yii 2.0 Framework",
             "time": "2016-09-26T13:58:06+00:00"
+        },
+        {
+            "name": "lamhq/yii2-notify-asset",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lamhq/yii2-notifyjs-asset.git",
+                "reference": "d0795a3dd4ac60f7cd6d06fbb6e9acfd8ff2ac93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lamhq/yii2-notifyjs-asset/zipball/d0795a3dd4ac60f7cd6d06fbb6e9acfd8ff2ac93",
+                "reference": "d0795a3dd4ac60f7cd6d06fbb6e9acfd8ff2ac93",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/notifyjs": "^0.4.2",
+                "yiisoft/yii2": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lamhq\\yii2\\asset\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Notify.js asset bundle for Yii 2.0 Framework",
+            "time": "2017-03-18T02:59:02+00:00"
         },
         {
             "name": "sersid/yii2-font-awesome-asset",
@@ -1396,7 +1564,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-03-15T16:09:27+00:00"
+            "time": "2017-03-15 16:09:27"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1462,6 +1630,110 @@
                 "url"
             ],
             "time": "2017-02-27 10:51:17"
+        },
+        {
+            "name": "kartik-v/yii2-krajee-base",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-krajee-base.git",
+                "reference": "4c26c71ca3f536f0d904de25d1ebffc04e22079c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/4c26c71ca3f536f0d904de25d1ebffc04e22079c",
+                "reference": "4c26c71ca3f536f0d904de25d1ebffc04e22079c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-bootstrap": "@dev"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\base\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Base library and foundation components for all Yii2 Krajee extensions.",
+            "homepage": "https://github.com/kartik-v/yii2-krajee-base",
+            "keywords": [
+                "base",
+                "extension",
+                "foundation",
+                "krajee",
+                "widget",
+                "yii2"
+            ],
+            "time": "2017-03-06 16:00:52"
+        },
+        {
+            "name": "kartik-v/yii2-widget-select2",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-select2.git",
+                "reference": "9d2f24a3beba5364bc53996f9d7259a13e29e797"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/9d2f24a3beba5364bc53996f9d7259a13e29e797",
+                "reference": "9d2f24a3beba5364bc53996f9d7259a13e29e797",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\select2\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Enhanced Yii2 wrapper for the Select2 jQuery plugin (sub repo split from yii2-widgets).",
+            "homepage": "https://github.com/kartik-v/yii2-widget-select2",
+            "keywords": [
+                "dropdown",
+                "extension",
+                "form",
+                "jquery",
+                "plugin",
+                "select2",
+                "widget",
+                "yii2"
+            ],
+            "time": "2017-03-07 10:03:08"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2081,7 +2353,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-03-15T13:02:34+00:00"
+            "time": "2017-03-15 13:02:34"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2807,7 +3079,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-14T20:25:39+00:00"
+            "time": "2017-03-14 20:25:39"
         },
         {
             "name": "symfony/console",
@@ -3363,7 +3635,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2017-03-13T13:21:16+00:00"
+            "time": "2017-03-13 13:21:16"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -3463,12 +3735,14 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2017-03-14T10:11:13+00:00"
+            "time": "2017-03-14 10:11:13"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "bower-asset/select2-bootstrap-theme": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
