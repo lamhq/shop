@@ -3,22 +3,26 @@
 namespace shop\models;
 
 use Yii;
-use yii\base\Model;
+use shop\components\CustomerCartItemCollection;
 
 /**
- * LoginForm is the model behind the login form.
- *
- * @property User|null $user This property is read-only.
- *
+ * model contains user checkout data
  */
-class CheckoutForm extends Model
+class CheckoutForm extends Order
 {
-	const ADDRESS_EXISTING = 'existing';
-	const ADDRESS_NEW = 'new';
+	const ADDRESS_TYPE_EXISTING = 'existing';
+	const ADDRESS_TYPE_NEW = 'new';
 
-	public $name;
-	public $email;
-	public $telephone;
+	/**
+	 * @var string
+	 */
+	public $itemCollectionId;
+
+	/**
+	 * list of product in cart
+	 * @var \shop\components\CartItemCollection
+	 */
+	public $itemCollection;
 
 	/**
 	 * whether to register account in step 1
@@ -30,13 +34,7 @@ class CheckoutForm extends Model
 	 * account model for registration
 	 * @var SignupForm
 	 */
-	public $account;
-
-	/**
-	 * address model for shipping address
-	 * @var Address
-	 */
-	public $shippingAddress;
+	public $signupForm;
 
 	/**
 	 * use existed address or new
@@ -51,11 +49,20 @@ class CheckoutForm extends Model
 	public $shippingAddressId;
 
 	/**
-	 * customer model
-	 * @var Customer
+	 * address model for shipping address
+	 * @var Address
 	 */
-	public $customer;
+	public $shippingAddress;
 
+	public function init()
+	{
+		$this->itemCollection = new CustomerCartItemCollection([
+			'collectionId'=>$this->itemCollectionId,
+			'customerId'=>(int)$this->customer_id
+		]);
+		$this->signupForm = new SignupForm();
+		$this->shippingAddress = new Address();
+	}
 
 	/**
 	 * @return array the validation rules.
@@ -66,7 +73,7 @@ class CheckoutForm extends Model
 			[['name', 'telephone'], 'required', 'on'=>'shipping-guest'],
 			[['shippingAddress'], 'validateModel', 'on'=>'shipping-guest'],
 			// validate registration form when user choose to register new account
-			[['account'], 'validateRegistration', 'on'=>'shipping-guest',
+			[['signupForm'], 'validateRegistration', 'on'=>'shipping-guest',
 				'when'=>function($model) {
 					return (bool)$model->register;
 				}
@@ -76,7 +83,7 @@ class CheckoutForm extends Model
 			// validate address form when user choose to create new address
 			[['shippingAddress'], 'validateModel', 'on'=>'shipping',
 				'when'=>function($model) {
-					return $model->shippingAddressType==self::ADDRESS_NEW;
+					return $model->shippingAddressType==self::ADDRESS_TYPE_NEW;
 				}
 			],
 
@@ -86,15 +93,9 @@ class CheckoutForm extends Model
 		];
 	}
 
-	public function init()
-	{
-		$this->account = new SignupForm();
-		$this->shippingAddress = new Address();
-	}
-
 	public function setData($data) {
 		$a = $this->load($data);
-		$b = $this->account->load($data);
+		$b = $this->signupForm->load($data);
 		$c = $this->shippingAddress->load($data);
 		return $a || $b || $c;
 	}
@@ -121,21 +122,20 @@ class CheckoutForm extends Model
 		}
 	}
 
-	public function validateRegistration($attribute, $params, $validator)
-	{
-		$account = $this->$attribute;
-		$account->email = $this->email;
-		$account->name = $this->name;
-		$account->telephone = $this->telephone;
-		if (!$account->validate()) {
-			if ($account->hasErrors('email')) {
-				$this->addError('email', $account->getFirstError('email'));
+	public function validateRegistration($attribute, $params, $validator) {
+		$signupForm = $this->$attribute;
+		$signupForm->email = $this->email;
+		$signupForm->name = $this->name;
+		$signupForm->telephone = $this->telephone;
+		if (!$signupForm->validate()) {
+			if ($signupForm->hasErrors('email')) {
+				$this->addError('email', $signupForm->getFirstError('email'));
 			}
-			if ($account->hasErrors('name')) {
-				$this->addError('name', $account->getFirstError('name'));
+			if ($signupForm->hasErrors('name')) {
+				$this->addError('name', $signupForm->getFirstError('name'));
 			}
-			if ($account->hasErrors('telephone')) {
-				$this->addError('telephone', $account->getFirstError('telephone'));
+			if ($signupForm->hasErrors('telephone')) {
+				$this->addError('telephone', $signupForm->getFirstError('telephone'));
 			}
 			$this->addError($attribute, Yii::t('shop', 'Registration input invalid.'));
 		}
@@ -145,18 +145,18 @@ class CheckoutForm extends Model
 		$this->shippingAddress->name = $this->name;
 		if (!$this->validate()) return false;
 		if ($this->register) {
-			$customer = $this->account->signup();
+			$customer = $this->signupForm->signup();
 			$customer->addAddress($this->shippingAddress);
 			Yii::$app->user->login($customer, 3600 * 24 * 30);
 			$this->shippingAddressId = $customer->address_id;
-			$this->customer = $customer;
+			$this->customer_id = $customer->id;
 		}
 		return true;
 	}
 
 	public function saveShipping() {
 		if (!$this->validate()) return false;
-		if ($this->shippingAddressType==self::ADDRESS_NEW) {
+		if ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
 			$this->customer->addAddress($this->shippingAddress);
 		}
 		return true;
@@ -164,6 +164,61 @@ class CheckoutForm extends Model
 
 	public function placeOrder() {
 		if (!$this->validate()) return false;
+	}
+
+	/**
+	 * get list of applied prices for cart
+	 * @return array
+	 */
+	public function getPrices() {
+		$totals = [];
+		$total = 0;
+		$totalData = [
+			'totals' => &$totals,
+			'total'  => &$total
+		];
+
+		$this->applySubTotalPrice($totalData);
+		$this->applyTotalPrice($totalData);
+
+		return $totals;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getSubTotal() {
+		$total = 0;
+		foreach ($this->getItems() as $item) {
+			$total += $item->getTotal();
+		}
+		return $total;
+	}
+
+	/**
+	 * apply sub total price to price list
+	 * @param  array $total
+	 */
+	protected function applySubTotalPrice($totalData) {
+		$sub_total = $this->getSubTotal();
+
+		$totalData['totals'][] = [
+			'title'      => Yii::t('shop', 'Sub-Total'),
+			'value'      => $sub_total,
+		];
+
+		$totalData['total'] += $sub_total;
+	}
+
+	/**
+	 * apply total price to price list
+	 * @param  array $total
+	 */
+	protected function applyTotalPrice($totalData) {
+		$totalData['totals'][] = [
+			'title'      => Yii::t('shop', 'Total'),
+			'value'      => max(0, $totalData['total']),
+		];
 	}
 
 }

@@ -6,12 +6,11 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
-use shop\models\AddToCartForm;
-use app\helpers\AppHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use shop\models\AddToCartForm;
+use shop\behaviors\Checkout;
 
 /**
  * @author Lam Huynh <lamhq.com>
@@ -30,6 +29,9 @@ class CartController extends Controller
 					'add' => ['POST'],
 				],
 			],
+			'checkout' => [
+				'class' => Checkout::className(),
+			],
 		];
 	}
 
@@ -47,12 +49,12 @@ class CartController extends Controller
 				Html::a($product->name, $product->getUrl()), 
 				Html::a('shopping cart', Url::to(['/shop/cart'])) 
 			]);
-			AppHelper::setSuccess($s);
+			Yii::$app->helper->setSuccess($s);
 			$model->qty = 1;
 			$result['success'] = 1;
 			$result['message'] = $s;
 		}
-		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$result['cartForm'] = $this->renderPartial('_cartForm', [ 'model' => $model ]);
 		$result['button'] = \shop\widgets\AddToCartButton::widget([ 'product' => $product ]);
 		return $result;

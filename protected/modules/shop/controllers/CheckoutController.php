@@ -73,10 +73,10 @@ class CheckoutController extends Controller
 		$model->scenario = 'shipping';
 		$model->customer = Yii::$app->user->identity;
 		if ($model->customer->getAddressOptions()) {
-			$model->shippingAddressType = CheckoutForm::ADDRESS_EXISTING;
+			$model->shippingAddressType = CheckoutForm::ADDRESS_TYPE_EXISTING;
 			$model->shippingAddressId = $model->customer->address_id;
 		} else {
-			$model->shippingAddressType = CheckoutForm::ADDRESS_NEW;
+			$model->shippingAddressType = CheckoutForm::ADDRESS_TYPE_NEW;
 		}
 		
 		if ($model->setData(Yii::$app->request->post()) && $model->saveShipping()) {

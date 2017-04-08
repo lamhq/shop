@@ -29,9 +29,6 @@ return [
 				],
 			]
 		],
-		'cart' => [
-			'class' => 'shop\components\Cart',
-		],
 		'helper' => [
 			'class' => 'app\components\Helper',
 			'as emailHelper' => [

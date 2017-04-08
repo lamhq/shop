@@ -14,8 +14,8 @@ $shipping = $model->shippingAddress;
 	<div class="radio">
 		<label>
 			<?= Html::radio($cname, 
-			$model->shippingAddressType==CheckoutForm::ADDRESS_EXISTING, 
-			['class'=>'address-type', 'value'=>CheckoutForm::ADDRESS_EXISTING ]) ?> 
+			$model->shippingAddressType==CheckoutForm::ADDRESS_TYPE_EXISTING, 
+			['class'=>'address-type', 'value'=>CheckoutForm::ADDRESS_TYPE_EXISTING ]) ?> 
 			<?= Yii::t('shop', 'I want to use an existing address') ?>
 		</label>
 	</div>
@@ -26,8 +26,8 @@ $shipping = $model->shippingAddress;
 	<div class="radio">
 		<label>
 			<?= Html::radio($cname, 
-			$model->shippingAddressType==CheckoutForm::ADDRESS_NEW, 
-			['class'=>'address-type', 'value'=>CheckoutForm::ADDRESS_NEW]) ?> 
+			$model->shippingAddressType==CheckoutForm::ADDRESS_TYPE_NEW, 
+			['class'=>'address-type', 'value'=>CheckoutForm::ADDRESS_TYPE_NEW]) ?> 
 			<?= Yii::t('shop', 'I want to use a new address') ?>
 		</label>
 	</div>
