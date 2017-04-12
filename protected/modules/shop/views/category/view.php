@@ -25,8 +25,8 @@ $image = $model->getImageUrl();
 		
 		<?= ProductList::widget([
 			'dataProvider' => $dataProvider,
-			'itemView' => '@shop/widgets/views/product-thumb',
-			'toolbarView' => '@shop/widgets/views/product-list-toolbar',
+			'itemView' => '@shop/widgets/views/productThumb',
+			'toolbarView' => '@shop/widgets/views/productListToolbar',
 		]); ?>
 	</div>
 </div>

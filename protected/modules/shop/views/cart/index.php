@@ -1,6 +1,6 @@
 <?php
 /* @var $this \yii\web\View */
-/* @var $cart shop\components\Cart */
+/* @var $model shop\models\Order */
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -10,9 +10,10 @@ $this->registerJs('app.setupCartPage();');
 $this->title = AppHelper::getPageTitle(Yii::t('shop', 'Shopping Cart'));
 $this->params['breadcrumbs'][] = $this->title;
 $f = Yii::$app->formatter;
+$itemCollection = $model->itemCollection;
 ?>
 <h1><?= $this->title ?></h1>
-<?php if ($cart->hasItems()): ?>
+<?php if ($itemCollection->hasItems()): ?>
 	<?php $form = ActiveForm::begin([
 		'id' => 'cartForm',
 		'action' => ['/shop/cart/update'],
@@ -31,7 +32,7 @@ $f = Yii::$app->formatter;
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($cart->getItems() as $item): ?>
+				<?php foreach ($itemCollection->getItems() as $item): ?>
 				<?php $product = $item->product ?>
 				<tr>
 					<td class="text-center"><?= Html::img($product->getImageUrl(47, 47), ['class'=>'img-thumbnail']) ?></td>
@@ -66,7 +67,7 @@ $f = Yii::$app->formatter;
 		<div class="col-sm-4 col-sm-offset-8">
 			<table class="table table-bordered">
 				<tbody>
-				<?php foreach ($cart->getPrices() as $item): ?>
+				<?php foreach ($itemCollection->getPrices() as $item): ?>
 					<tr>
 						<td class="text-right"><strong><?= $item['title'] ?></strong></td>
 						<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>

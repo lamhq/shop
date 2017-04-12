@@ -20,7 +20,6 @@ class ProductController extends Controller
 	 */
 	public function actionView($slug)
 	{
-		$c = Yii::$app->cart;
 		$model = Product::find()
 			->active()
 			->instock()

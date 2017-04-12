@@ -10,7 +10,7 @@ class CategoryNavigation extends Widget
 	private $_categories = null;
 
 	public function run() {
-		return $this->render('category-nav',[
+		return $this->render('categoryNav',[
 			'items'=>$this->getCategoryMenuItems()
 		]);
 	}

@@ -57,13 +57,13 @@ class CheckoutController extends Controller
 	{
 		$model = new CheckoutForm();
 		$model->setData($this->getCheckoutSessionData());
-		$model->scenario = 'shipping-guest';
+		$model->scenario = 'shippingGuest';
 		if ($model->setData(Yii::$app->request->post()) && $model->saveShippingGuest()) {
 			$this->setCheckoutSessionData($model->getData());
 			return AppHelper::jsonSuccess();
 		}
 
-		return $this->renderPartial('shipping-guest', ['model'=>$model]);
+		return $this->renderPartial('shippingGuest', ['model'=>$model]);
 	}
 
 	protected function handleLoggedShipping()

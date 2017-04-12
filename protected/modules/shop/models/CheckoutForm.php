@@ -14,12 +14,7 @@ class CheckoutForm extends Order
 	const ADDRESS_TYPE_NEW = 'new';
 
 	/**
-	 * @var string
-	 */
-	public $itemCollectionId;
-
-	/**
-	 * list of product in cart
+	 * list of item in cart
 	 * @var \shop\components\CartItemCollection
 	 */
 	public $itemCollection;
@@ -54,12 +49,7 @@ class CheckoutForm extends Order
 	 */
 	public $shippingAddress;
 
-	public function init()
-	{
-		$this->itemCollection = new CustomerCartItemCollection([
-			'collectionId'=>$this->itemCollectionId,
-			'customerId'=>(int)$this->customer_id
-		]);
+	public function init() {
 		$this->signupForm = new SignupForm();
 		$this->shippingAddress = new Address();
 	}
@@ -67,19 +57,21 @@ class CheckoutForm extends Order
 	/**
 	 * @return array the validation rules.
 	 */
-	public function rules()
-	{
-		return [
-			[['name', 'telephone'], 'required', 'on'=>'shipping-guest'],
-			[['shippingAddress'], 'validateModel', 'on'=>'shipping-guest'],
+	public function rules() {
+		$rules = parent::rules();
+		return array_merge($rules,[
+			[['register'], 'integer', 'on'=>'shippingGuest'],
+			[['name', 'telephone', 'email'], 'required', 'on'=>'shippingGuest'],
+			[['shippingAddress'], 'validateModel', 'on'=>'shippingGuest'],
 			// validate registration form when user choose to register new account
-			[['signupForm'], 'validateRegistration', 'on'=>'shipping-guest',
+			[['signupForm'], 'validateRegistration', 'on'=>'shippingGuest',
 				'when'=>function($model) {
 					return (bool)$model->register;
 				}
 			],
 
 			[['shippingAddressType'], 'required', 'on'=>'shipping'],
+			[['shippingAddressId'], 'integer', 'on'=>'shipping'],
 			// validate address form when user choose to create new address
 			[['shippingAddress'], 'validateModel', 'on'=>'shipping',
 				'when'=>function($model) {
@@ -87,10 +79,8 @@ class CheckoutForm extends Order
 				}
 			],
 
-			[['email'], 'email'],
-			[['register', 'shippingAddressId'], 'integer'],
-			[['name', 'telephone', 'email', 'shippingAddressType'], 'safe'],
-		];
+			[['name', 'telephone', 'email', 'shippingAddressType', 'shippingAddressId'], 'safe', 'on'=>'loadData'],
+		]);
 	}
 
 	public function setData($data) {
@@ -102,15 +92,15 @@ class CheckoutForm extends Order
 
 	public function getData() {
 		$shippingAddress = $this->shippingAddress;
-		$shippingKey = $shippingAddress->formName();
+		$sfn = $shippingAddress->formName();
 		$result = [
 			$this->formName() => $this->toArray(),
-			$shippingKey => $shippingAddress->toArray(),
+			$sfn => $shippingAddress->toArray(),
 		];
 
 		// remove shipping address form data if use choose to use existing address
 		if ($this->shippingAddressId) {
-			unset($result[$shippingKey]);
+			unset($result[$sfn]);
 		}
 		return $result;
 	}

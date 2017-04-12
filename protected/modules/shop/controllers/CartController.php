@@ -10,7 +10,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use shop\models\AddToCartForm;
-use shop\behaviors\Checkout;
+use shop\behaviors\CustomerCheckout;
 
 /**
  * @author Lam Huynh <lamhq.com>
@@ -30,7 +30,7 @@ class CartController extends Controller
 				],
 			],
 			'checkout' => [
-				'class' => Checkout::className(),
+				'class' => CustomerCheckout::className(),
 			],
 		];
 	}
@@ -43,17 +43,23 @@ class CartController extends Controller
 	{
 		$result = ['success'=>0];		
 		$model = new AddToCartForm();
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		$itemCollection = $this->getOrder()->itemCollection;
+		if ( $model->load(Yii::$app->request->post()) 
+			&& $model->validate() 
+			&& $itemCollection->add($model->productId, $model->qty) ) {
+			$model->resetFormData();
+
+			// prepare success message
 			$product = $model->getProduct();
 			$s = Yii::t('shop', 'Success: You have added {0} to your {1}!', [
 				Html::a($product->name, $product->getUrl()), 
 				Html::a('shopping cart', Url::to(['/shop/cart'])) 
 			]);
-			Yii::$app->helper->setSuccess($s);
-			$model->qty = 1;
-			$result['success'] = 1;
 			$result['message'] = $s;
+			$result['success'] = 1;
+			Yii::$app->helper->setSuccess($s);
 		}
+
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$result['cartForm'] = $this->renderPartial('_cartForm', [ 'model' => $model ]);
 		$result['button'] = \shop\widgets\AddToCartButton::widget([ 'product' => $product ]);
@@ -66,8 +72,9 @@ class CartController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$cart = Yii::$app->cart;
-		return $this->render('index', ['cart'=>$cart]);
+		return $this->render('index', [
+			'model'=>$this->getOrder()
+		]);
 	}
 
 	public function actionUpdate() {

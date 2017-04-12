@@ -49,8 +49,7 @@ class AddToCartForm extends Model
 		return $this->_product;
 	}
 
-	public function save() {
-		if (!$this->validate()) return false;
-		return Yii::$app->cart->add($this->productId, $this->qty);
+	public function resetFormData() {
+		$this->qty = 1;
 	}
 }

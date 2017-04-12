@@ -44,6 +44,8 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['email'], 'email'],
+            
             [['invoice_no', 'customer_id', 'status'], 'integer'],
             [['comment'], 'string'],
             [['total'], 'number'],
