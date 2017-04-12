@@ -152,12 +152,12 @@ class CheckoutForm extends Order
 		return true;
 	}
 
-	public function setDefaultAddress() {
-		if ($this->customer->getAddressOptions()) {
-			$this->shippingAddressType = CheckoutForm::ADDRESS_TYPE_EXISTING;
+	public function setDefaultShippingAddress() {
+		if ($this->customer && $this->customer->getAddressOptions()) {
+			$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
 			$this->shippingAddressId = $this->customer->address_id;
 		} else {
-			$this->shippingAddressType = CheckoutForm::ADDRESS_TYPE_NEW;
+			$this->shippingAddressType = self::ADDRESS_TYPE_NEW;
 		}
 	}
 

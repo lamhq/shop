@@ -62,8 +62,8 @@ class CheckoutController extends Controller
 		$model->scenario = 'shippingGuest';
 		if ( $model->setData(Yii::$app->request->post()) 
 			&& $model->saveShippingGuest() ) {
-			$this->saveOrderData();
-			return AppHelper::jsonSuccess();
+			$this->saveOrderData($model);
+			return Yii::$app->helper->jsonSuccess();
 		}
 
 		return $this->renderPartial('shippingGuest', ['model'=>$model]);
@@ -73,10 +73,11 @@ class CheckoutController extends Controller
 	{
 		$model = $this->getOrder();
 		$model->scenario = 'shipping';
+		$model->setDefaultShippingAddress();
 		if ( $model->setData(Yii::$app->request->post()) 
 			&& $model->saveShipping() ) {
-			$this->saveOrderData();
-			return AppHelper::jsonSuccess();
+			$this->saveOrderData($model);
+			return Yii::$app->helper->jsonSuccess();
 		}
 
 		return $this->renderPartial('shipping', [

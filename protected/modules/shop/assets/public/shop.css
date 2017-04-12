@@ -1,9 +1,14 @@
+div.required label.control-label:after {
+    content: " *";
+    color: red;
+}
+
 .product-thumb .caption {
   min-height: 100px;
 }
 
 .category-nav a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .list-group a {

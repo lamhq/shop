@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-$account = $model->account;
+$signup = $model->signupForm;
 $shipping = $model->shippingAddress;
 ?>
 <?php $form = ActiveForm::begin(['id' => 'shippingForm']); ?>
@@ -19,8 +19,8 @@ $shipping = $model->shippingAddress;
 		</fieldset>
 		<fieldset class="registration-section">
 			<legend><?= Yii::t('shop', 'Registration Information') ?></legend>
-			<?php echo $form->field($account, 'password')->passwordInput() ?>
-			<?php echo $form->field($account, 'password_repeat')->passwordInput() ?>
+			<?php echo $form->field($signup, 'password')->passwordInput() ?>
+			<?php echo $form->field($signup, 'password_repeat')->passwordInput() ?>
 		</fieldset>
 	</div>
 	<div class="col-sm-6">
