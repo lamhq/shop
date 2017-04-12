@@ -152,6 +152,30 @@ class CheckoutForm extends Order
 		return true;
 	}
 
+	public function setDefaultAddress() {
+		if ($this->customer->getAddressOptions()) {
+			$this->shippingAddressType = CheckoutForm::ADDRESS_TYPE_EXISTING;
+			$this->shippingAddressId = $this->customer->address_id;
+		} else {
+			$this->shippingAddressType = CheckoutForm::ADDRESS_TYPE_NEW;
+		}
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getSubTotal() {
+		$total = 0;
+		foreach ($this->itemCollection->getItems() as $item) {
+			$total += $item->getTotal();
+		}
+		return $total;
+	}
+
+	/**
+	 * save order to database
+	 * @return boolean
+	 */
 	public function placeOrder() {
 		if (!$this->validate()) return false;
 	}
@@ -178,14 +202,4 @@ class CheckoutForm extends Order
 		return $prices;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getSubTotal() {
-		$total = 0;
-		foreach ($this->itemCollection->getItems() as $item) {
-			$total += $item->getTotal();
-		}
-		return $total;
-	}
 }

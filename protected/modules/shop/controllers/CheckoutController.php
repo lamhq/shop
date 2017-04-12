@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 use app\helpers\AppHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use shop\models\CheckoutForm;
+use shop\behaviors\CustomerCheckout;
 
 /**
  * @author Lam Huynh <lamhq.com>
@@ -29,6 +29,9 @@ class CheckoutController extends Controller
 				'actions' => [
 					'add' => ['POST'],
 				],
+			],
+			'checkout' => [
+				'class' => CustomerCheckout::className(),
 			],
 		];
 	}
@@ -55,11 +58,11 @@ class CheckoutController extends Controller
 
 	protected function handleGuestShipping()
 	{
-		$model = new CheckoutForm();
-		$model->setData($this->getCheckoutSessionData());
+		$model = $this->getOrder();
 		$model->scenario = 'shippingGuest';
-		if ($model->setData(Yii::$app->request->post()) && $model->saveShippingGuest()) {
-			$this->setCheckoutSessionData($model->getData());
+		if ( $model->setData(Yii::$app->request->post()) 
+			&& $model->saveShippingGuest() ) {
+			$this->saveOrderData();
 			return AppHelper::jsonSuccess();
 		}
 
@@ -68,10 +71,8 @@ class CheckoutController extends Controller
 
 	protected function handleLoggedShipping()
 	{
-		$model = new CheckoutForm();
-		$model->setData($this->getCheckoutSessionData());
+		$model = $this->getOrder();
 		$model->scenario = 'shipping';
-		$model->customer = Yii::$app->user->identity;
 		if ($model->customer->getAddressOptions()) {
 			$model->shippingAddressType = CheckoutForm::ADDRESS_TYPE_EXISTING;
 			$model->shippingAddressId = $model->customer->address_id;
@@ -79,22 +80,15 @@ class CheckoutController extends Controller
 			$model->shippingAddressType = CheckoutForm::ADDRESS_TYPE_NEW;
 		}
 		
-		if ($model->setData(Yii::$app->request->post()) && $model->saveShipping()) {
-			$this->setCheckoutSessionData($model->getData());
+		if ( $model->setData(Yii::$app->request->post()) 
+			&& $model->saveShipping() ) {
+			$this->saveOrderData();
 			return AppHelper::jsonSuccess();
 		}
 
 		return $this->renderPartial('shipping', [
 			'model'=>$model,
 		]);
-	}
-
-	public function getCheckoutSessionData() {
-		return Yii::$app->session->get('checkout');
-	}
-
-	public function setCheckoutSessionData($data) {
-		Yii::$app->session->set('checkout', $data);
 	}
 
 }

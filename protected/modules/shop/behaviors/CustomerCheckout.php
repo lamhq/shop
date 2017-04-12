@@ -35,7 +35,7 @@ class CustomerCheckout extends Behavior
 		return $model;
 	}
 	
-	public function saveOrder() {
+	public function saveOrderData() {
 		$data = $this->getOrder()->getData();
 		$this->setOrderSessionData($data);
 	}
