@@ -8,7 +8,7 @@ use shop\models\CartItem;
 class CustomerCartItemCollection extends CartItemCollection {
 
 	/**
-	 * @var string
+	 * @var int|null
 	 */
 	public $customerId;
 
@@ -19,15 +19,12 @@ class CustomerCartItemCollection extends CartItemCollection {
 
 	/**
 	 * cookie life time in seconds
-	 * @var string
+	 * @var int
 	 */
 	public $itemLifeTime;
 
 	public function init() {
 		parent::init();
-		if ($this->customerId===null)
-			throw new InvalidConfigException(get_class($this).' must define  "customerId" property.', 1);
-		
 		if ($this->collectionId===null)
 			throw new InvalidConfigException(get_class($this).' must define  "collectionId" property.', 1);
 		
@@ -99,21 +96,21 @@ class CustomerCartItemCollection extends CartItemCollection {
 	 * (customer=0 and time_add < now-cookieLifeTIme)
 	 */
 	protected function removeExpiredItems() {
-		CartItem::deleteAll('customer_id=0 AND added_at<NOW()-'.(int)$this->itemLifeTime);
+		CartItem::deleteAll('customer_id is null AND added_at<NOW()-'.(int)$this->itemLifeTime);
 	}
 
 	/**
 	 * merge guest cart with customer's cart items in the past
 	 */
 	protected function mergeCart() {
-		if ($this->customerId>0) {
+		if ($this->customerId) {
 			// We want to change the session ID on all the old items in the customers cart
 			CartItem::updateAll(['session_id'=>$this->collectionId], ['customer_id'=>$this->customerId]);
 
 			// Once the customer is logged in we want to update the customers cart
 			$items = CartItem::find()
 				->andWhere([
-					'customer_id'=>0,
+					'customer_id'=>null,
 					'session_id'=>$this->collectionId
 				])->all();
 			foreach ($items as $item) {
