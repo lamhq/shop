@@ -161,17 +161,21 @@ class CheckoutForm extends Order
 	 * @return array
 	 */
 	public function getPrices() {
-		$totals = [];
+		$prices = [];
 		$total = 0;
-		$totalData = [
-			'totals' => &$totals,
-			'total'  => &$total
+		
+		$prices[] = [
+			'title'      => Yii::t('shop', 'Sub-Total'),
+			'value'      => $this->getSubTotal(),
+		];
+		$total = $this->getSubTotal();
+
+		$prices[] = [
+			'title'      => Yii::t('shop', 'Total'),
+			'value'      => max(0, $total),
 		];
 
-		$this->applySubTotalPrice($totalData);
-		$this->applyTotalPrice($totalData);
-
-		return $totals;
+		return $prices;
 	}
 
 	/**
@@ -179,36 +183,9 @@ class CheckoutForm extends Order
 	 */
 	public function getSubTotal() {
 		$total = 0;
-		foreach ($this->getItems() as $item) {
+		foreach ($this->itemCollection->getItems() as $item) {
 			$total += $item->getTotal();
 		}
 		return $total;
 	}
-
-	/**
-	 * apply sub total price to price list
-	 * @param  array $total
-	 */
-	protected function applySubTotalPrice($totalData) {
-		$sub_total = $this->getSubTotal();
-
-		$totalData['totals'][] = [
-			'title'      => Yii::t('shop', 'Sub-Total'),
-			'value'      => $sub_total,
-		];
-
-		$totalData['total'] += $sub_total;
-	}
-
-	/**
-	 * apply total price to price list
-	 * @param  array $total
-	 */
-	protected function applyTotalPrice($totalData) {
-		$totalData['totals'][] = [
-			'title'      => Yii::t('shop', 'Total'),
-			'value'      => max(0, $totalData['total']),
-		];
-	}
-
 }

@@ -24,12 +24,19 @@ class CustomerCartItemCollection extends CartItemCollection {
 	public $itemLifeTime;
 
 	public function init() {
-        parent::init();
-        if (!$this->collectionId)
-        	throw new InvalidConfigException(get_class($this).' must define  "collectionId" property.', 1);
+		parent::init();
+		if ($this->customerId===null)
+			throw new InvalidConfigException(get_class($this).' must define  "customerId" property.', 1);
+		
+		if ($this->collectionId===null)
+			throw new InvalidConfigException(get_class($this).' must define  "collectionId" property.', 1);
+		
+		if (!$this->itemLifeTime)
+			throw new InvalidConfigException(get_class($this).' must define  "itemLifeTime" property.', 1);
+
 		$this->removeExpiredItems();
 		$this->mergeCart();
-    }
+	}
 
 	public function add($productId, $quantity) {
 		$item = CartItem::find()

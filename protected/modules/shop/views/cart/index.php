@@ -67,7 +67,7 @@ $itemCollection = $model->itemCollection;
 		<div class="col-sm-4 col-sm-offset-8">
 			<table class="table table-bordered">
 				<tbody>
-				<?php foreach ($itemCollection->getPrices() as $item): ?>
+				<?php foreach ($model->getPrices() as $item): ?>
 					<tr>
 						<td class="text-right"><strong><?= $item['title'] ?></strong></td>
 						<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>

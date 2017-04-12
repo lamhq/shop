@@ -78,10 +78,10 @@ class CartController extends Controller
 	}
 
 	public function actionUpdate() {
-		$cart = Yii::$app->cart;
+		$itemCollection = $this->getOrder()->itemCollection;
 		if ($data = Yii::$app->request->post('quantity')) {
 			foreach ($data as $itemId => $quantity) {
-				$cart->update($itemId, $quantity);
+				$itemCollection->update($itemId, $quantity);
 			}
 		}
 		return $this->redirect(['/shop/cart']);
@@ -89,9 +89,9 @@ class CartController extends Controller
 
 	public function actionRemove() {
 		$result = ['success'=>0];		
-		$cart = Yii::$app->cart;
+		$itemCollection = $this->getOrder()->itemCollection;
 		if ($item = Yii::$app->request->post('key')) {
-			$result['success'] = $cart->remove($item);
+			$result['success'] = $itemCollection->remove($item);
 		}
 		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		return $result;
