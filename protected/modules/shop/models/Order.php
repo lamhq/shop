@@ -27,6 +27,8 @@ use Yii;
  * @property int $status
  * @property string $create_time
  * @property string $update_time
+ *
+ * @property Customer $customer
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -54,6 +56,7 @@ class Order extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 96],
             [['telephone', 'shipping_name'], 'string', 'max' => 32],
             [['payment_method', 'payment_code', 'shipping_city', 'shipping_district', 'shipping_ward', 'shipping_address', 'shipping_method', 'shipping_code'], 'string', 'max' => 128],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
 
@@ -84,6 +87,14 @@ class Order extends \yii\db\ActiveRecord
             'create_time' => Yii::t('shop', 'Create Time'),
             'update_time' => Yii::t('shop', 'Update Time'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
     }
 
     /**

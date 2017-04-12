@@ -14,6 +14,9 @@ use Yii;
  * @property int $product_id
  * @property int $quantity
  * @property string $added_at
+ *
+ * @property Product $product
+ * @property Customer $customer
  */
 class CartItem extends \yii\db\ActiveRecord
 {
@@ -34,6 +37,8 @@ class CartItem extends \yii\db\ActiveRecord
 			[['customer_id', 'product_id', 'quantity'], 'integer'],
 			[['added_at'], 'safe'],
 			[['session_id'], 'string', 'max' => 32],
+			[['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+			[['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
 		];
 	}
 
@@ -78,6 +83,14 @@ class CartItem extends \yii\db\ActiveRecord
 	public function getProduct()
 	{
 		return $this->hasOne(Product::className(), ['id' => 'product_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCustomer()
+	{
+		return $this->hasOne(ShopCustomer::className(), ['id' => 'customer_id']);
 	}
 
 	public function getUnitPrice() {
