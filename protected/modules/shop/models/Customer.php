@@ -96,16 +96,13 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * [addAddress description]
-     * @param Address $address [description]
+     * @param Address $address
      */
     public function addAddress($address) {
         $address->customer_id = $this->id;
         $result = $address->save();
-        if (!$this->address_id) {
-            $this->address_id = $address->id;
-            $this->update(['address_id']);
-        }
+        $this->address_id = $address->id;
+        $r = $this->update(['address_id']);
         return $result;
     }
 

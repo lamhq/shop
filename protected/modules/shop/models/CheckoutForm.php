@@ -148,6 +148,8 @@ class CheckoutForm extends Order
 		if (!$this->validate()) return false;
 		if ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
 			$this->customer->addAddress($this->shippingAddress);
+			$this->shippingAddressId = $this->shippingAddress->id;
+			$this->shippingAddressType = 'existing';
 		}
 		return true;
 	}
@@ -202,4 +204,15 @@ class CheckoutForm extends Order
 		return $prices;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function fields()
+	{
+		$fields = parent::fields();
+		return array_merge($fields, [
+			'shippingAddressType',
+			'shippingAddressId',
+		]);
+	}
 }

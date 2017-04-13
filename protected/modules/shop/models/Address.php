@@ -66,6 +66,35 @@ class Address extends \yii\db\ActiveRecord
     }
 
     public function getText() {
-        return sprintf('%s, %s, %s, %s, %s', $this->name, $this->city, $this->address, $this->district, $this->ward);
+        $city = $this->cityModel ? $this->cityModel->name : '';
+        $district = $this->districtModel ? $this->districtModel->name : '';
+        $ward = $this->wardModel ? $this->wardModel->name : '';
+        $arr = array_filter([$this->name, $city, $district, $ward]);
+        return implode(', ', $arr);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCityModel()
+    {
+        return $this->hasOne(City::className(), ['id' => 'city']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistrictModel()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWardModel()
+    {
+        return $this->hasOne(Ward::className(), ['id' => 'ward']);
+    }
+
 }
