@@ -58,7 +58,7 @@ class ProductImage extends \yii\db\ActiveRecord
     }
 
     public function getImageUrl($width=null, $height=null) {
-        return \app\helpers\StorageHelper::getResizeUrl($this->image, $width, $height);
+        return Yii::$app->helper->getResizeUrl($this->image, $width, $height);
     }
     
 }

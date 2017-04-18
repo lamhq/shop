@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\Html;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use app\helpers\StorageHelper;
 
 /**
  * This is the model class for table "{{%shop_category}}".
@@ -140,7 +139,7 @@ class Category extends \yii\db\ActiveRecord
     }
 
     public function getImageUrl($width=null, $height=null) {
-        return StorageHelper::getResizeUrl($this->image, $width, $height);
+        return Yii::$app->helper->getResizeUrl($this->image, $width, $height);
     }
     
     /**

@@ -4,10 +4,9 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
-use app\helpers\AppHelper;
 
 $this->registerJs('app.setupCheckoutPage();');
-$this->title = AppHelper::getPageTitle(Yii::t('shop', 'Checkout'));
+$this->title = Yii::$app->helper->getPageTitle(Yii::t('shop', 'Checkout'));
 $this->params['breadcrumbs'][] = $this->title;
 $f = Yii::$app->formatter;
 \app\assets\Select2BootstrapTheme::register($this);

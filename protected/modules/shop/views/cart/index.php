@@ -4,15 +4,16 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
-use app\helpers\AppHelper;
 
-$this->registerJs('app.setupCartPage();');
-$this->title = AppHelper::getPageTitle(Yii::t('shop', 'Shopping Cart'));
-$this->params['breadcrumbs'][] = $this->title;
 $f = Yii::$app->formatter;
+$title = Yii::t('shop', 'Shopping Cart');
 $itemCollection = $model->itemCollection;
+$this->title = Yii::$app->helper->getPageTitle($title);
+$this->params['breadcrumbs'][] = $title;
+$this->registerJs('app.setupCartPage();');
 ?>
-<h1><?= $this->title ?></h1>
+<h1><?= $title ?></h1>
+
 <?php if ($itemCollection->hasItems()): ?>
 	<?php $form = ActiveForm::begin([
 		'id' => 'cartForm',
@@ -79,7 +80,7 @@ $itemCollection = $model->itemCollection;
 	</div>
 	<div class="buttons clearfix">
 		<div class="pull-left"><a href="<?= Yii::$app->homeUrl ?>" class="btn btn-default"><?= Yii::t('shop', 'Continue Shopping') ?></a></div>
-		<div class="pull-right"><a href="<?= Url::to(['/shop/checkout']) ?>" class="btn btn-primary"><?= Yii::t('shop', 'Checkout') ?></a></div>
+		<div class="pull-right"><button class="btn btn-primary" type="button"><?= Yii::t('shop', 'Place Order') ?></button></div>
 	</div>
 <?php else: ?>
 	<p><?= Yii::t('shop', 'Your shopping cart is empty!') ?></p>

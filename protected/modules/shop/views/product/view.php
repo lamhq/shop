@@ -4,10 +4,9 @@
 /* @var $cart shop\models\AddToCartForm */
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use app\helpers\AppHelper;
 use shop\models\Product;
 
-$this->title = AppHelper::getPageTitle($model->name);
+$this->title = Yii::$app->helper->getPageTitle($model->name);
 $this->params['breadcrumbs'][] = $model->name;
 $f = Yii::$app->formatter;
 $stockStatusText = ArrayHelper::getValue($model->getStockStatusOptions(), $model->stock_status);
