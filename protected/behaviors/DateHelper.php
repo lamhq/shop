@@ -1,11 +1,11 @@
 <?php
-namespace app\helpers;
+namespace app\behaviors;
 use Yii;
 
 /**
  * @author Lam Huynh <lamhq.com>
  */
-class DateHelper
+class DateHelper extends Behavior
 {
 	/**
 	 * get datetime format for bootstrap datepicker client library
@@ -13,7 +13,7 @@ class DateHelper
 	 * 
 	 * @return string
 	 */
-	static public function getDatepickerDatetimeFormat() {
+	public function getDatepickerDatetimeFormat() {
 		return 'DD/MM/YYYY HH:mm';
 	}
 
@@ -23,7 +23,7 @@ class DateHelper
 	 * 
 	 * @return string
 	 */
-	static public function getAppDatetimeFormat() {
+	public function getAppDatetimeFormat() {
 		$f = \Yii::$app->formatter->datetimeFormat;
 		return $f;
 	}
@@ -34,8 +34,8 @@ class DateHelper
 	 * @param  string $value String representing the time. 
 	 * @return string the formatted result in Y-m-d H:i:s format
 	 */
-	static public function toDbDatetime($value) {
-		$f = str_replace('php:', '', self::getAppDatetimeFormat());
+	public function toDbDatetime($value) {
+		$f = str_replace('php:', '', $this->getAppDatetimeFormat());
 		$t = \DateTime::createFromFormat( $f, $value, new \DateTimeZone(Yii::$app->timezone) );
 		if (!$t) return null;
 		$t->setTimezone(new \DateTimeZone(Yii::$app->formatter->defaultTimeZone));
@@ -48,11 +48,11 @@ class DateHelper
 	 * @param  string $value String representing the time. http://www.yiiframework.com/doc-2.0/yii-i18n-formatter.html#asDatetime%28%29-detail
 	 * @return string the formatted result.
 	 */
-	static public function toAppDatetime($value) {
+	public function toAppDatetime($value) {
 		return Yii::$app->formatter->asDateTime($value);
 	}
 
-	static public function convert($value, $srcFormat, $dstFormat) {
+	public function convertDateTime($value, $srcFormat, $dstFormat) {
 		if (in_array($value, ['0000-00-00', null, ''])) return null;
 		$t = \DateTime::createFromFormat($srcFormat, $value);
 		return $t ? $t->format($dstFormat) : null;

@@ -1,6 +1,5 @@
 <?php
 namespace backend\widgets;
-use app\components\helpers\AuthHelper;
 
 /**
  * ```php
@@ -29,7 +28,7 @@ class AuthBlock extends \yii\base\Widget
 	public function run()
 	{
 		$block = ob_get_clean();
-		if (AuthHelper::check($this->permission)) {
+		if (Yii::$app->helper->check($this->permission)) {
 			echo $block;
 		}
 	}

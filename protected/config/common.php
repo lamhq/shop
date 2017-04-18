@@ -9,6 +9,8 @@ $result = [
 		'adminEmail' => 'mailer@local.app',
 		'supportEmail' => 'ubuntu@local.app',
 		'storagePath' => 'storage',
+		'defaultPageSize' => 30,
+		'siteName' => 'Shop',
 		'user.passwordResetTokenExpire' => 3600,
 		'cookieLifeTime' => 3600,
 	],
@@ -40,6 +42,7 @@ $result = [
 			'class' => 'app\components\Helper',
 			'as emailHelper' => ['class' => 'shop\behaviors\EmailHelper'],
 			'as appHelper' => ['class' => 'app\behaviors\AppHelper'],
+			'as storageHelper' => ['class' => 'app\behaviors\StorageHelper'],
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -1,6 +1,8 @@
 <?php
-namespace app\helpers;
+namespace app\behaviors;
+
 use yii;
+use yii\base\Behavior;
 use yii\helpers\Url;
 use lamhq\php\helpers\ImageHelper;
 
@@ -9,40 +11,40 @@ use lamhq\php\helpers\ImageHelper;
  * 
  * @author Lam Huynh <lamhq.com>
  */
-class StorageHelper {
+class StorageHelper extends Behavior {
 
 	/**
 	 * get image resize url base on relative file path in system
 	 * @return string	empty string on failed
 	 */
-	static public function getResizeUrl($relPath, $width, $height, $options=[]) {
-		$srcPath = StorageHelper::getStoragePath($relPath);
+	public function getResizeUrl($relPath, $width, $height, $options=[]) {
+		$srcPath = $this->getStoragePath($relPath);
 		if ( !is_file($srcPath) )
-			return StorageHelper::getNoImageUrl($width, $height);
+			return $this->getNoImageUrl($width, $height);
 
 		$parts = pathinfo($relPath);
 		$p = sprintf('%s/%s-%sx%s.%s', $parts['dirname'], $parts['filename'], 
 			$width, $height, $parts['extension']);
 
-		$resizePath = StorageHelper::getTemporaryFilePath($p);
-		$resizeUrl = StorageHelper::getTemporaryFileUrl($p);
+		$resizePath = $this->getTemporaryFilePath($p);
+		$resizeUrl = $this->getTemporaryFileUrl($p);
 		if (is_file($resizePath)) return $resizeUrl;
 
 		$options = array_merge(['width'=>$width, 'height'=>$height], $options);
 		$r = ImageHelper::resize($srcPath, $resizePath, $options);
-		return $r ? $resizeUrl : StorageHelper::getNoImageUrl($width, $height);
+		return $r ? $resizeUrl : $this->getNoImageUrl($width, $height);
 	}
 
-	static public function getStorageUrl($path='') {
+	public function getStorageUrl($path='') {
 		$parts = [
 			Url::base(true),
 			Yii::$app->params['storagePath'],
 			$path
 		];
-		return self::normalizeFileUrl(implode('/', $parts));
+		return $this->normalizeFileUrl(implode('/', $parts));
 	}
 
-	static public function getStoragePath($path='') {
+	public function getStoragePath($path='') {
 		$parts = [
 			Yii::getAlias('@webroot'),
 			Yii::$app->params['storagePath'],
@@ -51,11 +53,11 @@ class StorageHelper {
 		return implode(DIRECTORY_SEPARATOR, $parts);
 	}
 
-	static public function getTemporaryFileUrl($path) {
+	public function getTemporaryFileUrl($path) {
 		return Yii::getAlias(Yii::$app->assetManager->baseUrl).'/tmp/'.$path;
 	}
 
-	static public function getTemporaryFilePath($path) {
+	public function getTemporaryFilePath($path) {
 		return Yii::getAlias(Yii::$app->assetManager->basePath).'/tmp/'.$path;
 	}
 
@@ -64,7 +66,7 @@ class StorageHelper {
 	 * @param  string $path absolute file path in system
 	 * @return string       file path for save
 	 */
-	static public function createPathForSave($path) {
+	public function createPathForSave($path) {
 		$parts = pathinfo($path);
 		$i=1;
 		while ( is_file($path) ) {
@@ -81,17 +83,17 @@ class StorageHelper {
 	 * @param  string $url
 	 * @return string
 	 */
-	static protected function normalizeFileUrl($url) {
+	protected function normalizeFileUrl($url) {
 		return dirname($url).'/'.rawurlencode(basename($url));
 	}
 
-	static protected function getNoImageUrl($width=null, $height=null) {
-		$src = self::getStoragePath('no-image.jpg');
+	protected function getNoImageUrl($width=null, $height=null) {
+		$src = $this->getStoragePath('no-image.jpg');
 		if ( !is_file($src) ) return 'http://placehold.it/230x200?text='.urlencode(Yii::$app->params['siteTitle']);
 
 		$filename = "no-image-{$width}x{$height}.jpg";
-		$dst = self::getTemporaryFilePath($filename);
-		$url = self::getTemporaryFileUrl($filename);
+		$dst = $this->getTemporaryFilePath($filename);
+		$url = $this->getTemporaryFileUrl($filename);
 		ImageHelper::resize($src, $dst, ['width'=>$width, 'height'=>$height]);
 		return $url;
 	}

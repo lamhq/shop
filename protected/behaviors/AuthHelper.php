@@ -1,11 +1,11 @@
 <?php
-namespace app\helpers;
+namespace app\behaviors;
 use yii;
 
 /**
  * @author Lam Huynh <lamhq.com>
  */
-class AuthHelper {
+class AuthHelper extends Behavior {
 
     /**
      * Checks if the current user has access on a permission or any permissions in list.
@@ -13,7 +13,7 @@ class AuthHelper {
      * @param string|array $permission the name of the permission or an array of permission names
      * @return boolean whether the user has access on a permission or permisions.
      */
-    static public function check($permission) {
+    public function check($permission) {
         $can = false;
         if (is_array($permission)) {
             foreach ($permission as $p) {

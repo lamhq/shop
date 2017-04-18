@@ -4,7 +4,6 @@ namespace app\behaviors;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\db\ActiveRecord;
-use app\helpers\DateHelper;
 
 /**
  * DateFormatConvertBehavior automatically convert date value of one or multiple attributes to other format when displaying and saving
@@ -71,7 +70,7 @@ class DateFormatConvertBehavior extends Behavior
 	{
 		$model = $this->owner;
 		foreach ($this->attributes as $attribute) {
-			$model->$attribute = DateHelper::convert($model->$attribute, $this->displayFormat,
+			$model->$attribute = Yii::$app->helper->convertDateTime($model->$attribute, $this->displayFormat,
 				$this->storageFormat);
 		}
 	}
@@ -84,7 +83,7 @@ class DateFormatConvertBehavior extends Behavior
 	{
 		$model = $this->owner;
 		foreach ($this->attributes as $attribute) {
-			$model->$attribute = DateHelper::convert($model->$attribute, $this->storageFormat,
+			$model->$attribute = Yii::$app->helper->convertDateTime($model->$attribute, $this->storageFormat,
 				$this->displayFormat);
 		}
 	}
