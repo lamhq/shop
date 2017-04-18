@@ -45,10 +45,10 @@ app = Object.assign(app, {
 			gallery:{ enabled:true }
 		});
 
-		app.setupCartForm();
+		app.setupAddToCartForm();
 	},
 
-	setupCartForm: function() {
+	setupAddToCartForm: function() {
 		var $cartForm = $('.cart-section');
 		$cartForm.on('submit', '.add-cart-form', function(e) {
 			e.preventDefault();
@@ -80,6 +80,7 @@ app = Object.assign(app, {
 	},
 
 	setupCartPage: function() {
+		// remove cart item when clicking button remove
 		$('.btn-remove').click(function() {
 			var id = $(this).data('item');
 			$.ajax({
@@ -94,32 +95,102 @@ app = Object.assign(app, {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
 			});
-
 		});
-	},
 
-	setupCheckoutPage: function() {
 		app.loadShippingSection();
 	},
 
 	loadShippingSection: function() {
-		var $section = $('#collapse-shipping-address').closest('.panel');
-		$section.find('.panel-body')
-			.load(app.baseUrl+'/shop/checkout/shipping', app.setupShippingSection);
-		$section.find('.panel-title')
-			.wrapInner('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle" aria-expanded="true"></a>');
-		$section.find('.panel-title a')
-			.append('<i class="fa fa-caret-down"></i>')
-			.trigger('click');
+		var $section = $('#shipping-address');
+		$section.load(app.baseUrl+'/shop/checkout/shipping');
 	},
 
-	setupShippingSection: function() {
+	setupAddressControls: function () {
+		// update options of a select control
+		var setDropdownItems = function ($dropdown, items) {
+			var $option = $dropdown.find('option:first');
+			$dropdown.empty();
+			$dropdown.append($option);
+			$(items).each(function() {
+				var $option = $('<option></option>');
+				$option.val(this.value);
+				$option.text(this.label);
+				$dropdown.append($option);
+			});
+			$dropdown.trigger('change');
+		};
+
+		// reload + reset district dropdown when changing city
+		$('#address-city').change(function () {
+			var city = this.value;
+			if (city=='') return;
+			$.ajax({
+				url: app.baseUrl+'/shop/default/districts',
+				type: 'get',
+				data: { city: city },
+				dataType: 'json',
+				success: function(json) {
+					if (typeof json === 'object') {
+						setDropdownItems($('#address-district'), json.districts);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		});
+
+		// reload + reset ward dropdown when changing district
+		$('#address-district').change(function () {
+			var district = this.value;
+			if (district=='') return;
+			$.ajax({
+				url: app.baseUrl+'/shop/default/wards',
+				type: 'get',
+				data: { district: district },
+				dataType: 'json',
+				success: function(json) {
+					if (typeof json === 'object') {
+						setDropdownItems($('#address-ward'), json.wards);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		});
+
+		$('.select2').select2({
+			theme: "bootstrap",
+			width: 'resolve'
+		});
+	},
+
+	setupShippingGuest: function() {
+		setupAddressControls();
+
 		// show register section if user check register checkbox
 		var updateRegisterSection = function() {
-			$('.registration-section').toggle($('#checkoutform-register').prop('checked'));
+			$('.registration-section')
+				.toggle($('#checkoutform-register')
+				.prop('checked'));
 		};
 		$('#checkoutform-register').on('change', updateRegisterSection);
 		updateRegisterSection();
+	},
+
+	setupShippingLogged: function() {
+		setupAddressControls();
+
+		// show address form when user select to add new address (logged checkout)
+		var updateAddressSection = function() {
+			$('#payment-existing,#payment-new').hide();
+			$('.address-type:checked').closest('.radio').next().show();
+			if ($('.address-type').length==0)
+				$('#payment-new').show();
+		};
+		$('.address-type').click(updateAddressSection);
+		updateAddressSection();
 
 		// send form data to server when clicking submit button
 		$('#shippingForm').on('submit', function(e) {
@@ -157,16 +228,7 @@ app = Object.assign(app, {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
 			});
-		});	
-
-		var updateAddressSection = function() {
-			$('#payment-existing,#payment-new').hide();
-			$('.address-type:checked').closest('.radio').next().show();
-			if ($('.address-type').length==0)
-				$('#payment-new').show();
-		};
-		$('.address-type').click(updateAddressSection);
-		updateAddressSection();
+		});
 	}
 
 });

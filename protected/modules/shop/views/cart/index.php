@@ -11,6 +11,7 @@ $itemCollection = $model->itemCollection;
 $this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = $title;
 $this->registerJs('app.setupCartPage();');
+\app\assets\Select2BootstrapTheme::register($this);
 ?>
 <h1><?= $title ?></h1>
 
@@ -65,7 +66,9 @@ $this->registerJs('app.setupCartPage();');
 	<?php ActiveForm::end(); ?>
 
 	<div class="row">
-		<div class="col-sm-4 col-sm-offset-8">
+		<div id="shipping-address" class="col-sm-4"></div>
+		<div id="shipping-payment-method" class="col-sm-4"></div>
+		<div class="col-sm-4">
 			<table class="table table-bordered">
 				<tbody>
 				<?php foreach ($model->getPrices() as $item): ?>
