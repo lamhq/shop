@@ -9,6 +9,8 @@ $addresses = $model->customer->getAddressOptions();
 $cname = Html::getInputName($model, 'shippingAddressType');
 $shipping = $model->shippingAddress;
 ?>
+<h3><?= Yii::t('shop', 'Shipping Detail') ?></h3>
+
 <?php $form = ActiveForm::begin(['id' => 'shippingForm']); ?>
 	<?php if ($addresses): ?>
 	<div class="radio">
@@ -53,10 +55,5 @@ $shipping = $model->shippingAddress;
 				'style'=>'width: 100%',
 			]) ?>
 		<?php echo $form->field($shipping, 'address') ?>
-	</div>
-	<div class="buttons">
-		<div class="pull-right">
-			<button type="submit" data-loading-text="Loading..." class="btn btn-primary">Continue</button>
-		</div>
 	</div>
 <?php ActiveForm::end(); ?>

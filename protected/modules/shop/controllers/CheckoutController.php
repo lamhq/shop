@@ -75,4 +75,28 @@ class CheckoutController extends Controller
 		]);
 	}
 
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionPayment()
+	{
+		$model = $this->getOrder();
+		return $this->renderPartial('payment', [
+			'model'=>$model,
+		]);
+	}
+
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionReview()
+	{
+		$model = $this->getOrder();
+		return $this->renderPartial('review', [
+			'model'=>$model,
+		]);
+	}
+
 }

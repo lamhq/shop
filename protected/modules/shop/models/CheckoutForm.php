@@ -83,6 +83,28 @@ class CheckoutForm extends Order
 		]);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function fields()
+	{
+		$fields = parent::fields();
+		return array_merge($fields, [
+			'shippingAddressType',
+			'shippingAddressId',
+		]);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return array_merge(parent::attributeLabels(), [
+			'comment' => Yii::t('shop', 'Add comments about your order'),
+		]);
+	}
+
 	public function setData($data) {
 		$a = $this->load($data);
 		$b = $this->signupForm->load($data);
@@ -205,14 +227,17 @@ class CheckoutForm extends Order
 	}
 
 	/**
-	 * @return array
+	 * get list of payment method
+	 * @return array [ [code, title] ]
 	 */
-	public function fields()
-	{
-		$fields = parent::fields();
-		return array_merge($fields, [
-			'shippingAddressType',
-			'shippingAddressId',
-		]);
+	public function getAvailablePaymentMethods() {
+		$result = [];
+		
+		$result[] = [
+			'title'     => 'Cash On Delivery',
+			'code'      => 'cod',
+		];
+
+		return $result;
 	}
 }

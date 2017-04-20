@@ -65,26 +65,13 @@ $this->registerJs('app.setupCartPage();');
 	</div>
 	<?php ActiveForm::end(); ?>
 
+	<h2><?= Yii::t('shop', 'Checkout') ?></h2>
 	<div class="row">
-		<div id="shipping-address" class="col-sm-4"></div>
-		<div id="shipping-payment-method" class="col-sm-4"></div>
-		<div class="col-sm-4">
-			<table class="table table-bordered">
-				<tbody>
-				<?php foreach ($model->getPrices() as $item): ?>
-					<tr>
-						<td class="text-right"><strong><?= $item['title'] ?></strong></td>
-						<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>
-					</tr>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-		</div>
+		<div id="shipping-section" class="col-sm-6"></div>
+		<div id="payment-section" class="col-sm-6"></div>
+		<div id="review-section" class="col-sm-6"></div>
 	</div>
-	<div class="buttons clearfix">
-		<div class="pull-left"><a href="<?= Yii::$app->homeUrl ?>" class="btn btn-default"><?= Yii::t('shop', 'Continue Shopping') ?></a></div>
-		<div class="pull-right"><button class="btn btn-primary" type="button"><?= Yii::t('shop', 'Place Order') ?></button></div>
-	</div>
+
 <?php else: ?>
 	<p><?= Yii::t('shop', 'Your shopping cart is empty!') ?></p>
 	<div class="buttons clearfix">
