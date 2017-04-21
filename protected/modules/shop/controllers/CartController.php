@@ -36,12 +36,12 @@ class CartController extends Controller
 	}
 
 	/**
+	 * Add to cart action in product list and product detail page
 	 * @return string
 	 * @throws NotFoundHttpException
 	 */
 	public function actionAdd()
 	{
-		$result = ['success'=>0];		
 		$model = new AddToCartForm();
 		$itemCollection = $this->getOrder()->itemCollection;
 		if ( $model->load(Yii::$app->request->post()) 
@@ -55,15 +55,12 @@ class CartController extends Controller
 				Html::a($product->name, $product->getUrl()), 
 				Html::a('shopping cart', Url::to(['/shop/cart'])) 
 			]);
-			$result['message'] = $s;
-			$result['success'] = 1;
-			Yii::$app->helper->setSuccess($s);
+			return Yii::$app->helper->jsonSuccess($s);
 		}
 
-		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$result['cartForm'] = $this->renderPartial('_cartForm', [ 'model' => $model ]);
-		$result['button'] = \shop\widgets\AddToCartButton::widget([ 'product' => $product ]);
-		return $result;
+		return Yii::$app->helper->jsonError('', [
+			'cartForm' => $this->renderPartial('_cartForm', ['model' => $model ]),
+		]);
 	}
 
 	/**
