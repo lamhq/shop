@@ -49,13 +49,6 @@ class CheckoutController extends Controller
 	protected function handleGuestShipping()
 	{
 		$model = $this->getOrder();
-		// $model->scenario = 'shippingGuest';
-		// if ( $model->setData(Yii::$app->request->post()) 
-		// 	&& $model->saveShippingGuest() ) {
-		// 	$this->saveOrderData($model);
-		// 	return Yii::$app->helper->jsonSuccess();
-		// }
-
 		return $this->renderPartial('shippingGuest', ['model'=>$model]);
 	}
 
@@ -63,13 +56,6 @@ class CheckoutController extends Controller
 	{
 		$model = $this->getOrder();
 		$model->setDefaultShippingAddress();
-		// $model->scenario = 'shipping';
-		// if ( $model->setData(Yii::$app->request->post()) 
-		// 	&& $model->saveShipping() ) {
-		// 	$this->saveOrderData($model);
-		// 	return Yii::$app->helper->jsonSuccess();
-		// }
-
 		return $this->renderPartial('shipping', [
 			'model'=>$model,
 		]);
@@ -99,4 +85,24 @@ class CheckoutController extends Controller
 		]);
 	}
 
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionSaveData()
+	{
+		$model = $this->getOrder();
+		$model->setData(Yii::$app->request->post());
+		$this->saveOrderData($model);
+		return Yii::$app->helper->jsonSuccess();
+	}
+
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionPlaceOrder()
+	{
+		// not implemented
+	}
 }

@@ -18,7 +18,7 @@ class CustomerCheckout extends Behavior
 	 * cart item life time in seconds
 	 * @var string
 	 */
-	public $cookieLifeTime = 3600;
+	public $cookieLifeTime = 3600*5;
 
 	public function getOrder() {
 		$userId = Yii::$app->user->id;

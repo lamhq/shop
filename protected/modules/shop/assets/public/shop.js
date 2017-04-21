@@ -2,6 +2,18 @@
  * javascript for shop module
  */
 app = Object.assign(app, {
+	timer: null,
+
+	wait: function (milliseconds) {
+		// Create a new Deferred object
+		var deferred = $.Deferred();
+		clearTimeout(app.timer);
+		// Resolve the Deferred after the amount of time specified by milliseconds
+		app.timer = setTimeout(deferred.resolve, milliseconds);
+
+		// Return the Deferred's Promise object
+		return deferred.promise();
+	},
 
 	setupProductList: function() {
 		$('.product-toolbar select').change(function () {
@@ -70,6 +82,9 @@ app = Object.assign(app, {
 						location = json.redirect;
 					}
 
+					if (json.success) {
+						app.showSuccess(json.message);
+					}
 					$cartForm.html(json.cartForm);
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
@@ -97,12 +112,85 @@ app = Object.assign(app, {
 			});
 		});
 
-		app.loadShippingSection();
+		app.setupCheckoutSection();
+	},
+
+	setupCheckoutSection: function() {
+		app.loadShippingSection()
+			.then(app.loadPaymentSection)
+			.then(app.loadReviewSection);
+
+		// reload payment section, review section on shipping change
+		var onShippingChange = function () {
+			app.wait(500)
+			.then(function () {
+				return $.ajax({
+					url: app.baseUrl+'/shop/checkout/save-data',
+					type: 'post',
+					data: $('#shipping-section form').serializeArray()
+				});
+			})
+			.then(app.loadPaymentSection)
+			.then(app.loadReviewSection);
+		};
+		$('#shipping-section').on('select2:select', 'select', onShippingChange);
+		$('#shipping-section').on('change', 'input[type=text]', onShippingChange);
+		
+		// reload review section on payment change
+		var onPaymentChange = function () {
+			app.wait(500)
+			.then(function () {
+				$.ajax({
+					url: app.baseUrl+'/shop/checkout/save-data',
+					type: 'post',
+					data: $('#payment-section form').serializeArray()
+				});
+			})
+			.then(app.loadReviewSection);
+		};
+		$('#payment-section').on('change', 'input[type=radio]', onPaymentChange);
 	},
 
 	loadShippingSection: function() {
-		var $section = $('#shipping-address');
-		$section.load(app.baseUrl+'/shop/checkout/shipping');
+		var deferred = $.Deferred();
+		var $section = $('#shipping-section');
+		$section.load(app.baseUrl+'/shop/checkout/shipping', function() {
+			// if register account checkbox available, it must be guest checkout
+			if ($('#checkoutform-register').length) {
+				app.setupShippingGuest();
+			} else {
+				app.setupShippingLogged();
+			}
+			deferred.resolve();
+		});
+		return deferred.promise();
+	},
+
+	setupShippingGuest: function() {
+		app.setupAddressControls();
+
+		// show register section if user check register checkbox
+		var updateRegisterSection = function() {
+			$('.registration-section')
+				.toggle($('#checkoutform-register')
+				.prop('checked'));
+		};
+		$('#checkoutform-register').on('change', updateRegisterSection);
+		updateRegisterSection();
+	},
+
+	setupShippingLogged: function() {
+		app.setupAddressControls();
+
+		// show address form when user select to add new address (logged checkout)
+		var updateAddressSection = function() {
+			$('#payment-existing,#payment-new').hide();
+			$('.address-type:checked').closest('.radio').next().show();
+			if ($('.address-type').length==0)
+				$('#payment-new').show();
+		};
+		$('.address-type').click(updateAddressSection);
+		updateAddressSection();
 	},
 
 	setupAddressControls: function () {
@@ -166,69 +254,22 @@ app = Object.assign(app, {
 		});
 	},
 
-	setupShippingGuest: function() {
-		setupAddressControls();
-
-		// show register section if user check register checkbox
-		var updateRegisterSection = function() {
-			$('.registration-section')
-				.toggle($('#checkoutform-register')
-				.prop('checked'));
-		};
-		$('#checkoutform-register').on('change', updateRegisterSection);
-		updateRegisterSection();
+	loadPaymentSection: function() {
+		var deferred = $.Deferred();
+		var $section = $('#payment-section');
+		$section.load(app.baseUrl+'/shop/checkout/payment', function() {
+			deferred.resolve();
+		});
+		return deferred.promise();
 	},
 
-	setupShippingLogged: function() {
-		setupAddressControls();
-
-		// show address form when user select to add new address (logged checkout)
-		var updateAddressSection = function() {
-			$('#payment-existing,#payment-new').hide();
-			$('.address-type:checked').closest('.radio').next().show();
-			if ($('.address-type').length==0)
-				$('#payment-new').show();
-		};
-		$('.address-type').click(updateAddressSection);
-		updateAddressSection();
-
-		// send form data to server when clicking submit button
-		$('#shippingForm').on('submit', function(e) {
-			e.preventDefault();
-			var $form = $(this);
-			var $button = $form.find('button[type=submit]');
-			$.ajax({
-				url: $form.attr('action'),
-				data: $form.serializeArray(),
-				type: 'post',
-				beforeSend: function() {
-					$button.button('loading');
-				},
-				complete: function() {
-					$button.button('reset');
-				},
-				success: function(response, status, xhr) {
-					switch (typeof response) {
-						case 'object':
-							if (response.success) {
-								console.log('success');
-							} else {
-								alert(response.message);
-								console.log('fail');
-							}
-							break;
-						case 'string':
-							var $section = $('#collapse-shipping-address').closest('.panel');
-							$section.find('.panel-body').html(response);
-							app.setupShippingSection();
-							break;
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
-			});
+	loadReviewSection: function() {
+		var deferred = $.Deferred();
+		var $section = $('#review-section');
+		$section.load(app.baseUrl+'/shop/checkout/review', function() {
+			deferred.resolve();
 		});
-	}
+		return deferred.promise();
+	},
 
 });
