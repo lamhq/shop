@@ -7,7 +7,6 @@ use shop\models\CheckoutForm;
 /* @var $form yii\bootstrap\ActiveForm */
 $addresses = $model->customer->getAddressOptions();
 $cname = Html::getInputName($model, 'shippingAddressType');
-$shipping = $model->shippingAddress;
 ?>
 <h3><?= Yii::t('shop', 'Shipping Detail') ?></h3>
 
@@ -21,7 +20,7 @@ $shipping = $model->shippingAddress;
 			<?= Yii::t('shop', 'I want to use an existing address') ?>
 		</label>
 	</div>
-	<div id="payment-existing">
+	<div id="address-exist">
 		<?= Html::activeDropDownList($model, 'shippingAddressId', $addresses, 
 		['class'=>'form-control', 'prompt'=>Yii::t('shop','-- Please select --')]) ?>
 	</div>
@@ -34,26 +33,10 @@ $shipping = $model->shippingAddress;
 		</label>
 	</div>
 	<?php endif ?>
-	<div id="payment-new">
-		<?php echo $form->field($shipping, 'name') ?>
-		<?php echo $form->field($shipping, 'city')
-			->dropdownList(\shop\models\City::getCityOptions(), [
-				'prompt'=>Yii::t('shop','-- Please select --'), 
-				'class'=>'select2',
-				'style'=>'width: 100%',
-			]) ?>
-		<?php echo $form->field($shipping, 'district')
-			->dropdownList(\shop\models\District::getDistrictOptions($shipping->city), [
-				'prompt'=>Yii::t('shop','-- Please select --'), 
-				'class'=>'select2',
-				'style'=>'width: 100%',
+	<div id="address-new">
+		<?= $this->render('addressForm', [
+			'model'=>$model->shippingAddress,
+			'form'=>$form,
 		]) ?>
-		<?php echo $form->field($shipping, 'ward')
-			->dropdownList(\shop\models\Ward::getWardOptions($shipping->district), [
-				'prompt'=>Yii::t('shop','-- Please select --'), 
-				'class'=>'select2',
-				'style'=>'width: 100%',
-			]) ?>
-		<?php echo $form->field($shipping, 'address') ?>
 	</div>
 <?php ActiveForm::end(); ?>

@@ -148,7 +148,7 @@ app = Object.assign(app, {
 			})
 			.then(app.loadReviewSection);
 		};
-		$('#payment-section').on('change', 'input[type=radio]', onPaymentChange);
+		$('#payment-section').on('change', 'input[type=radio],textarea', onPaymentChange);
 	},
 
 	loadShippingSection: function() {
@@ -177,6 +177,8 @@ app = Object.assign(app, {
 		};
 		$('#checkoutform-register').on('change', updateRegisterSection);
 		updateRegisterSection();
+
+		$('.field-address-name').hide();
 	},
 
 	setupShippingLogged: function() {
@@ -184,10 +186,10 @@ app = Object.assign(app, {
 
 		// show address form when user select to add new address (logged checkout)
 		var updateAddressSection = function() {
-			$('#payment-existing,#payment-new').hide();
+			$('#address-exist,#address-new').hide();
 			$('.address-type:checked').closest('.radio').next().show();
 			if ($('.address-type').length==0)
-				$('#payment-new').show();
+				$('#address-new').show();
 		};
 		$('.address-type').click(updateAddressSection);
 		updateAddressSection();
@@ -209,7 +211,7 @@ app = Object.assign(app, {
 		};
 
 		// reload + reset district dropdown when changing city
-		$('#address-city').change(function () {
+		$('.city').change(function () {
 			var city = this.value;
 			if (city=='') return;
 			$.ajax({
@@ -219,7 +221,7 @@ app = Object.assign(app, {
 				dataType: 'json',
 				success: function(json) {
 					if (typeof json === 'object') {
-						setDropdownItems($('#address-district'), json.districts);
+						setDropdownItems($('.district'), json.districts);
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
@@ -229,7 +231,7 @@ app = Object.assign(app, {
 		});
 
 		// reload + reset ward dropdown when changing district
-		$('#address-district').change(function () {
+		$('.district').change(function () {
 			var district = this.value;
 			if (district=='') return;
 			$.ajax({
@@ -239,7 +241,7 @@ app = Object.assign(app, {
 				dataType: 'json',
 				success: function(json) {
 					if (typeof json === 'object') {
-						setDropdownItems($('#address-ward'), json.wards);
+						setDropdownItems($('.ward'), json.wards);
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {

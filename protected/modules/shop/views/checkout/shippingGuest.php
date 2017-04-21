@@ -24,27 +24,10 @@ $shipping = $model->shippingAddress;
 		</fieldset>
 	</div>
 	<div class="col-sm-12 col-md-6">
-		<fieldset>
-			<?php echo $form->field($shipping, 'city')
-				->dropdownList(\shop\models\City::getCityOptions(), [
-					'prompt'=>Yii::t('shop','-- Please select --'), 
-					'class'=>'select2',
-					'style'=>'width: 100%',
-				]) ?>
-			<?php echo $form->field($shipping, 'district')
-				->dropdownList(\shop\models\District::getDistrictOptions($shipping->city), [
-					'prompt'=>Yii::t('shop','-- Please select --'), 
-					'class'=>'select2',
-					'style'=>'width: 100%',
-			]) ?>
-			<?php echo $form->field($shipping, 'ward')
-				->dropdownList(\shop\models\Ward::getWardOptions($shipping->district), [
-					'prompt'=>Yii::t('shop','-- Please select --'), 
-					'class'=>'select2',
-					'style'=>'width: 100%',
-				]) ?>
-			<?php echo $form->field($shipping, 'address') ?>
-		</fieldset>
+		<?= $this->render('addressForm', [
+			'model'=>$model->shippingAddress,
+			'form'=>$form,
+		]) ?>
 	</div>
 </div>
 <?php ActiveForm::end(); ?>

@@ -9,13 +9,17 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property string $city
- * @property string $district
- * @property string $ward
+ * @property string $city_id
+ * @property string $district_id
+ * @property string $ward_id
  * @property string $address
  * @property int $customer_id
  *
- * @property ShopCustomer $customer
+ * @property Customer $customer
+ * @property City $city
+ * @property District $district
+ * @property Ward $ward
+ * @property Customer[] $shopCustomers
  */
 class Address extends \yii\db\ActiveRecord
 {
@@ -33,12 +37,14 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'city', 'district', 'ward', 'address'], 'required'],
-
             [['customer_id'], 'integer'],
-            [['city', 'district', 'ward', 'address'], 'string', 'max' => 128],
             [['name'], 'string', 'max' => 64],
-            // [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['city_id', 'district_id', 'ward_id'], 'string', 'max' => 5],
+            [['address'], 'string', 'max' => 128],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
+            [['ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ward::className(), 'targetAttribute' => ['ward_id' => 'id']],
         ];
     }
 
@@ -49,9 +55,10 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('shop', 'ID'),
-            'city' => Yii::t('shop', 'City'),
-            'district' => Yii::t('shop', 'District'),
-            'ward' => Yii::t('shop', 'Ward'),
+            'name' => Yii::t('shop', 'Name'),
+            'city_id' => Yii::t('shop', 'City'),
+            'district_id' => Yii::t('shop', 'District'),
+            'ward_id' => Yii::t('shop', 'Ward'),
             'address' => Yii::t('shop', 'Address'),
             'customer_id' => Yii::t('shop', 'Customer ID'),
         ];
@@ -62,39 +69,46 @@ class Address extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(ShopCustomer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistrict()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWard()
+    {
+        return $this->hasOne(Ward::className(), ['id' => 'ward_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomers()
+    {
+        return $this->hasMany(Customer::className(), ['address_id' => 'id']);
     }
 
     public function getText() {
-        $city = $this->cityModel ? $this->cityModel->name : '';
-        $district = $this->districtModel ? $this->districtModel->name : '';
-        $ward = $this->wardModel ? $this->wardModel->name : '';
+        $city = $this->city ? $this->city->name : '';
+        $district = $this->district ? $this->district->name : '';
+        $ward = $this->ward ? $this->ward->name : '';
         $arr = array_filter([$this->name, $city, $district, $ward]);
         return implode(', ', $arr);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCityModel()
-    {
-        return $this->hasOne(City::className(), ['id' => 'city']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDistrictModel()
-    {
-        return $this->hasOne(District::className(), ['id' => 'district']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWardModel()
-    {
-        return $this->hasOne(Ward::className(), ['id' => 'ward']);
-    }
-
 }

@@ -10,6 +10,11 @@ use Yii;
  * @property string $id
  * @property string $name
  * @property string $type
+ * @property int $sort_order
+ *
+ * @property Address[] $shopAddresses
+ * @property District[] $shopDistricts
+ * @property Order[] $shopOrders
  */
 class City extends \yii\db\ActiveRecord
 {
@@ -28,6 +33,7 @@ class City extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'name', 'type'], 'required'],
+            [['sort_order'], 'integer'],
             [['id'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 30],
@@ -43,7 +49,32 @@ class City extends \yii\db\ActiveRecord
             'id' => Yii::t('shop', 'ID'),
             'name' => Yii::t('shop', 'Name'),
             'type' => Yii::t('shop', 'Type'),
+            'sort_order' => Yii::t('shop', 'Sort Order'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddresses()
+    {
+        return $this->hasMany(Address::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDistricts()
+    {
+        return $this->hasMany(District::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['shipping_city_id' => 'id']);
     }
 
     static public function getCityOptions()
