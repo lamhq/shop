@@ -9,10 +9,6 @@ $f = Yii::$app->formatter;
 ?>
 <h3><?= Yii::t('shop', 'Review') ?></h3>
 
-<?php $form = ActiveForm::begin(['id' => 'reviewForm']); ?>
-	<?php echo $form->field($model, 'comment')->textArea() ?>
-<?php ActiveForm::end(); ?>
-
 <table class="table table-bordered">
 	<tbody>
 	<?php foreach ($model->getPrices() as $item): ?>

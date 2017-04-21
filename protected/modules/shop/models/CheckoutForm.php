@@ -109,12 +109,6 @@ class CheckoutForm extends Order
 		$a = $this->load($data);
 		$b = $this->signupForm->load($data);
 		$c = $this->shippingAddress->load($data);
-
-		// reset payment method when changing shipping address
-		if ($c) {
-			$this->payment_code = null;
-		}
-
 		return $a || $b || $c;
 	}
 
