@@ -140,7 +140,7 @@ app = Object.assign(app, {
 		var onPaymentChange = function () {
 			app.wait(500)
 			.then(function () {
-				$.ajax({
+				return $.ajax({
 					url: app.baseUrl+'/shop/checkout/save-data',
 					type: 'post',
 					data: $('#payment-section form').serializeArray()

@@ -109,20 +109,26 @@ class CheckoutForm extends Order
 		$a = $this->load($data);
 		$b = $this->signupForm->load($data);
 		$c = $this->shippingAddress->load($data);
+
+		// reset payment method when changing shipping address
+		if ($c) {
+			$this->payment_code = null;
+		}
+
 		return $a || $b || $c;
 	}
 
 	public function getData() {
 		$shippingAddress = $this->shippingAddress;
-		$sfn = $shippingAddress->formName();
+		$address = $shippingAddress->formName();
 		$result = [
 			$this->formName() => $this->toArray(),
-			$sfn => $shippingAddress->toArray(),
+			$address => $shippingAddress->toArray(),
 		];
 
 		// remove shipping address form data if use choose to use existing address
 		if ($this->shippingAddressId) {
-			unset($result[$sfn]);
+			unset($result[$address]);
 		}
 		return $result;
 	}
