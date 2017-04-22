@@ -26,7 +26,7 @@ class CheckoutController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'add' => ['POST'],
+					'place-order' => ['POST'],
 				],
 			],
 			'checkout' => [
@@ -112,6 +112,14 @@ class CheckoutController extends Controller
 	 */
 	public function actionPlaceOrder()
 	{
-		// not implemented
+		$model = $this->getOrder();
+		if ( $model->placeOrder() ) {
+			return Yii::$app->helper->jsonSuccess();
+		}
+		return Yii::$app->helper->jsonError('', [
+			'shipping' => $this->actionShipping(),
+			'payment' => $this->actionPayment(),
+			'review' => $this->actionReview(),
+		]);
 	}
 }

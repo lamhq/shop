@@ -45,13 +45,15 @@ class CheckoutForm extends Order
 
 	/**
 	 * address model for shipping address
-	 * @var Address
+	 * @var shop\models\Address
 	 */
 	public $shippingAddress;
 
 	public function init() {
 		$this->signupForm = new SignupForm();
-		$this->shippingAddress = new Address();
+		$this->shippingAddress = new Address([
+			'scenario'=>$this->scenario
+		]);
 	}
 
 	/**
@@ -60,26 +62,27 @@ class CheckoutForm extends Order
 	public function rules() {
 		$rules = parent::rules();
 		return array_merge($rules,[
-			[['register'], 'integer', 'on'=>'shippingGuest'],
-			[['name', 'telephone', 'email'], 'required', 'on'=>'shippingGuest'],
-			[['shippingAddress'], 'validateModel', 'on'=>'shippingGuest'],
+			// checkout as guest
+			[['name', 'telephone'], 'required', 'on'=>'guestCheckout'],
+			[['shippingAddress'], 'validateModel', 'on'=>'guestCheckout'],
 			// validate registration form when user choose to register new account
-			[['signupForm'], 'validateRegistration', 'on'=>'shippingGuest',
+			[['signupForm','email'], 'validateRegistration', 'on'=>'guestCheckout',
 				'when'=>function($model) {
 					return (bool)$model->register;
 				}
 			],
 
-			[['shippingAddressType'], 'required', 'on'=>'shipping'],
-			[['shippingAddressId'], 'integer', 'on'=>'shipping'],
+			// checkout with account
+			[['shippingAddressType'], 'required', 'on'=>'accountCheckout'],
 			// validate address form when user choose to create new address
-			[['shippingAddress'], 'validateModel', 'on'=>'shipping',
+			[['shippingAddress'], 'validateModel', 'on'=>'accountCheckout',
 				'when'=>function($model) {
 					return $model->shippingAddressType==self::ADDRESS_TYPE_NEW;
 				}
 			],
 
-			[['name', 'telephone', 'email', 'shippingAddressType', 'shippingAddressId'], 'safe', 'on'=>'loadData'],
+			[['payment_code'], 'required'],
+			[['register', 'shippingAddressType', 'shippingAddressId'], 'integer'],
 		]);
 	}
 
@@ -90,6 +93,7 @@ class CheckoutForm extends Order
 	{
 		$fields = parent::fields();
 		return array_merge($fields, [
+			'register',
 			'shippingAddressType',
 			'shippingAddressId',
 		]);
@@ -114,9 +118,11 @@ class CheckoutForm extends Order
 
 	public function getData() {
 		$shippingAddress = $this->shippingAddress;
+		$signupForm = $this->signupForm;
 		$address = $shippingAddress->formName();
 		$result = [
 			$this->formName() => $this->toArray(),
+			$signupForm->formName() => $signupForm->toArray(),
 			$address => $shippingAddress->toArray(),
 		];
 
@@ -202,6 +208,7 @@ class CheckoutForm extends Order
 	 */
 	public function placeOrder() {
 		if (!$this->validate()) return false;
+		return true;
 	}
 
 	/**

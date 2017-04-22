@@ -37,6 +37,9 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name','city_id','address'], 'required', 'on'=>['guestCheckout','accountCheckout']],
+            [['name','city_id','address','customer_id'], 'required', 'on'=>['insert','update']],
+            
             [['customer_id'], 'integer'],
             [['name'], 'string', 'max' => 64],
             [['city_id', 'district_id', 'ward_id'], 'string', 'max' => 5],

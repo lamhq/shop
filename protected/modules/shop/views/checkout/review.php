@@ -22,5 +22,5 @@ $f = Yii::$app->formatter;
 
 <div class="buttons clearfix">
 	<div class="pull-left"><a href="<?= Yii::$app->homeUrl ?>" class="btn btn-default"><?= Yii::t('shop', 'Continue Shopping') ?></a></div>
-	<div class="pull-right"><button class="btn btn-primary" type="button"><?= Yii::t('shop', 'Place Order') ?></button></div>
+	<div class="pull-right"><button class="btn btn-primary btn-order" type="button"><?= Yii::t('shop', 'Place Order') ?></button></div>
 </div>

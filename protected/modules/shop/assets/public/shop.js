@@ -120,9 +120,18 @@ app = Object.assign(app, {
 			.then(app.loadPaymentSection)
 			.then(app.loadReviewSection);
 
+		var lockSubmit = function () {
+			$('.btn-order').button('loading');
+		};
+
+		var unlockSubmit = function () {
+			$('.btn-order').button('reset');
+		};
+
 		// reload payment section, review section on shipping change
 		var onShippingChange = function () {
 			app.wait(500)
+			.then(lockSubmit)
 			.then(function () {
 				return $.ajax({
 					url: app.baseUrl+'/shop/checkout/save-data',
@@ -131,14 +140,16 @@ app = Object.assign(app, {
 				});
 			})
 			.then(app.loadPaymentSection)
-			.then(app.loadReviewSection);
+			.then(app.loadReviewSection)
+			.then(unlockSubmit);
 		};
 		$('#shipping-section').on('select2:select', 'select', onShippingChange);
-		$('#shipping-section').on('change', 'input[type=text]', onShippingChange);
-		
+		$('#shipping-section').on('change', 'input', onShippingChange);
+
 		// reload review section on payment change
 		var onPaymentChange = function () {
 			app.wait(500)
+			.then(lockSubmit)
 			.then(function () {
 				return $.ajax({
 					url: app.baseUrl+'/shop/checkout/save-data',
@@ -146,24 +157,51 @@ app = Object.assign(app, {
 					data: $('#payment-section form').serializeArray()
 				});
 			})
-			.then(app.loadReviewSection);
+			.then(app.loadReviewSection)
+			.then(unlockSubmit);
 		};
 		$('#payment-section').on('change', 'input[type=radio],textarea', onPaymentChange);
+
+		// save order when clicking place order button
+		$(document).on('click', '.btn-order', function () {
+			$.ajax({
+				url: app.baseUrl+'/shop/checkout/place-order',
+				type: 'post',
+				dataType: 'json',
+				beforeSend: lockSubmit,
+				complete: unlockSubmit
+			}).then(function (json) {
+				if (json.redirect) {
+					location = json.redirect;
+				}
+
+				if (!json.success) {
+					$('#shipping-section').html(json.shipping);
+					$('#payment-section').html(json.payment);
+					$('#review-section').html(json.review);
+					app.setupShipping();
+				}
+			});
+		});
 	},
 
 	loadShippingSection: function() {
 		var deferred = $.Deferred();
 		var $section = $('#shipping-section');
 		$section.load(app.baseUrl+'/shop/checkout/shipping', function() {
-			// if register account checkbox available, it must be guest checkout
-			if ($('#checkoutform-register').length) {
-				app.setupShippingGuest();
-			} else {
-				app.setupShippingLogged();
-			}
+			app.setupShipping();
 			deferred.resolve();
 		});
 		return deferred.promise();
+	},
+
+	setupShipping: function() {
+		// if register account checkbox available, it must be guest checkout
+		if ($('#checkoutform-register').length) {
+			app.setupShippingGuest();
+		} else {
+			app.setupShippingLogged();
+		}
 	},
 
 	setupShippingGuest: function() {
@@ -172,8 +210,7 @@ app = Object.assign(app, {
 		// show register section if user check register checkbox
 		var updateRegisterSection = function() {
 			$('.registration-section')
-				.toggle($('#checkoutform-register')
-				.prop('checked'));
+				.toggle($('#checkoutform-register').prop('checked'));
 		};
 		$('#checkoutform-register').on('change', updateRegisterSection);
 		updateRegisterSection();

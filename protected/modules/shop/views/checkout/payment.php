@@ -20,6 +20,7 @@ $cname = Html::getInputName($model, 'payment_code');
 		</label>
 	</div>
 	<?php endforeach ?>
+	<?= Html::error($model, 'payment_code', ['tag'=>'p', 'class'=>'text-danger']) ?>
 
 	<?php echo $form->field($model, 'comment')->textArea() ?>
 <?php ActiveForm::end(); ?>

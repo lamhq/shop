@@ -21,18 +21,21 @@ class CustomerCheckout extends Behavior
 	public $cookieLifeTime = 3600*5;
 
 	public function getOrder() {
-		$userId = Yii::$app->user->id;
-		$itemCollection = new CustomerCartItemCollection([
-			'collectionId'=>$this->getCartSessionId(),
-			'customerId'=>$userId,
-			'itemLifeTime' => $this->cookieLifeTime,
-		]);
-		$model = new CheckoutForm([
-			'itemCollection' => $itemCollection,
-			'customer_id' => $userId,
-		]);
-		$model->setData($this->getOrderSessionData());
-		return $model;
+		return Yii::$app->helper->singleton('order', function () {
+			$userId = Yii::$app->user->id;
+			$itemCollection = new CustomerCartItemCollection([
+				'collectionId'=>$this->getCartSessionId(),
+				'customerId'=>$userId,
+				'itemLifeTime' => $this->cookieLifeTime,
+			]);
+			$model = new CheckoutForm([
+				'itemCollection' => $itemCollection,
+				'customer_id' => $userId,
+				'scenario' => Yii::$app->user->isGuest ? 'guestCheckout' : 'accountCheckout',
+			]);
+			$model->setData($this->getOrderSessionData());
+			return $model;
+		});
 	}
 	
 	public function saveOrderData($order) {
