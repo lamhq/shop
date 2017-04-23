@@ -64,4 +64,9 @@ class AppHelper extends Behavior
 			'message'=>$message
 		]);
 	}
+
+	public function throwException($message, $status=500) {
+		throw new \yii\web\HttpException($status, $message);
+	}
+
 }

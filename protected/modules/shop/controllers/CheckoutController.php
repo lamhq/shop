@@ -48,16 +48,15 @@ class CheckoutController extends Controller
 
 	protected function handleGuestShipping()
 	{
-		$model = $this->getOrder();
-		return $this->renderPartial('shippingGuest', ['model'=>$model]);
+		return $this->renderPartial('shippingGuest', [
+			'model'=>$this->getOrder()
+		]);
 	}
 
 	protected function handleLoggedShipping()
 	{
-		$model = $this->getOrder();
-		$model->setDefaultShippingAddress();
 		return $this->renderPartial('shipping', [
-			'model'=>$model,
+			'model'=>$this->getOrder()
 		]);
 	}
 
@@ -67,9 +66,8 @@ class CheckoutController extends Controller
 	 */
 	public function actionPayment()
 	{
-		$model = $this->getOrder();
 		return $this->renderPartial('payment', [
-			'model'=>$model,
+			'model'=>$this->getOrder()
 		]);
 	}
 
@@ -79,9 +77,8 @@ class CheckoutController extends Controller
 	 */
 	public function actionReview()
 	{
-		$model = $this->getOrder();
 		return $this->renderPartial('review', [
-			'model'=>$model,
+			'model'=>$this->getOrder()
 		]);
 	}
 
@@ -102,7 +99,7 @@ class CheckoutController extends Controller
 		}
 
 		$model->setData($data);
-		$this->saveOrderData($model);
+		$this->saveOrderData();
 		return Yii::$app->helper->jsonSuccess();
 	}
 

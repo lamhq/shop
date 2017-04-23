@@ -52,8 +52,9 @@ class CheckoutForm extends Order
 	public function init() {
 		$this->signupForm = new SignupForm();
 		$this->shippingAddress = new Address([
-			'scenario'=>$this->scenario
+			'scenario'=>$this->scenario,
 		]);
+		$this->setDefaultShippingAddress();
 	}
 
 	/**
@@ -77,7 +78,12 @@ class CheckoutForm extends Order
 			// validate address form when user choose to create new address
 			[['shippingAddress'], 'validateModel', 'on'=>'accountCheckout',
 				'when'=>function($model) {
-					return $model->shippingAddressType==self::ADDRESS_TYPE_NEW;
+					return $this->shippingAddressType==self::ADDRESS_TYPE_NEW;
+				}
+			],
+			[['shippingAddressId'], 'validateModel', 'on'=>'accountCheckout',
+				'when'=>function($model) {
+					return $this->shippingAddressType==self::ADDRESS_TYPE_EXISTING;
 				}
 			],
 
@@ -159,35 +165,15 @@ class CheckoutForm extends Order
 		}
 	}
 
-	public function saveShippingGuest() {
-		$this->shippingAddress->name = $this->name;
-		if (!$this->validate()) return false;
-		if ($this->register) {
-			$customer = $this->signupForm->signup();
-			$customer->addAddress($this->shippingAddress);
-			Yii::$app->user->login($customer, 3600 * 24 * 30);
-			$this->shippingAddressId = $customer->address_id;
-			$this->customer_id = $customer->id;
-		}
-		return true;
-	}
-
-	public function saveShipping() {
-		if (!$this->validate()) return false;
-		if ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
-			$this->customer->addAddress($this->shippingAddress);
-			$this->shippingAddressId = $this->shippingAddress->id;
-			$this->shippingAddressType = 'existing';
-		}
-		return true;
-	}
-
 	public function setDefaultShippingAddress() {
-		if ($this->customer && $this->customer->getAddressOptions()) {
-			$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
-			$this->shippingAddressId = $this->customer->address_id;
-		} else {
-			$this->shippingAddressType = self::ADDRESS_TYPE_NEW;
+		if ($this->customer) {
+			if ($this->customer->getAddressOptions()) {
+				$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
+				$this->shippingAddressId = $this->customer->address_id;
+			} else {
+				$this->shippingAddressType = self::ADDRESS_TYPE_NEW;
+				$this->shippingAddress->name = $this->customer->name;
+			}
 		}
 	}
 
@@ -203,29 +189,20 @@ class CheckoutForm extends Order
 	}
 
 	/**
-	 * save order to database
-	 * @return boolean
-	 */
-	public function placeOrder() {
-		if (!$this->validate()) return false;
-		return true;
-	}
-
-	/**
 	 * get list of applied prices for cart
 	 * @return array
 	 */
 	public function getPrices() {
 		$prices = [];
 		$total = 0;
-		
-		$prices[] = [
+
+		$prices['subTotal'] = [
 			'title'      => Yii::t('shop', 'Sub-Total'),
 			'value'      => $this->getSubTotal(),
 		];
-		$total = $this->getSubTotal();
+		$total += $this->getSubTotal();
 
-		$prices[] = [
+		$prices['total'] = [
 			'title'      => Yii::t('shop', 'Total'),
 			'value'      => max(0, $total),
 		];
@@ -234,12 +211,21 @@ class CheckoutForm extends Order
 	}
 
 	/**
+	 * get order final price
+	 * @return double
+	 */
+	public function calculateTotal() {
+		$prices = $this->getPrices();
+		return $prices['total']['value'];
+	}
+
+	/**
 	 * get list of payment method
 	 * @return array [ [code, title] ]
 	 */
 	public function getAvailablePaymentMethods() {
 		$result = [];
-		
+
 		$result[] = [
 			'title'     => 'Cash On Delivery',
 			'code'      => 'cod',
@@ -247,4 +233,86 @@ class CheckoutForm extends Order
 
 		return $result;
 	}
+
+	/**
+	 * save order to database
+	 * @return boolean
+	 */
+	public function placeOrder() {
+		if (!$this->validate()) return false;
+
+		$transaction = Yii::$app->db->beginTransaction();
+		try {
+			$this->createCustomerAccount();
+			$this->loadAddressData();
+			$this->saveOrderRecord();
+			$this->saveOrderProductRecords();
+		    $transaction->commit();
+		} catch(\Exception $e) {
+		    $transaction->rollBack();
+			throw $e;
+		}
+		return true;
+	}
+
+	private function loadAddressData() {
+		// load address from existing address
+		if ($this->customer_id) {
+			if ($this->shippingAddressType==self::ADDRESS_TYPE_EXISTING
+				&& $this->shippingAddress->isNewRecord) {
+				$this->shippingAddress = Address::findOne($this->shippingAddressId);
+			} elseif ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
+				$this->customer->addAddress($this->shippingAddress);
+				$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
+				$this->shippingAddressId = $this->shippingAddress->id;
+			}
+		}
+	}
+
+	private function createCustomerAccount() {
+		if ($this->register) {
+			$customer = $this->signupForm->signup();
+			Yii::$app->user->login($customer, 3600 * 24 * 30);
+			$this->shippingAddress->name = $customer->name;
+			$customer->addAddress($this->shippingAddress);
+			$this->customer_id = $customer->id;
+			$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
+			$this->shippingAddressId = $customer->address_id;
+		}
+	}
+	
+	private function saveOrderRecord() {
+		// set order data from customer data
+		if ($this->customer_id) {
+			$this->name = $this->customer->name;
+			$this->telephone = $this->customer->telephone;
+			$this->email = $this->customer->email;
+		}
+
+		// save order record
+		$this->shipping_name = $this->shippingAddress->name;
+		$this->shipping_city_id = $this->shippingAddress->city_id;
+		$this->shipping_district_id = $this->shippingAddress->district_id;
+		$this->shipping_ward_id = $this->shippingAddress->ward_id;
+		$this->shipping_address = $this->shippingAddress->address;
+		$this->total = $this->calculateTotal();
+		$this->save() || Yii::$app->helper->throwException('Error when saving order: '.json_encode($this->getFirstErrors()));
+	}
+
+	private function saveOrderProductRecords() {
+		// save order product records
+		foreach ($this->itemCollection->getItems() as $item) {
+			$orderProd = new OrderProduct([
+				'order_id' => $this->id,
+				'product_id' => $item->product_id,
+				'quantity' => $item->quantity,
+				'price' => $item->product->price,
+				'total' => $item->product->price*$item->quantity,
+				'name' => $item->product->name,
+				'model' => $item->product->model,
+			]);
+			$orderProd->save() || Yii::$app->helper->throwException('Error when saving order product: '.json_encode($orderProd->getFirstErrors()));
+		}
+	}
+
 }

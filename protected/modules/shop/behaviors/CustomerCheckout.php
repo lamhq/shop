@@ -38,8 +38,8 @@ class CustomerCheckout extends Behavior
 		});
 	}
 	
-	public function saveOrderData($order) {
-		$this->setOrderSessionData($order->getData());
+	public function saveOrderData() {
+		$this->setOrderSessionData($this->getOrder()->getData());
 	}
 
 	public function getOrderSessionData() {
@@ -48,6 +48,10 @@ class CustomerCheckout extends Behavior
 
 	public function setOrderSessionData($data) {
 		Yii::$app->session->set('checkout', $data);
+	}
+	
+	public function clearOrderSessionData() {
+		Yii::$app->session->remove('checkout');
 	}
 	
 	public function getCartSessionId() {
