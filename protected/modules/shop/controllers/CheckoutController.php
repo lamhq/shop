@@ -117,6 +117,7 @@ class CheckoutController extends Controller
 			'shipping' => $this->actionShipping(),
 			'payment' => $this->actionPayment(),
 			'review' => $this->actionReview(),
+			'errors' => $model->getErrors(),
 		]);
 	}
 }

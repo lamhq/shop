@@ -142,7 +142,9 @@ class CheckoutForm extends Order
 	public function validateModel($attribute, $params, $validator) {
 		$model = $this->$attribute;
 		if (!$model->validate()) {
-			$this->addError($attribute, 'Error when validating '.$attribute);
+			$msg = sprintf('Error when validating %s: %s', 
+				$attribute, json_encode($model->getErrors()) );
+			$this->addError($attribute, $msg);
 		}
 	}
 
@@ -197,14 +199,16 @@ class CheckoutForm extends Order
 		$total = 0;
 
 		$prices['subTotal'] = [
-			'title'      => Yii::t('shop', 'Sub-Total'),
-			'value'      => $this->getSubTotal(),
+			'code'	=> 'subTotal',
+			'title'	=> Yii::t('shop', 'Sub-Total'),
+			'value'	=> $this->getSubTotal(),
 		];
 		$total += $this->getSubTotal();
 
 		$prices['total'] = [
-			'title'      => Yii::t('shop', 'Total'),
-			'value'      => max(0, $total),
+			'code'	=> 'total',
+			'title'	=> Yii::t('shop', 'Total'),
+			'value'	=> max(0, $total),
 		];
 
 		return $prices;
@@ -244,9 +248,12 @@ class CheckoutForm extends Order
 		$transaction = Yii::$app->db->beginTransaction();
 		try {
 			$this->createCustomerAccount();
-			$this->loadAddressData();
+			$this->loadCustomerAddressData();
 			$this->saveOrderRecord();
 			$this->saveOrderProductRecords();
+			$this->saveOrderPrices();
+			// trigger after order saving event
+			// 
 		    $transaction->commit();
 		} catch(\Exception $e) {
 		    $transaction->rollBack();
@@ -255,7 +262,7 @@ class CheckoutForm extends Order
 		return true;
 	}
 
-	private function loadAddressData() {
+	private function loadCustomerAddressData() {
 		// load address from existing address
 		if ($this->customer_id) {
 			if ($this->shippingAddressType==self::ADDRESS_TYPE_EXISTING
@@ -300,7 +307,6 @@ class CheckoutForm extends Order
 	}
 
 	private function saveOrderProductRecords() {
-		// save order product records
 		foreach ($this->itemCollection->getItems() as $item) {
 			$orderProd = new OrderProduct([
 				'order_id' => $this->id,
@@ -315,4 +321,15 @@ class CheckoutForm extends Order
 		}
 	}
 
+	private function saveOrderPrices() {
+		foreach ($this->getPrices() as $item) {
+			$orderPrice = new OrderPrice([
+				'order_id' => $this->id,
+				'code' => $item['code'],
+				'title' => $item['title'],
+				'value' => $item['value'],
+			]);
+			$orderPrice->save() || Yii::$app->helper->throwException('Error when saving order price: '.json_encode($orderPrice->getFirstErrors()));
+		}
+	}
 }

@@ -216,6 +216,9 @@ app = Object.assign(app, {
 		updateRegisterSection();
 
 		$('.field-address-name').hide();
+		$('#checkoutform-name').change(function () {
+			$('#address-name').val(this.value);
+		});
 	},
 
 	setupShippingLogged: function() {
