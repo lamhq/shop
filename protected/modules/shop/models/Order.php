@@ -3,6 +3,7 @@
 namespace shop\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%shop_order}}".
@@ -35,6 +36,15 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    const STATUS_PENDING = 1;
+    const STATUS_PROCESSING = 2;
+    const STATUS_SHIPPED = 3;
+    const STATUS_COMPLETE = 5;
+    const STATUS_CANCELED = 7;
+    const STATUS_REFUNDED = 11;
+
+    const EVENT_ORDER_PLACED = 'orderPlaced';
+
     /**
      * @inheritdoc
      */
@@ -134,4 +144,38 @@ class Order extends \yii\db\ActiveRecord
     {
         return new \shop\models\query\OrderQuery(get_called_class());
     }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+        ];
+    }
+
+    public static function addOrderHistory($status) {
+        $oldStatus = $this->status;
+        // add order status history record
+        $oh = new OrderHistory([
+            'order_id' => $this->id,
+            'status' => $status,
+        ]);
+        $oh->save() || Yii::$app->helper->throwException('Error when saving order history: '.json_encode($oh->getFirstErrors()));
+
+        // update current order status
+        $this->update(false, ['status']);
+
+        // If order status is null(or 0) then becomes greater than 0,
+        // send new order email to customer and admin
+        if (!$oldStatus && $status) {
+
+        }
+
+        // If order status is not 0 then,
+        // send order status alert email to customer
+        if ($oldStatus && $status) {
+        }
+    }
+
 }

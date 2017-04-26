@@ -247,45 +247,47 @@ class CheckoutForm extends Order
 
 		$transaction = Yii::$app->db->beginTransaction();
 		try {
-			$this->createCustomerAccount();
-			$this->loadCustomerAddressData();
+			if ($this->register) {
+				$this->createCustomerAccount();
+			}
+
+			// load address from existing address
+			if ($this->customer_id) {
+				$this->loadCustomerAddressData();
+			}
+
 			$this->saveOrderRecord();
 			$this->saveOrderProductRecords();
 			$this->saveOrderPrices();
-			// trigger after order saving event
-			// 
-		    $transaction->commit();
+			$transaction->commit();
+
+			$this->trigger(self::EVENT_ORDER_PLACED);
 		} catch(\Exception $e) {
-		    $transaction->rollBack();
+			$transaction->rollBack();
 			throw $e;
 		}
 		return true;
 	}
 
 	private function loadCustomerAddressData() {
-		// load address from existing address
-		if ($this->customer_id) {
-			if ($this->shippingAddressType==self::ADDRESS_TYPE_EXISTING
-				&& $this->shippingAddress->isNewRecord) {
-				$this->shippingAddress = Address::findOne($this->shippingAddressId);
-			} elseif ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
-				$this->customer->addAddress($this->shippingAddress);
-				$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
-				$this->shippingAddressId = $this->shippingAddress->id;
-			}
+		if ($this->shippingAddressType==self::ADDRESS_TYPE_EXISTING
+			&& $this->shippingAddress->isNewRecord) {
+			$this->shippingAddress = Address::findOne($this->shippingAddressId);
+		} elseif ($this->shippingAddressType==self::ADDRESS_TYPE_NEW) {
+			$this->customer->addAddress($this->shippingAddress);
+			$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
+			$this->shippingAddressId = $this->shippingAddress->id;
 		}
 	}
 
 	private function createCustomerAccount() {
-		if ($this->register) {
-			$customer = $this->signupForm->signup();
-			Yii::$app->user->login($customer, 3600 * 24 * 30);
-			$this->shippingAddress->name = $customer->name;
-			$customer->addAddress($this->shippingAddress);
-			$this->customer_id = $customer->id;
-			$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
-			$this->shippingAddressId = $customer->address_id;
-		}
+		$customer = $this->signupForm->signup();
+		Yii::$app->user->login($customer, 3600 * 24 * 30);
+		$this->shippingAddress->name = $customer->name;
+		$customer->addAddress($this->shippingAddress);
+		$this->customer_id = $customer->id;
+		$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
+		$this->shippingAddressId = $customer->address_id;
 	}
 	
 	private function saveOrderRecord() {
