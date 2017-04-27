@@ -26,6 +26,9 @@ use yii\behaviors\TimestampBehavior;
  * @property string $comment
  * @property string $total
  * @property int $status
+ * @property string $ip
+ * @property string $user_agent
+ * @property string $accept_language
  * @property string $create_time
  * @property string $update_time
  *
@@ -33,6 +36,9 @@ use yii\behaviors\TimestampBehavior;
  * @property City $shippingCity
  * @property District $shippingDistrict
  * @property Ward $shippingWard
+ * @property OrderHistory[] $shopOrderHistories
+ * @property OrderPrice[] $shopOrderPrices
+ * @property OrderProduct[] $shopOrderProducts
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -70,10 +76,12 @@ class Order extends \yii\db\ActiveRecord
             [['telephone', 'shipping_name'], 'string', 'max' => 32],
             [['payment_method', 'payment_code', 'shipping_address', 'shipping_method', 'shipping_code'], 'string', 'max' => 128],
             [['shipping_city_id', 'shipping_district_id', 'shipping_ward_id'], 'string', 'max' => 5],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
-            [['shipping_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['shipping_city_id' => 'id']],
-            [['shipping_district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['shipping_district_id' => 'id']],
-            [['shipping_ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ward::className(), 'targetAttribute' => ['shipping_ward_id' => 'id']],
+            [['ip'], 'string', 'max' => 40],
+            [['user_agent', 'accept_language'], 'string', 'max' => 255],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCustomer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['shipping_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCity::className(), 'targetAttribute' => ['shipping_city_id' => 'id']],
+            [['shipping_district_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopDistrict::className(), 'targetAttribute' => ['shipping_district_id' => 'id']],
+            [['shipping_ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopWard::className(), 'targetAttribute' => ['shipping_ward_id' => 'id']],
         ];
     }
 
@@ -101,6 +109,9 @@ class Order extends \yii\db\ActiveRecord
             'comment' => Yii::t('shop', 'Comment'),
             'total' => Yii::t('shop', 'Total'),
             'status' => Yii::t('shop', 'Status'),
+            'ip' => Yii::t('shop', 'Ip'),
+            'user_agent' => Yii::t('shop', 'User Agent'),
+            'accept_language' => Yii::t('shop', 'Accept Language'),
             'create_time' => Yii::t('shop', 'Create Time'),
             'update_time' => Yii::t('shop', 'Update Time'),
         ];
@@ -136,6 +147,30 @@ class Order extends \yii\db\ActiveRecord
     public function getShippingWard()
     {
         return $this->hasOne(Ward::className(), ['id' => 'shipping_ward_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderHistories()
+    {
+        return $this->hasMany(ShopOrderHistory::className(), ['order_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderPrices()
+    {
+        return $this->hasMany(ShopOrderPrice::className(), ['order_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderProducts()
+    {
+        return $this->hasMany(ShopOrderProduct::className(), ['order_id' => 'id']);
     }
 
     /**
