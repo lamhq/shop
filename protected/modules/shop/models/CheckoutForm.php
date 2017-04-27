@@ -223,14 +223,13 @@ class CheckoutForm extends Order
 	 * @return array [ [code, title] ]
 	 */
 	public function getAvailablePaymentMethods() {
-		$result = [];
+		$event = Yii::$app->helper->createEvent([
+			'sender' => $this,
+			'triggerData' => [],
+		]);
+		Yii::$app->trigger(self::EVENT_COLLECT_PAYMENT_METHOD, $event);
 
-		$result[] = [
-			'title'     => 'Cash On Delivery',
-			'code'      => 'cod',
-		];
-
-		return $result;
+		return $event->triggerData;
 	}
 
 	/**
