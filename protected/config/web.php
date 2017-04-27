@@ -2,7 +2,6 @@
 $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 	'id' => 'yii2core',
 	'name' => 'Yii2 Core Project',
-	'defaultRoute' => 'default/index',
 	'components' => [
 		'view' => [
 			'theme' => [
