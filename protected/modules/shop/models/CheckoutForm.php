@@ -87,9 +87,17 @@ class CheckoutForm extends Order
 				}
 			],
 
-			[['payment_code'], 'required'],
-			[['register', 'shippingAddressType', 'shippingAddressId'], 'integer'],
+			[['payment_code'], 'required', 'on'=>['guestCheckout', 'accountCheckout']],
+			[['register', 'shippingAddressType', 'shippingAddressId'], 'integer', 'on'=>['guestCheckout', 'accountCheckout']],
 		]);
+	}
+
+	public function scenarios()
+	{
+		return [
+			'guestCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!create_time','!update_time'],
+			'accountCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!create_time','!update_time'],
+		];
 	}
 
 	/**
@@ -256,7 +264,7 @@ class CheckoutForm extends Order
 			$transaction->commit();
 
 			$event = Yii::$app->helper->createEvent(['sender' => $this]);
-			Yii::$app->trigger(self::EVENT_ORDER_PLACED, $event));
+			Yii::$app->trigger(self::EVENT_ORDER_PLACED, $event);
 		} catch(\Exception $e) {
 			$transaction->rollBack();
 			throw $e;

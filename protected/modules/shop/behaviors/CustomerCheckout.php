@@ -6,6 +6,9 @@ use yii\base\Behavior;
 use shop\components\CustomerCartItemCollection;
 use shop\models\CheckoutForm;
 
+/**
+ * This class contains helper methods for frontend checkout
+ */
 class CustomerCheckout extends Behavior
 {
 	/**
@@ -22,6 +25,7 @@ class CustomerCheckout extends Behavior
 
 	public function getOrder() {
 		return Yii::$app->helper->singleton('order', function () {
+			$req = Yii::$app->request;
 			$userId = Yii::$app->user->id;
 			$itemCollection = new CustomerCartItemCollection([
 				'collectionId'=>$this->getCartSessionId(),
@@ -29,9 +33,12 @@ class CustomerCheckout extends Behavior
 				'itemLifeTime' => $this->cookieLifeTime,
 			]);
 			$model = new CheckoutForm([
+				'scenario' => $userId ? 'accountCheckout' : 'guestCheckout',
 				'itemCollection' => $itemCollection,
 				'customer_id' => $userId,
-				'scenario' => Yii::$app->user->isGuest ? 'guestCheckout' : 'accountCheckout',
+				'ip' => $req->userIP,
+				'user_agent' => $req->userAgent,
+				'accept_language' => implode(';',$req->acceptableLanguages),
 			]);
 			$model->setData($this->getOrderSessionData());
 			return $model;

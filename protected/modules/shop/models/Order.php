@@ -78,10 +78,10 @@ class Order extends \yii\db\ActiveRecord
             [['shipping_city_id', 'shipping_district_id', 'shipping_ward_id'], 'string', 'max' => 5],
             [['ip'], 'string', 'max' => 40],
             [['user_agent', 'accept_language'], 'string', 'max' => 255],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCustomer::className(), 'targetAttribute' => ['customer_id' => 'id']],
-            [['shipping_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCity::className(), 'targetAttribute' => ['shipping_city_id' => 'id']],
-            [['shipping_district_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopDistrict::className(), 'targetAttribute' => ['shipping_district_id' => 'id']],
-            [['shipping_ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopWard::className(), 'targetAttribute' => ['shipping_ward_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['shipping_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['shipping_city_id' => 'id']],
+            [['shipping_district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['shipping_district_id' => 'id']],
+            [['shipping_ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ward::className(), 'targetAttribute' => ['shipping_ward_id' => 'id']],
         ];
     }
 
@@ -154,7 +154,7 @@ class Order extends \yii\db\ActiveRecord
      */
     public function getOrderHistories()
     {
-        return $this->hasMany(ShopOrderHistory::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderHistory::className(), ['order_id' => 'id']);
     }
 
     /**
@@ -162,7 +162,7 @@ class Order extends \yii\db\ActiveRecord
      */
     public function getOrderPrices()
     {
-        return $this->hasMany(ShopOrderPrice::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderPrice::className(), ['order_id' => 'id']);
     }
 
     /**
@@ -170,7 +170,7 @@ class Order extends \yii\db\ActiveRecord
      */
     public function getOrderProducts()
     {
-        return $this->hasMany(ShopOrderProduct::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderProduct::className(), ['order_id' => 'id']);
     }
 
     /**
