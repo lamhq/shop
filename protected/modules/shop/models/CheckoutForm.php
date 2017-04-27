@@ -195,17 +195,18 @@ class CheckoutForm extends Order
 	 * @return array
 	 */
 	public function collectPrices() {
-		$event = new Event([
+		$event = Yii::$app->helper->createEvent([
 			'sender' => $this,
-			'data' => [
+			'triggerData' => [
 				'total' => 0,
 				'prices' => [],
 			],
 		]);
 		Yii::$app->trigger(self::EVENT_COLLECT_PRICE, $event);
 
-		$this->total = $event->data['total'];
-		return $event->data['prices'];
+		$data = $event->triggerData;
+		$this->total = $data['total'];
+		return $data['prices'];
 	}
 
 	/**

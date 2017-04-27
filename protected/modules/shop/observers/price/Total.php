@@ -7,7 +7,7 @@ use yii\base\Object;
 class Total extends Object
 {
 	public function onCollectPrice($event) {
-		$data = &$event->data;
+		$data = &$event->triggerData;
 		$data['prices']['total'] = [
 			'code'	=> 'total',
 			'title'	=> Yii::t('shop', 'Total'),

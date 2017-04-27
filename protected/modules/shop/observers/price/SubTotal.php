@@ -7,7 +7,7 @@ use yii\base\Object;
 class SubTotal extends Object
 {
 	public function onCollectPrice($event) {
-		$data = &$event->data;
+		$data = &$event->triggerData;
 		$subTotal = $event->sender->getSubTotal();
 		$data['prices']['subTotal'] = [
 			'code'	=> 'subTotal',
