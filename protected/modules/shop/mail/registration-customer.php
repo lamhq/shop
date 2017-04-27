@@ -13,4 +13,4 @@ $loginUrl = Yii::$app->urlManager->createAbsoluteUrl(['/shop/default/login']);
 <p>Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.</p>
 
 <p>Thanks,<br/>
-<?= $storeName ?></p>
+<?= Yii::$app->name ?></p>

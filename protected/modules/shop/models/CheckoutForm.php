@@ -255,7 +255,8 @@ class CheckoutForm extends Order
 			$this->saveOrderPrices();
 			$transaction->commit();
 
-			Yii::$app->trigger(self::EVENT_ORDER_PLACED, new Event(['sender' => $this]));
+			$event = Yii::$app->helper->createEvent(['sender' => $this]);
+			Yii::$app->trigger(self::EVENT_ORDER_PLACED, $event));
 		} catch(\Exception $e) {
 			$transaction->rollBack();
 			throw $e;

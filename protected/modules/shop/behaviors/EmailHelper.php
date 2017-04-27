@@ -12,10 +12,7 @@ class EmailHelper extends BaseHelper
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			$customer->email,
 			$siteName.' - Thank you for registering',
-			'@shop/mail/registration-customer', 
-			[
-				'siteName' => $siteName,
-			]
+			'@shop/mail/registration-customer'
 		);
 	}
 
@@ -27,7 +24,6 @@ class EmailHelper extends BaseHelper
 			'New customer', 
 			'@shop/mail/registration-admin', 
 			[
-				'siteName' => $siteName,
 				'customer' => $customer,
 			]
 		);
