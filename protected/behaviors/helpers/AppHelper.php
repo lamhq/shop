@@ -69,4 +69,7 @@ class AppHelper extends Behavior
 		throw new \yii\web\HttpException($status, $message);
 	}
 
+	public function createEvent($data) {
+		return new \app\components\Event($data);
+	}
 }
