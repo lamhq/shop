@@ -44,6 +44,8 @@ class Order extends \yii\db\ActiveRecord
     const STATUS_REFUNDED = 11;
 
     const EVENT_ORDER_PLACED = 'orderPlaced';
+    const EVENT_COLLECT_PRICE = 'collectPrice';
+    const EVENT_COLLECT_PAYMENT_METHOD = 'collectPaymentMethod';
 
     /**
      * @inheritdoc

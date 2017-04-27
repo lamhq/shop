@@ -33,7 +33,7 @@ class Observable extends Behavior
 			array_multisort($observers, SORT_ASC, ArrayHelper::getColumn($observers, 'runOrder'));
 
 			// attach event handlers
-			foreach ($observers as $data) {
+			foreach ($observers as &$data) {
 				$method = $data['method'];
 				unset($data['method'], $data['runOrder']);
 				$observer = Yii::createObject($data);

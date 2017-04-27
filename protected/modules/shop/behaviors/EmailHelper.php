@@ -1,8 +1,10 @@
 <?php
 namespace shop\behaviors;
-use Yii;
 
-class EmailHelper extends \app\behaviors\EmailHelper
+use Yii;
+use app\behaviors\helpers\EmailHelper as BaseHelper;
+
+class EmailHelper extends BaseHelper
 {
 	public function sendRegistrationSuccessEmailToCustomer($customer) {
 		$siteName = Yii::$app->name;

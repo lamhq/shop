@@ -194,24 +194,18 @@ class CheckoutForm extends Order
 	 * get list of applied prices for cart
 	 * @return array
 	 */
-	public function getPrices() {
-		$prices = [];
-		$total = 0;
+	public function collectPrices() {
+		$event = new Event([
+			'sender' => $this,
+			'data' => [
+				'total' => 0,
+				'prices' => [],
+			],
+		]);
+		Yii::$app->trigger(self::EVENT_COLLECT_PRICE, $event);
 
-		$prices['subTotal'] = [
-			'code'	=> 'subTotal',
-			'title'	=> Yii::t('shop', 'Sub-Total'),
-			'value'	=> $this->getSubTotal(),
-		];
-		$total += $this->getSubTotal();
-
-		$prices['total'] = [
-			'code'	=> 'total',
-			'title'	=> Yii::t('shop', 'Total'),
-			'value'	=> max(0, $total),
-		];
-
-		return $prices;
+		$this->total = $event->data['total'];
+		return $event->data['prices'];
 	}
 
 	/**
@@ -219,8 +213,8 @@ class CheckoutForm extends Order
 	 * @return double
 	 */
 	public function calculateTotal() {
-		$prices = $this->getPrices();
-		return $prices['total']['value'];
+		$this->collectPrices();
+		return $this->total;
 	}
 
 	/**
@@ -261,7 +255,7 @@ class CheckoutForm extends Order
 			$this->saveOrderPrices();
 			$transaction->commit();
 
-			$this->trigger(self::EVENT_ORDER_PLACED);
+			Yii::$app->trigger(self::EVENT_ORDER_PLACED, new Event(['sender' => $this]));
 		} catch(\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
@@ -324,7 +318,7 @@ class CheckoutForm extends Order
 	}
 
 	private function saveOrderPrices() {
-		foreach ($this->getPrices() as $item) {
+		foreach ($this->collectPrices() as $item) {
 			$orderPrice = new OrderPrice([
 				'order_id' => $this->id,
 				'code' => $item['code'],

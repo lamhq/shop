@@ -69,6 +69,7 @@ class CartController extends Controller
 	 */
 	public function actionIndex()
 	{
+		// var_dump($this->getOrder()->collectPrices());die;
 		return $this->render('index', [
 			'model'=>$this->getOrder()
 		]);

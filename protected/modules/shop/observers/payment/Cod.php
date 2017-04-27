@@ -6,8 +6,7 @@ use yii\base\Object;
 
 class Cod extends Object
 {
-	public function onOrderPlaced() {
-		var_dump(1111);die;
+	public function onOrderPlaced($event) {
 	}
 
 }

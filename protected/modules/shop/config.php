@@ -8,7 +8,7 @@ return [
 			'class' => 'shop\Module',
 			'modules'=>[
 				'admin'=>['class' => 'shop\modules\admin\Module'],
-			]
+			],
 		],
 	],
 	'components' => [
@@ -30,10 +30,9 @@ return [
 			]
 		],
 		'helper' => [
-			'class' => 'app\components\Helper',
 			'as emailHelper' => [
 				'class' => 'shop\behaviors\EmailHelper'
-			]
+			],
 		],
 	],
 	'params' => [
@@ -49,8 +48,28 @@ return [
 				'codPayment' => [
 					'class' => 'shop\observers\payment\Cod',
 					'method' => 'onOrderPlaced',
-				]
-			]
-		]
+					'runOrder' => 10,
+				],
+			],
+			'collectPrice' => [
+				'subTotal' => [
+					'class' => 'shop\observers\price\SubTotal',
+					'method' => 'onCollectPrice',
+					'runOrder' => 10,
+				],
+				'total' => [
+					'class' => 'shop\observers\price\Total',
+					'method' => 'onCollectPrice',
+					'runOrder' => 20,
+				],
+			],
+			'collectPaymentMethod' => [
+				'cod' => [
+					'class' => 'shop\observers\payment\Cod',
+					'method' => 'onCollectPaymentMethod',
+					'runOrder' => 10,
+				],
+			],
+		],	// events
 	]
 ];

@@ -11,7 +11,7 @@ $f = Yii::$app->formatter;
 
 <table class="table table-bordered">
 	<tbody>
-	<?php foreach ($model->getPrices() as $item): ?>
+	<?php foreach ($model->collectPrices() as $item): ?>
 		<tr>
 			<td class="text-right"><strong><?= $item['title'] ?></strong></td>
 			<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>
