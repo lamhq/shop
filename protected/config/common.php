@@ -14,6 +14,9 @@ $result = [
 		'user.passwordResetTokenExpire' => 3600,
 		'cookieLifeTime' => 3600,
 	],
+	'as observable' => [
+		'class'=>\app\behaviors\Observable::className(),
+	],
 	'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection',
@@ -40,9 +43,9 @@ $result = [
 		],
 		'helper' => [
 			'class' => 'app\components\Helper',
-			'as emailHelper' => ['class' => 'shop\behaviors\EmailHelper'],
-			'as appHelper' => ['class' => 'app\behaviors\AppHelper'],
-			'as storageHelper' => ['class' => 'app\behaviors\StorageHelper'],
+			'as appHelper' => ['class' => 'app\behaviors\helpers\AppHelper'],
+			'as emailHelper' => ['class' => 'app\behaviors\helpers\EmailHelper'],
+			'as storageHelper' => ['class' => 'app\behaviors\helpers\StorageHelper'],
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,
