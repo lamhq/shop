@@ -44,5 +44,13 @@ return [
 				'roles' => ['@'],
 			],
 		],
+		'events' => [
+			'orderPlaced' => [
+				'codPayment' => [
+					'class' => 'shop\observers\payment\Cod',
+					'method' => 'onOrderPlaced',
+				]
+			]
+		]
 	]
 ];
