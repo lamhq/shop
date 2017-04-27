@@ -15,7 +15,7 @@ $result = [
 		'cookieLifeTime' => 3600,
 	],
 	'as observable' => [
-		'class'=>\app\behaviors\Observable::className(),
+		'class'=>'app\behaviors\Observable',
 	],
 	'components' => [
 		'db' => [
