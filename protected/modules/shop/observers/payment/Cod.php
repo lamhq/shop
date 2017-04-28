@@ -9,6 +9,10 @@ class Cod extends Object
 {
 	public function onOrderPlaced($event) {
 		$order = $event->sender;
+		if ($order->payment_code!='cod') return;
+		
+		$order->payment_method = 'Cash On Delivery';
+		$order->update(false, ['payment_method']);
 		$order->addOrderHistory(Order::STATUS_PENDING);
 	}
 
