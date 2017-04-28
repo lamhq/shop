@@ -95,8 +95,8 @@ class CheckoutForm extends Order
 	public function scenarios()
 	{
 		return [
-			'guestCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!create_time','!update_time'],
-			'accountCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!create_time','!update_time'],
+			'guestCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!created_at','!updated_at'],
+			'accountCheckout' => ['!invoice_no','!customer_id','!total','!status','!ip','!user_agent','!accept_language','!created_at','!updated_at'],
 		];
 	}
 

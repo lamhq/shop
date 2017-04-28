@@ -70,6 +70,13 @@ return [
 					'runOrder' => 10,
 				],
 			],
+			'afterCheckout' => [
+				'cod' => [
+					'class' => 'shop\observers\payment\Cod',
+					'method' => 'onAfterCheckout',
+					'runOrder' => 10,
+				],
+			],
 		],	// events
 	]
 ];

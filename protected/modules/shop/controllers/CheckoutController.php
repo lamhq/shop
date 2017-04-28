@@ -17,6 +17,8 @@ use shop\behaviors\CustomerCheckout;
  */
 class CheckoutController extends Controller
 {
+	const EVENT_AFTER_CHECKOUT = 'afterCheckout';
+
 	/**
 	 * @inheritdoc
 	 */
@@ -41,7 +43,7 @@ class CheckoutController extends Controller
 	 */
 	public function actionShipping()
 	{
-		return Yii::$app->user->isGuest ? 
+		return Yii::$app->user->isGuest ?
 			$this->handleGuestShipping() :
 			$this->handleLoggedShipping();
 	}
@@ -83,14 +85,14 @@ class CheckoutController extends Controller
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 * @throws NotFoundHttpException
 	 */
 	public function actionSaveData()
 	{
 		$model = $this->getOrder();
 		$data = Yii::$app->request->post();
-		
+
 		// reset payment method when changing shipping address
 		if ( isset($data['Address']) ) {
 			if ( !isset($data['CheckoutForm']) )
@@ -104,15 +106,21 @@ class CheckoutController extends Controller
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 * @throws NotFoundHttpException
 	 */
 	public function actionPlaceOrder()
 	{
 		$model = $this->getOrder();
 		if ( $model->placeOrder() ) {
-			return Yii::$app->helper->jsonSuccess();
+			$event = Yii::$app->helper->createEvent([
+				'sender' => $model,
+			]);
+			Yii::$app->trigger(self::EVENT_AFTER_CHECKOUT, $event);
+			$data = $event->triggerData;
+			return Yii::$app->helper->jsonSuccess('', $data);
 		}
+
 		return Yii::$app->helper->jsonError('', [
 			'shipping' => $this->actionShipping(),
 			'payment' => $this->actionPayment(),
@@ -120,4 +128,17 @@ class CheckoutController extends Controller
 			'errors' => $model->getErrors(),
 		]);
 	}
+
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionSuccess()
+	{
+		$model = $this->getOrder();
+		$model->itemCollection->clear();
+		$this->clearOrderSessionData();
+		return $this->render('success');
+	}
+
 }

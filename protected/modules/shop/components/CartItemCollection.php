@@ -22,6 +22,11 @@ abstract class CartItemCollection extends \yii\base\Object {
 	abstract public function remove($itemId);
 
 	/**
+	 * @return boolean
+	 */
+	abstract public function clear();
+
+	/**
 	 * @return shop\models\CartItem[]
 	 */
 	abstract public function getItems();

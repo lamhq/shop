@@ -120,4 +120,11 @@ class CustomerCartItemCollection extends CartItemCollection {
 			}
 		}
 	}
+
+	public function clear() {
+		return CartItem::deleteAll([
+			'session_id'=>$this->collectionId,
+			'customer_id'=>$this->customerId
+		]);
+	}
 }

@@ -29,8 +29,8 @@ use yii\behaviors\TimestampBehavior;
  * @property string $ip
  * @property string $user_agent
  * @property string $accept_language
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Customer $customer
  * @property City $shippingCity
@@ -70,7 +70,7 @@ class Order extends \yii\db\ActiveRecord
 			[['invoice_no', 'customer_id', 'status'], 'integer'],
 			[['comment'], 'string'],
 			[['total'], 'number'],
-			[['create_time', 'update_time'], 'safe'],
+			[['created_at', 'updated_at'], 'safe'],
 			[['name'], 'string', 'max' => 64],
 			[['email'], 'string', 'max' => 96],
 			[['telephone', 'shipping_name'], 'string', 'max' => 32],
@@ -112,8 +112,8 @@ class Order extends \yii\db\ActiveRecord
 			'ip' => Yii::t('shop', 'Ip'),
 			'user_agent' => Yii::t('shop', 'User Agent'),
 			'accept_language' => Yii::t('shop', 'Accept Language'),
-			'create_time' => Yii::t('shop', 'Create Time'),
-			'update_time' => Yii::t('shop', 'Update Time'),
+			'created_at' => Yii::t('shop', 'Create Time'),
+			'updated_at' => Yii::t('shop', 'Update Time'),
 		];
 	}
 
