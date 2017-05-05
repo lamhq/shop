@@ -69,6 +69,12 @@ class AppHelper extends Behavior
 		throw new \yii\web\HttpException($status, $message);
 	}
 
+	public function throwSaveException($model) {
+		$errors = array_values($model->getFirstErrors());
+		$message = sprintf('Error when saving %s: %s', get_class($model), $errors[0]);
+		throw new \yii\web\HttpException(400, $message);
+	}
+
 	public function createEvent($data) {
 		return new \app\components\Event($data);
 	}
