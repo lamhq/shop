@@ -130,8 +130,8 @@ app = Object.assign(app, {
 
 		// reload payment section, review section on shipping change
 		var onShippingChange = function () {
+			lockSubmit();
 			app.wait(500)
-			.then(lockSubmit)
 			.then(function () {
 				return $.ajax({
 					url: app.baseUrl+'/shop/checkout/save-data',
@@ -148,8 +148,8 @@ app = Object.assign(app, {
 
 		// reload review section on payment change
 		var onPaymentChange = function () {
+			lockSubmit();
 			app.wait(500)
-			.then(lockSubmit)
 			.then(function () {
 				return $.ajax({
 					url: app.baseUrl+'/shop/checkout/save-data',
@@ -164,13 +164,16 @@ app = Object.assign(app, {
 
 		// save order when clicking place order button
 		$(document).on('click', '.btn-order', function () {
-			$.ajax({
-				url: app.baseUrl+'/shop/checkout/place-order',
-				type: 'post',
-				dataType: 'json',
-				beforeSend: lockSubmit,
-				complete: unlockSubmit
-			}).then(function (json) {
+			lockSubmit();
+			app.wait(500)
+			.then(function () {
+				return $.ajax({
+					url: app.baseUrl+'/shop/checkout/place-order',
+					type: 'post',
+					dataType: 'json'
+				});
+			})
+			.then(function (json) {
 				if (json.redirect) {
 					location = json.redirect;
 				}
@@ -181,7 +184,8 @@ app = Object.assign(app, {
 					$('#review-section').html(json.review);
 					app.setupShipping();
 				}
-			});
+			})
+			.then(unlockSubmit);
 		});
 	},
 

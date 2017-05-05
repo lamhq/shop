@@ -186,12 +186,14 @@ class Order extends \yii\db\ActiveRecord
 		return [
 			[
 				'class' => TimestampBehavior::className(),
-				'value' => new \yii\db\Expression('NOW()'),
+				'value' => function ($event) {
+					return Yii::$app->formatter->asDbDateTime();
+				},
 			],
 		];
 	}
 
-	public static function addOrderHistory($status) {
+	public function addOrderHistory($status) {
 		$oldStatus = $this->status;
 		// add order status history record
 		$oh = new OrderHistory([
@@ -201,6 +203,7 @@ class Order extends \yii\db\ActiveRecord
 		$oh->save() || Yii::$app->helper->throwException('Error when saving order history: '.json_encode($oh->getFirstErrors()));
 
 		// update current order status
+		$this->status = $status;
 		$this->update(false, ['status']);
 
 		// If order status is null(or 0) then becomes greater than 0,

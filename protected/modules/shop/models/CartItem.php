@@ -70,7 +70,9 @@ class CartItem extends \yii\db\ActiveRecord
 		return [ 
 			[ 
 				'class' => TimestampBehavior::className(), 
-				'value' => new \yii\db\Expression('NOW()'), 
+				'value' => function ($event) {
+					return Yii::$app->formatter->asDbDateTime();
+				},
 				'createdAtAttribute'=> 'added_at', 
 				'updatedAtAttribute'=> false, 
 			], 

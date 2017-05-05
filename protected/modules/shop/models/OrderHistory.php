@@ -12,9 +12,9 @@ use yii\behaviors\TimestampBehavior;
  * @property int $order_id
  * @property int $status
  * @property string $comment
- * @property string $create_time
+ * @property string $created_at
  *
- * @property ShopOrder $order
+ * @property Order $order
  */
 class OrderHistory extends \yii\db\ActiveRecord
 {
@@ -35,8 +35,8 @@ class OrderHistory extends \yii\db\ActiveRecord
             [['order_id', 'status'], 'required'],
             [['order_id', 'status'], 'integer'],
             [['comment'], 'string'],
-            [['create_time'], 'safe'],
-            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopOrder::className(), 'targetAttribute' => ['order_id' => 'id']],
+            [['created_at'], 'safe'],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];
     }
 
@@ -50,7 +50,7 @@ class OrderHistory extends \yii\db\ActiveRecord
             'order_id' => Yii::t('shop', 'Order ID'),
             'status' => Yii::t('shop', 'Status'),
             'comment' => Yii::t('shop', 'Comment'),
-            'create_time' => Yii::t('shop', 'Create Time'),
+            'created_at' => Yii::t('shop', 'Create Time'),
         ];
     }
 
@@ -59,14 +59,17 @@ class OrderHistory extends \yii\db\ActiveRecord
      */
     public function getOrder()
     {
-        return $this->hasOne(ShopOrder::className(), ['id' => 'order_id']);
+        return $this->hasOne(Order::className(), ['id' => 'order_id']);
     }
     
     public function behaviors() {
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'value' => new \yii\db\Expression('NOW()'),
+                'value' => function ($event) {
+                    return Yii::$app->formatter->asDbDateTime();
+                },
+                'updatedAtAttribute'=>false,
             ],
         ];
     }

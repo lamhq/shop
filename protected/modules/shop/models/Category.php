@@ -133,7 +133,9 @@ class Category extends \yii\db\ActiveRecord
             ],
             [
                 'class' => TimestampBehavior::className(),
-                'value' => new \yii\db\Expression('NOW()'),
+                'value' => function ($event) {
+                    return Yii::$app->formatter->asDbDateTime();
+                },
             ],
         ];
     }

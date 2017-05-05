@@ -28,7 +28,7 @@ class Cod extends Object
 	public function onAfterCheckout($event) {
 		$order = $event->sender;
 		if ($order->payment_code!='cod') return;
-		$event->triggerData = ['redirect' => Url::to('/shop/checkout/success')];
+		$event->triggerData = ['redirect' => Url::to(['/shop/checkout/success'])];
 	}
 
 }

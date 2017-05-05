@@ -11,7 +11,7 @@ $f = Yii::$app->formatter;
 		<tr>
 			<td style="font-size: 12px;	border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; text-align: left; padding: 7px;">
 				<b>Order ID:</b> <?= $order->id; ?><br />
-				<b>Date Added:</b> <?= $f->asDate($order->create_time) ?><br />
+				<b>Date Added:</b> <?= $f->asDate($order->created_at) ?><br />
 				<b>Payment Method: </b> <?= $order->payment_method; ?><br />
 			</td>
 			<td style="font-size: 12px;	border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; text-align: left; padding: 7px;">
