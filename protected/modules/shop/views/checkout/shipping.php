@@ -11,6 +11,7 @@ $cname = Html::getInputName($model, 'shippingAddressType');
 <h3><?= Yii::t('shop', 'Shipping Detail') ?></h3>
 
 <?php $form = ActiveForm::begin(['id' => 'shippingForm']); ?>
+	<?= Html::error($model, 'shippingAddressType', ['tag'=>'p', 'class'=>'text-danger']) ?>
 	<?php if ($addresses): ?>
 	<div class="radio">
 		<label>
@@ -23,6 +24,7 @@ $cname = Html::getInputName($model, 'shippingAddressType');
 	<div id="address-exist">
 		<?= Html::activeDropDownList($model, 'shippingAddressId', $addresses, 
 		['class'=>'form-control', 'prompt'=>Yii::t('shop','-- Please select --')]) ?>
+		<?= Html::error($model, 'shippingAddressId', ['tag'=>'p', 'class'=>'text-danger']) ?>
 	</div>
 	<div class="radio">
 		<label>

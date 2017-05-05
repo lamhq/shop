@@ -75,28 +75,27 @@ class CheckoutForm extends Order
 
 			// checkout with account
 			[['shippingAddressType'], 'required', 'on'=>'accountCheckout'],
-			// validate address form when user choose to create new address
 			[['shippingAddress'], 'validateModel', 'on'=>'accountCheckout',
 				'when'=>function($model) {
-					return $this->shippingAddressType==self::ADDRESS_TYPE_NEW;
+					return $model->shippingAddressType==self::ADDRESS_TYPE_NEW;
 				}
 			],
-			[['shippingAddressId'], 'validateModel', 'on'=>'accountCheckout',
+			[['shippingAddressId'], 'required', 'on'=>'accountCheckout',
 				'when'=>function($model) {
-					return $this->shippingAddressType==self::ADDRESS_TYPE_EXISTING;
+					return $model->shippingAddressType==self::ADDRESS_TYPE_EXISTING;
 				}
 			],
 
-			[['payment_code'], 'required', 'on'=>['guestCheckout', 'accountCheckout']],
-			[['register', 'shippingAddressType', 'shippingAddressId'], 'integer', 'on'=>['guestCheckout', 'accountCheckout']],
+			[['payment_code'], 'required'],
+			[['register', 'shippingAddressId'], 'integer'],
 		]);
 	}
 
 	public function scenarios()
 	{
 		return [
-			'guestCheckout' => ['name','email','telephone','payment_code','comment'],
-			'accountCheckout' => ['name','email','telephone','payment_code','comment'],
+			'guestCheckout' => ['name','email','telephone','register','shippingAddress','payment_code','comment'],
+			'accountCheckout' => ['name','email','telephone','shippingAddressType','shippingAddressId','shippingAddress','payment_code','comment'],
 		];
 	}
 
@@ -308,7 +307,7 @@ class CheckoutForm extends Order
 		$this->shipping_ward_id = $this->shippingAddress->ward_id;
 		$this->shipping_address = $this->shippingAddress->address;
 		$this->total = $this->calculateTotal();
-		$this->save() || Yii::$app->helper->throwException('Error when saving order: '.json_encode($this->getFirstErrors()));
+		$this->save() || Yii::$app->helper->throwSaveException($this);
 	}
 
 	private function saveOrderProductRecords() {
@@ -322,7 +321,7 @@ class CheckoutForm extends Order
 				'name' => $item->product->name,
 				'model' => $item->product->model,
 			]);
-			$orderProd->save() || Yii::$app->helper->throwException('Error when saving order product: '.json_encode($orderProd->getFirstErrors()));
+			$orderProd->save() || Yii::$app->helper->throwSaveException($orderProd);
 		}
 	}
 
@@ -334,7 +333,7 @@ class CheckoutForm extends Order
 				'title' => $item['title'],
 				'value' => $item['value'],
 			]);
-			$orderPrice->save() || Yii::$app->helper->throwException('Error when saving order price: '.json_encode($orderPrice->getFirstErrors()));
+			$orderPrice->save() || Yii::$app->helper->throwSaveException($orderPrice);
 		}
 	}
 }

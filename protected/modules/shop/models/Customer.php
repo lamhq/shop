@@ -100,7 +100,7 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function addAddress($address) {
         $address->customer_id = $this->id;
-        $result = $address->save();
+        $result = $address->save() || Yii::$app->helper->throwSaveException($address);
         $this->address_id = $address->id;
         $r = $this->update(['address_id']);
         return $result;
