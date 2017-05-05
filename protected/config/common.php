@@ -56,6 +56,9 @@ $result = [
 				],
 			],
 		],
+		'formatter'=>[
+			'class' => 'app\components\Formatter',
+		],
 	],
 ];
 
