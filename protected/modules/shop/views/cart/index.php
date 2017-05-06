@@ -68,8 +68,10 @@ $this->registerJs('app.setupCartPage();');
 	<h2><?= Yii::t('shop', 'Checkout') ?></h2>
 	<div class="row">
 		<div id="shipping-section" class="col-sm-6"></div>
-		<div id="payment-section" class="col-sm-6"></div>
-		<div id="review-section" class="col-sm-6"></div>
+		<div class="col-sm-6">
+			<div id="payment-section"></div>
+			<div id="review-section"></div>
+		</div>
 	</div>
 
 <?php else: ?>

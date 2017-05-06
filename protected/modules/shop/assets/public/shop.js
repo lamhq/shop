@@ -146,7 +146,7 @@ app = Object.assign(app, {
 		// save order when clicking place order button
 		$(document).on('click', '.btn-order', function () {
 			var data = $('#shipping-section form').serializeArray();
-			Object.assign(data, $('#payment-section form').serializeArray());
+			data = data.concat($('#payment-section form').serializeArray());
 
 			lockSubmit();
 			saveFormData(data)

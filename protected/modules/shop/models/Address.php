@@ -110,9 +110,9 @@ class Address extends \yii\db\ActiveRecord
 
     public function getText() {
         $city = $this->city ? $this->city->name : '';
-        $district = $this->district ? $this->district->name : '';
-        $ward = $this->ward ? $this->ward->name : '';
-        $arr = array_filter([$this->name, $city, $district, $ward]);
+        $district = $this->district ? 'District ' . $this->district->name : '';
+        $ward = $this->ward ? 'Ward ' . $this->ward->name : '';
+        $arr = array_filter([$this->name, $city, $district, $ward, $this->address]);
         return implode(', ', $arr);
     }
 }
