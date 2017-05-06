@@ -48,6 +48,7 @@ class Address extends \yii\db\ActiveRecord
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['ward_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ward::className(), 'targetAttribute' => ['ward_id' => 'id']],
+            [['city_id', 'district_id', 'ward_id'], 'default', 'value' => null],
         ];
     }
 

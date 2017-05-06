@@ -61,8 +61,7 @@ class CheckoutForm extends Order
 	 * @return array the validation rules.
 	 */
 	public function rules() {
-		$rules = parent::rules();
-		return array_merge($rules,[
+		return [
 			// checkout as guest
 			[['name', 'telephone'], 'required', 'on'=>'guestCheckout'],
 			[['shippingAddress'], 'validateModel', 'on'=>'guestCheckout'],
@@ -88,14 +87,19 @@ class CheckoutForm extends Order
 
 			[['payment_code'], 'required'],
 			[['register', 'shippingAddressId'], 'integer'],
-		]);
-	}
+			[['comment'], 'string'],
+			[['name'], 'string', 'max' => 64],
+			[['email'], 'string', 'max' => 96],
+			[['telephone'], 'string', 'max' => 32],
 
-	public function scenarios()
-	{
-		return [
-			'guestCheckout' => ['name','email','telephone','register','shippingAddress','payment_code','comment'],
-			'accountCheckout' => ['name','email','telephone','shippingAddressType','shippingAddressId','shippingAddress','payment_code','comment'],
+			// unsafe attributes
+			[['!status'], 'integer'],
+			[['!total'], 'number'],
+			[['!created_at', '!updated_at'], 'safe'],
+			[['!payment_method'], 'string', 'max' => 128],
+			[['!ip'], 'string', 'max' => 40],
+			[['!user_agent', '!accept_language'], 'string', 'max' => 255],
+			[['!customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
 		];
 	}
 
@@ -140,7 +144,7 @@ class CheckoutForm extends Order
 		];
 
 		// remove shipping address form data if use choose to use existing address
-		if ($this->shippingAddressId) {
+		if ($this->shippingAddressType==self::ADDRESS_TYPE_EXISTING) {
 			unset($result[$address]);
 		}
 		return $result;
