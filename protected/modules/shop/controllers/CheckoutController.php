@@ -91,16 +91,7 @@ class CheckoutController extends Controller
 	public function actionSaveData()
 	{
 		$model = $this->getOrder();
-		$data = Yii::$app->request->post();
-
-		// reset payment method when changing shipping address
-		if ( isset($data['Address']) ) {
-			if ( !isset($data['CheckoutForm']) )
-				$data['CheckoutForm'] = [];
-			$data['CheckoutForm']['payment_code'] = null;
-		}
-
-		$model->setData($data);
+		$model->setData(Yii::$app->request->post());
 		$this->saveOrderData();
 		return Yii::$app->helper->jsonSuccess();
 	}

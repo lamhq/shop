@@ -2,19 +2,6 @@
  * javascript for shop module
  */
 app = Object.assign(app, {
-	timer: null,
-
-	wait: function (milliseconds) {
-		// Create a new Deferred object
-		var deferred = $.Deferred();
-		clearTimeout(app.timer);
-		// Resolve the Deferred after the amount of time specified by milliseconds
-		app.timer = setTimeout(deferred.resolve, milliseconds);
-
-		// Return the Deferred's Promise object
-		return deferred.promise();
-	},
-
 	setupProductList: function() {
 		$('.product-toolbar select').change(function () {
 			location.href = this.value;
@@ -128,46 +115,43 @@ app = Object.assign(app, {
 			$('.btn-order').button('reset');
 		};
 
-		// reload payment section, review section on shipping change
-		var onShippingChange = function () {
-			lockSubmit();
-			app.wait(500)
-			.then(function () {
-				return $.ajax({
-					url: app.baseUrl+'/shop/checkout/save-data',
-					type: 'post',
-					data: $('#shipping-section form').serializeArray()
-				});
-			})
-			.then(app.loadPaymentSection)
-			.then(app.loadReviewSection)
-			.then(unlockSubmit);
+		var saveFormData = function (data) {
+			return app.ajax({
+				url: app.baseUrl+'/shop/checkout/save-data',
+				type: 'post',
+				data: data
+			});
 		};
-		$('#shipping-section').on('select2:select', 'select', onShippingChange);
-		$('#shipping-section').on('change', 'input,#checkoutform-shippingaddressid', onShippingChange);
+
+		// reload payment section, review section on shipping change
+		// var onShippingChange = function () {
+			// lockSubmit();
+			// saveFormData($('#shipping-section form').serializeArray())
+			// .then(app.loadPaymentSection)
+			// .then(app.loadReviewSection)
+			// .then(unlockSubmit);
+		// };
+		// $('#shipping-section').on('select2:select', 'select', onShippingChange);
+		// $('#shipping-section').on('change', 'input,#checkoutform-shippingaddressid', onShippingChange);
 
 		// reload review section on payment change
-		var onPaymentChange = function () {
-			lockSubmit();
-			app.wait(500)
-			.then(function () {
-				return $.ajax({
-					url: app.baseUrl+'/shop/checkout/save-data',
-					type: 'post',
-					data: $('#payment-section form').serializeArray()
-				});
-			})
-			.then(app.loadReviewSection)
-			.then(unlockSubmit);
-		};
-		$('#payment-section').on('change', 'input[type=radio],textarea', onPaymentChange);
+		// var onPaymentChange = function () {
+			// lockSubmit();
+			// saveFormData($('#payment-section form').serializeArray())
+			// .then(app.loadReviewSection)
+			// .then(unlockSubmit);
+		// };
+		// $('#payment-section').on('change', 'input[type=radio],textarea', onPaymentChange);
 
 		// save order when clicking place order button
 		$(document).on('click', '.btn-order', function () {
+			var data = $('#shipping-section form').serializeArray();
+			Object.assign(data, $('#payment-section form').serializeArray());
+
 			lockSubmit();
-			app.wait(500)
+			saveFormData(data)
 			.then(function () {
-				return $.ajax({
+				return app.ajax({
 					url: app.baseUrl+'/shop/checkout/place-order',
 					type: 'post',
 					dataType: 'json'
@@ -190,13 +174,14 @@ app = Object.assign(app, {
 	},
 
 	loadShippingSection: function() {
-		var deferred = $.Deferred();
-		var $section = $('#shipping-section');
-		$section.load(app.baseUrl+'/shop/checkout/shipping', function() {
-			app.setupShipping();
-			deferred.resolve();
+		return app.ajax({
+			url: app.baseUrl+'/shop/checkout/shipping',
+			type: 'get',
+			success: function(response) {
+				$('#shipping-section').html(response);
+				app.setupShipping();
+			}
 		});
-		return deferred.promise();
 	},
 
 	setupShipping: function() {
@@ -301,21 +286,23 @@ app = Object.assign(app, {
 	},
 
 	loadPaymentSection: function() {
-		var deferred = $.Deferred();
-		var $section = $('#payment-section');
-		$section.load(app.baseUrl+'/shop/checkout/payment', function() {
-			deferred.resolve();
+		return app.ajax({
+			url: app.baseUrl+'/shop/checkout/payment',
+			type: 'get',
+			success: function(response) {
+				$('#payment-section').html(response);
+			}
 		});
-		return deferred.promise();
 	},
 
 	loadReviewSection: function() {
-		var deferred = $.Deferred();
-		var $section = $('#review-section');
-		$section.load(app.baseUrl+'/shop/checkout/review', function() {
-			deferred.resolve();
+		return app.ajax({
+			url: app.baseUrl+'/shop/checkout/review',
+			type: 'get',
+			success: function(response) {
+				$('#review-section').html(response);
+			}
 		});
-		return deferred.promise();
-	},
+	}
 
 });
