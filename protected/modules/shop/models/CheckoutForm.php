@@ -66,7 +66,7 @@ class CheckoutForm extends Order
 			[['name', 'telephone'], 'required', 'on'=>'guestCheckout'],
 			[['shippingAddress'], 'validateModel', 'on'=>'guestCheckout'],
 			// validate registration form when user choose to register new account
-			[['signupForm','email'], 'validateRegistration', 'on'=>'guestCheckout',
+			[['signupForm'], 'validateRegistration', 'on'=>'guestCheckout',
 				'when'=>function($model) {
 					return (bool)$model->register;
 				}
@@ -292,13 +292,14 @@ class CheckoutForm extends Order
 		$this->shippingAddress->name = $customer->name;
 		$customer->addAddress($this->shippingAddress);
 		$this->customer_id = $customer->id;
+		$this->populateRelation('customer', $customer);
 		$this->shippingAddressType = self::ADDRESS_TYPE_EXISTING;
 		$this->shippingAddressId = $customer->address_id;
 	}
 	
 	private function saveOrderRecord() {
 		// set order data from customer data
-		if ($this->customer_id) {
+		if ($this->customer_id && !$this->register) {
 			$this->name = $this->customer->name;
 			$this->telephone = $this->customer->telephone;
 			$this->email = $this->customer->email;
@@ -311,7 +312,7 @@ class CheckoutForm extends Order
 		$this->shipping_ward_id = $this->shippingAddress->ward_id;
 		$this->shipping_address = $this->shippingAddress->address;
 		$this->total = $this->calculateTotal();
-		$this->save() || Yii::$app->helper->throwSaveException($this);
+		$this->save(false) || Yii::$app->helper->throwSaveException($this);
 	}
 
 	private function saveOrderProductRecords() {

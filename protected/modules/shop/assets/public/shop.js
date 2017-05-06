@@ -144,7 +144,7 @@ app = Object.assign(app, {
 			.then(unlockSubmit);
 		};
 		$('#shipping-section').on('select2:select', 'select', onShippingChange);
-		$('#shipping-section').on('change', 'input', onShippingChange);
+		$('#shipping-section').on('change', 'input,#checkoutform-shippingaddressid', onShippingChange);
 
 		// reload review section on payment change
 		var onPaymentChange = function () {
