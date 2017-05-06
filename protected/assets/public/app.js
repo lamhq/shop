@@ -56,5 +56,31 @@ app = {
 			position:"right bottom",
 			className: "success"
 		});
+	},
+
+	timer: null,
+
+	wait: function (milliseconds) {
+		// Create a new Deferred object
+		var deferred = $.Deferred();
+		clearTimeout(app.timer);
+		// Resolve the Deferred after the amount of time specified by milliseconds
+		app.timer = setTimeout(deferred.resolve, milliseconds);
+
+		// Return the Deferred's Promise object
+		return deferred.promise();
+	},
+
+	xhr: null,
+
+	ajax: function(setting) {
+		var xhr = app.xhr;
+		if (xhr) {
+			xhr.abort();
+		}
+
+		app.xhr = $.ajax(setting);
+		return app.xhr;
 	}
+
 };
