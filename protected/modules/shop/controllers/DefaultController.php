@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use shop\models\LoginForm;
+use shop\models\SignupForm;
 
 class DefaultController extends Controller
 {
@@ -49,6 +50,36 @@ class DefaultController extends Controller
 		Yii::$app->user->logout();
 		return $this->goHome();
 	}
+
+    /**
+     * @return string|Response
+     */
+    public function actionRegister()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            // $user = $model->signup();
+            // if ($user) {
+                // Yii::$app->getUser()->login($user);
+                // if ($model->shouldBeActivated()) {
+                //     Yii::$app->getSession()->setFlash('alert', [
+                //         'body' => Yii::t(
+                //             'frontend',
+                //             'Your account has been successfully created. Check your email for further instructions.'
+                //         ),
+                //         'options' => ['class'=>'alert-success']
+                //     ]);
+                // } else {
+                //     Yii::$app->getUser()->login($user);
+                // }
+                // return $this->goHome();
+            // }
+        }
+
+        return $this->render('register', [
+            'model' => $model
+        ]);
+    }
 
 	public function actionDistricts($city) {
 		$data = \shop\models\District::getDistrictOptions($city);

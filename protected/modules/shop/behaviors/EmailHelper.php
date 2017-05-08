@@ -7,6 +7,7 @@ use app\behaviors\helpers\EmailHelper as BaseHelper;
 class EmailHelper extends BaseHelper
 {
 	public function sendRegistrationSuccessEmailToCustomer($customer) {
+		if (!$customer->email) return false;
 		$siteName = Yii::$app->name;
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],

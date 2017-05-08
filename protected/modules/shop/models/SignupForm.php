@@ -14,6 +14,7 @@ class SignupForm extends Model
 	public $telephone;
 	public $password;
 	public $password_repeat;
+	public $newsletter;
 
 	/**
 	 * @inheritdoc
@@ -21,8 +22,9 @@ class SignupForm extends Model
 	public function rules()
 	{
 		return [
+            ['newsletter', 'integer'],
 			['email', 'trim'],
-			['email', 'required'],
+			['telephone', 'required'],
 			['email', 'email'],
 			['email', 'string', 'max' => 255],
 			['email', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => 'This email address has already been taken.'],
