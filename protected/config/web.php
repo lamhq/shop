@@ -4,9 +4,12 @@ $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 	'name' => 'Yii2 Core Project',
 	'components' => [
 		'view' => [
+			'as bodyClass' => [
+				'class' => 'app\behaviors\BodyClass',
+			],
 			'theme' => [
 				'basePath'=> '@app/views',
-			]
+			],
 		],
 		'request' => [
 			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
