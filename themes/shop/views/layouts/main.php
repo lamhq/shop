@@ -5,6 +5,7 @@ use yii\widgets\Breadcrumbs;
 
 yii\bootstrap\BootstrapPluginAsset::register($this);
 sersid\fontawesome\Asset::register($this);
+$this->addBodyClass(Yii::$app->controller->id.'-'.Yii::$app->controller->action->id);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -18,7 +19,7 @@ sersid\fontawesome\Asset::register($this);
 		<?php $this->head() ?>
 		<?= Html::csrfMetaTags() ?>
 	</head>
-	<body>
+	<body class="<?= $this->getBodyClass() ?>">
 		<?php $this->beginBody() ?>
 		<?= $this->render('_header') ?>
 		

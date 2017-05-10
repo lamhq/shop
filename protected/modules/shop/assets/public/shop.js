@@ -97,7 +97,13 @@ app = Object.assign(app, {
 		$(document).on('click', '.cart-dropdown .btn-remove', function() {
 			var id = $(this).data('item');
 			app.removeCartItem(id)
-				.then(app.loadCartDropdown);
+				.then(function () {
+					if ($('body').hasClass('cart-index')) {
+						location.reload();
+					} else {
+						app.loadCartDropdown();
+					}
+				});
 		});
 	},
 
