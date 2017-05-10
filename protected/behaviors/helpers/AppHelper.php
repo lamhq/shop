@@ -9,19 +9,6 @@ use yii\base\Behavior;
  */
 class AppHelper extends Behavior
 {
-	public function setSuccess($message) {
-		Yii::$app->session->setFlash('success', $message);
-	}
-
-	public function setError($message) {
-		Yii::$app->session->setFlash('error', $message);
-	}
-
-	public function getPageTitle($text) {
-		$t = array_filter([ $text, Yii::$app->params['siteName'] ]);
-		return implode(' | ', $t);
-	}
-
 	/**
 	 * Return a named singleton value. Its value will be generated on the first run
 	 * 
@@ -35,6 +22,14 @@ class AppHelper extends Behavior
 			Yii::$app->params[$name] = $func();
 		}
 		return Yii::$app->params[$name];
+	}
+
+	public function setSuccess($message) {
+		Yii::$app->session->setFlash('success', $message);
+	}
+
+	public function setError($message) {
+		Yii::$app->session->setFlash('error', $message);
 	}
 
 	/**
@@ -77,5 +72,17 @@ class AppHelper extends Behavior
 
 	public function createEvent($data) {
 		return new \app\components\Event($data);
+	}
+
+	public function getPageTitle($text) {
+		$t = array_filter([ $text, Yii::$app->params['siteName'] ]);
+		return implode(' | ', $t);
+	}
+
+	public function getYesNoListData() {
+		return [
+			'1' => Yii::t('app', 'Yes'),
+			'0' => Yii::t('app', 'No'),
+		];
 	}
 }

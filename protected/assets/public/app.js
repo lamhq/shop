@@ -78,9 +78,19 @@ app = {
 		if (xhr) {
 			xhr.abort();
 		}
-
+		
+		setting.error = function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		};
 		app.xhr = $.ajax(setting);
 		return app.xhr;
+	},
+
+	load: function($target, setting) {
+		return app.ajax(setting)
+		.then(function (response) {
+			$target.html(response);
+		});
 	}
 
 };

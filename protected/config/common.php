@@ -44,6 +44,7 @@ $result = [
 		'helper' => [
 			'class' => 'app\components\Helper',
 			'as appHelper' => ['class' => 'app\behaviors\helpers\AppHelper'],
+			'as cmsHelper' => ['class' => 'app\behaviors\helpers\CmsHelper'],
 			'as emailHelper' => ['class' => 'app\behaviors\helpers\EmailHelper'],
 			'as storageHelper' => ['class' => 'app\behaviors\helpers\StorageHelper'],
 		],
