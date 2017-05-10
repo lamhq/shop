@@ -132,4 +132,13 @@ class CheckoutController extends Controller
 		return $this->render('success');
 	}
 
+	/**
+	 * @return string
+	 * @throws NotFoundHttpException
+	 */
+	public function actionDropdown()
+	{
+		return \shop\widgets\CartDropdown::widget();
+	}
+
 }

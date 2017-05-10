@@ -1,0 +1,58 @@
+<?php
+use yii\helpers\Url;
+?>
+<nav id="top">
+	<div class="container">
+		<div id="top-links" class="nav pull-right">
+			<ul class="list-inline">
+				<li>
+					<a href="<?= Url::to(['/shop/default/contact']) ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone"></i></a>
+					<span class="hidden-xs">123456789</span>
+				</li>
+				<li class="dropdown">
+					<a href="<?= Url::to(['/shop/default/contact']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-user"></i>
+						<span class="hidden-xs"><?= Yii::t('app', 'My Account') ?></span>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="<?= Url::to(['/shop/default/register']) ?>"><?= Yii::t('app', 'Register') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/default/login']) ?>"><?= Yii::t('app', 'Login') ?></a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="<?= Url::to(['/shop/cart']) ?>" title="<?= Yii::t('shop', 'Checkout') ?>">
+						<i class="fa fa-shopping-cart"></i>
+						<span class="hidden-xs"><?= Yii::t('shop', 'Checkout') ?></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div id="logo">
+					<a href="<?= Yii::$app->homeUrl ?>"><img src="<?= Yii::$app->helper->getLogoUrl() ?>" title="<?= Yii::$app->name ?>" alt="<?= Yii::$app->name ?>" class="img-responsive"></a>
+				</div>
+			</div>
+			<div class="col-sm-5">
+				<form id="searchForm" action="<?= Url::to(['/shop/default/search']) ?>" method="GET">
+					<div class="input-group">
+						<input name="search" value="" placeholder="Search" class="form-control input-lg" type="text"/>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-3">
+				<div id="cart">
+					<?= \shop\widgets\CartDropdown::widget() ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>

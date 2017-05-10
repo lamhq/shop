@@ -4,6 +4,7 @@ namespace shop\models;
 
 use Yii;
 use yii\web\IdentityInterface;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%shop_customer}}".
@@ -16,8 +17,8 @@ use yii\web\IdentityInterface;
  * @property int $status
  * @property int $newsletter
  * @property int $address_id
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Address[] $addresses
  * @property Address $defaultAddress
@@ -42,7 +43,7 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['status', 'newsletter', 'address_id'], 'integer'],
-            [['create_time', 'update_time'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 64],
             [['email'], 'string', 'max' => 96],
             [['telephone'], 'string', 'max' => 32],
@@ -65,8 +66,8 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
             'status' => Yii::t('shop', 'Status'),
             'newsletter' => Yii::t('shop', 'Newsletter'),
             'address_id' => Yii::t('shop', 'Address ID'),
-            'create_time' => Yii::t('shop', 'Create Time'),
-            'update_time' => Yii::t('shop', 'Update Time'),
+            'created_at' => Yii::t('shop', 'Create Time'),
+            'updated_at' => Yii::t('shop', 'Update Time'),
         ];
     }
 
@@ -252,5 +253,17 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
-    }    
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => function ($event) {
+                    return Yii::$app->formatter->asDbDateTime();
+                },
+            ],
+        ];
+    }
+    
 }

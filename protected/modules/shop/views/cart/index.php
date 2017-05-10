@@ -23,7 +23,7 @@ $this->registerJs('app.setupCartPage();');
 		'validateOnSubmit' => true,
 	]); ?>
 	<div class="table-responsive">
-		<table class="table table-bordered">
+		<table class="table table-bordered cart-table">
 			<thead>
 				<tr>
 					<th><?= Yii::t('shop', 'Image') ?></th>
@@ -47,13 +47,13 @@ $this->registerJs('app.setupCartPage();');
 								'name'=>"quantity[{$item->id}]"
 							]) ?>
 							<span class="input-group-btn">
-                   				<button type="submit" data-toggle="tooltip" title="<?= Yii::t('shop', 'Update') ?>" class="btn btn-primary">
-                   					<i class="fa fa-refresh"></i>
-                   				</button>
-                    			<button type="button" data-toggle="tooltip" title="<?= Yii::t('shop', 'Remove') ?>" class="btn btn-danger btn-remove" data-item="<?= $item->id ?>">
-                    				<i class="fa fa-times-circle"></i>
-                    			</button>
-                   		 	</span>
+								<button type="submit" data-toggle="tooltip" title="<?= Yii::t('shop', 'Update') ?>" class="btn btn-primary">
+									<i class="fa fa-refresh"></i>
+								</button>
+								<button type="button" data-toggle="tooltip" title="<?= Yii::t('shop', 'Remove') ?>" class="btn btn-danger btn-remove" data-item="<?= $item->id ?>">
+									<i class="fa fa-times-circle"></i>
+								</button>
+							</span>
 						</div>
 					</td>
 					<td><?= $f->asCurrency($item->getUnitPrice()) ?></td>

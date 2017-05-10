@@ -8,12 +8,30 @@ app = Object.assign(app, {
 		});
 	},
 
+	setupProductDetailPage: function() {
+		$('.thumbnails a').magnificPopup({
+			type:'image',
+			gallery:{ enabled:true }
+		});
+
+		app.setupAddToCartForm();
+	},
+
+	removeCartItem: function(id) {
+		return app.ajax({
+			url: app.baseUrl+'/shop/cart/remove',
+			type: 'post',
+			data: { key: id, _csrf: $('meta[name=csrf-token]').attr('content') },
+			dataType: 'json'
+		});
+	},
+
 	setupAddToCartButton: function () {
 		$(document).on('click', '.btn-cart', function () {
 			var $button = $(this);
 			var prodId = $button.data('product');
 			var csrf = $button.find('input[name=_csrf]').val();
-			$.ajax({
+			app.ajax({
 				url: app.baseUrl+'/shop/cart/add',
 				type: 'post',
 				data: { productId: prodId, qty: 1, _csrf: csrf },
@@ -30,21 +48,10 @@ app = Object.assign(app, {
 					}
 
 					app.showSuccess(json.message);
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
-			});
+			})
+			.then(app.loadCartDropdown);
 		});
-	},
-
-	setupProductDetailPage: function() {
-		$('.thumbnails a').magnificPopup({
-			type:'image',
-			gallery:{ enabled:true }
-		});
-
-		app.setupAddToCartForm();
 	},
 
 	setupAddToCartForm: function() {
@@ -53,7 +60,7 @@ app = Object.assign(app, {
 			e.preventDefault();
 			var $form = $(this);
 			var $button = $form.find('button[type=submit]');
-			$.ajax({
+			app.ajax({
 				url: $form.attr('action'),
 				type: 'post',
 				data: $form.serializeArray(),
@@ -73,30 +80,33 @@ app = Object.assign(app, {
 						app.showSuccess(json.message);
 					}
 					$cartForm.html(json.cartForm);
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
-			});
+			})
+			.then(app.loadCartDropdown);
+		});
+	},
+
+	loadCartDropdown: function() {
+		return app.load($('#cart'), {
+			url: app.baseUrl+'/shop/checkout/dropdown',
+		});
+	},
+
+	setupCartDropdown: function() {
+		// remove cart item when clicking button remove
+		$(document).on('click', '.cart-dropdown .btn-remove', function() {
+			var id = $(this).data('item');
+			app.removeCartItem(id)
+				.then(app.loadCartDropdown);
 		});
 	},
 
 	setupCartPage: function() {
 		// remove cart item when clicking button remove
-		$('.btn-remove').click(function() {
+		$('.cart-table .btn-remove').click(function() {
 			var id = $(this).data('item');
-			$.ajax({
-				url: app.baseUrl+'/shop/cart/remove',
-				type: 'post',
-				data: 'key=' + id,
-				dataType: 'json',
-				success: function(json) {
-					location.reload();
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
-			});
+			app.removeCartItem(id)
+				.then(function () { location.reload(); });
 		});
 
 		app.setupCheckoutSection();

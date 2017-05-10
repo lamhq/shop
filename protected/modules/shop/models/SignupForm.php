@@ -22,12 +22,17 @@ class SignupForm extends Model
 	public function rules()
 	{
 		return [
-            ['newsletter', 'integer'],
+			[['name'], 'string', 'max' => 64],
+			[['email'], 'string', 'max' => 96],
+			[['telephone'], 'string', 'max' => 32],
+			['newsletter', 'integer'],
+
+			[['name','telephone'], 'required'],
 			['email', 'trim'],
-			['telephone', 'required'],
 			['email', 'email'],
 			['email', 'string', 'max' => 255],
 			['email', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => 'This email address has already been taken.'],
+			['telephone', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => 'This telephone number has already been taken.'],
 
 			[['password','password_repeat'], 'required'],
 			['password', 'string', 'min' => 6],
@@ -54,12 +59,12 @@ class SignupForm extends Model
 		$user->setPassword($this->password);
 		$user->generateAuthKey();
 
-        $result = null;
-        if ($user->save()) {
-            Yii::$app->helper->sendRegistrationSuccessEmailToCustomer($user);
-            Yii::$app->helper->sendRegistrationAlertEmailToAdmin($user);
-            $result = $user;
-        }
-        return $result;
+		$result = null;
+		if ($user->save()) {
+			Yii::$app->helper->sendRegistrationSuccessEmailToCustomer($user);
+			Yii::$app->helper->sendRegistrationAlertEmailToAdmin($user);
+			$result = $user;
+		}
+		return $result;
 	}
 }

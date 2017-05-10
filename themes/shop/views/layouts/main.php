@@ -20,6 +20,8 @@ sersid\fontawesome\Asset::register($this);
 	</head>
 	<body>
 		<?php $this->beginBody() ?>
+		<?= $this->render('_header') ?>
+		
 		<div class="container">
 			<?php echo Breadcrumbs::widget([
 				'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
