@@ -18,7 +18,7 @@ class BodyClass extends Behavior
 	 * @param string $s
 	 */
 	public function setBodyClass($s) {
-		$this->owner->params['bodyClass'] = $s;
+		$this->owner->params['bodyClass'] = trim($s);
 	}
 
 	/**

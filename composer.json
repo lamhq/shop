@@ -24,7 +24,8 @@
         "trntv/yii2-datetime-widget": "^1.0",
         "ivan-chkv/yii2-jquery-magnific-popup": "^2.0",
         "hiqdev/yii2-asset-select2": "^4.0",
-        "bower-asset/select2-bootstrap-theme": "^0.1.0@beta"
+        "bower-asset/select2-bootstrap-theme": "^0.1.0@beta",
+        "bower-asset/owl-carousel2": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
