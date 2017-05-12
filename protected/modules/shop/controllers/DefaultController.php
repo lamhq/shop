@@ -14,7 +14,6 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		return $this->redirect(['/shop/category/view', 'slug'=>'desktop']);
 		return $this->render('index', [
 		]);
 	}

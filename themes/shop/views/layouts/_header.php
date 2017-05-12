@@ -16,8 +16,14 @@ use yii\helpers\Url;
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
+						<?php if (Yii::$app->user->isGuest): ?>
 						<li><a href="<?= Url::to(['/shop/default/register']) ?>"><?= Yii::t('app', 'Register') ?></a></li>
 						<li><a href="<?= Url::to(['/shop/default/login']) ?>"><?= Yii::t('app', 'Login') ?></a></li>
+						<?php else: ?>
+						<li><a href="<?= Url::to(['/shop/account/update']) ?>"><?= Yii::t('app', 'My Account') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('app', 'Order History') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/default/logout']) ?>"><?= Yii::t('app', 'Logout') ?></a></li>
+						<?php endif ?>
 					</ul>
 				</li>
 				<li>

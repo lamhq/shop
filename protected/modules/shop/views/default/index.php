@@ -1,1 +1,3 @@
-home page
+<?php
+?>
+<?= \app\widgets\Slideshow::widget(['slideshowId'=>1]) ?>

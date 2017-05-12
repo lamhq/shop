@@ -32,6 +32,8 @@ $this->addBodyClass(Yii::$app->controller->id.'-'.Yii::$app->controller->action-
 
 			<?= $content; ?>
 		</div>
+
+		<?= $this->render('_footer') ?>
 		<?php $this->endBody() ?>
 	</body>
 </html>
