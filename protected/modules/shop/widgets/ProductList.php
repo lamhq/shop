@@ -10,6 +10,10 @@ class ProductList extends ListView
 {
 	public $layout = "{toolbar}\n{items}\n{pager}";
 
+	/**
+	 * path to the view file to render product list toolbar
+	 * @var [type]
+	 */
 	public $toolbarView;
 
 	public $itemOptions = ['class'=>'col-md-4'];
