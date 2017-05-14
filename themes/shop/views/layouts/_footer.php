@@ -1,21 +1,15 @@
 <?php
 use yii\helpers\Url;
+$h = Yii::$app->helper;
 ?>
 <footer>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-3">
-				<h5>Contact</h5>
-				<p><i class="fa fa-home"></i> 480/46/17 Nguyễn Tri Phương, P.9, Q.10, TP.HCM</p>
-				<p><i class="fa fa-envelope"></i> avansmoke@gmail.com</p>
-				<p><i class="fa fa-phone-square"></i> 0933 365 639</p>
+				<?= $h->block('footer_contact') ?>
 			</div>
 			<div class="col-sm-3">
-				<h5>Information</h5>
-				<p><a href="#">About Us</a></p>
-				<p><a href="#">Contact Us</a></p>
-				<p><a href="#">Delivery Information</a></p>
-				<p><a href="#">How to order</a></p>
+				<?= $h->block('footer_links') ?>
 			</div>
 			<div class="col-sm-3">
 				<h5>My Account</h5>
@@ -32,11 +26,7 @@ use yii\helpers\Url;
 						</span>
 					</div>
 				</form>
-				<p>
-					<a href="#">
-						<i class="fa fa-facebook-square" aria-hidden="true"></i>
-					</a>
-				</p>
+				<?= $h->block('footer_social') ?>
 			</div>
 		</div>
 
