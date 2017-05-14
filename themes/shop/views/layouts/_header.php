@@ -36,6 +36,7 @@ use yii\helpers\Url;
 		</div>
 	</div>
 </nav>
+
 <header>
 	<div class="container">
 		<div class="row">
@@ -62,3 +63,5 @@ use yii\helpers\Url;
 		</div>
 	</div>
 </header>
+
+<?= shop\widgets\CategoryMenu::widget(); ?>
