@@ -8,6 +8,7 @@ $result = [
 	'params' => [
 		'adminEmail' => 'mailer@local.app',
 		'supportEmail' => 'ubuntu@local.app',
+		'siteTitle' => 'Shop',
 		'storagePath' => 'storage',
 		'defaultPageSize' => 30,
 		'siteName' => 'Shop',
