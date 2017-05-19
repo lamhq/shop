@@ -38,7 +38,16 @@ return [
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
 			'rules' => [
-				'cat/<slug:.*>' => '/shop/category/view',
+				[
+					'pattern' => 'cat/<slug:.*>',
+					'route' => '/shop/category/view',
+					'suffix' => '.html',
+				],
+				[
+					'pattern' => 'prod/<slug:.*>',
+					'route' => '/shop/product/view',
+					'suffix' => '.html',
+				],
 			],
 		],
 	],

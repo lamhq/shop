@@ -17,19 +17,61 @@ class CategoryController extends Controller
             throw new NotFoundHttpException;
         }
 
-		$query = $model->getProducts()
+		$this->addCanonicalTag($slug);
+		$this->view->params['breadcrumbs'] = $this->buildBreadcrumbData($slug);
+		return $this->render('view', [
+			'model'=>$model,
+			'dataProvider'=>$this->getDataProvider($model)
+		]);
+	}
+
+	protected function buildBreadcrumbData($slug) {
+		$slugs = explode('/', $slug);
+		$result = [];
+		$parentCat = null;
+		foreach ($slugs as $i => $sl) {
+			$cat = Category::find()->bySlug($sl)->one();
+			if (!$cat) continue;
+
+			if ($parentCat) {
+				$cat->prependSlug($parentCat->slug);
+			}
+
+			if ( $i==count($slugs)-1 ) {
+				$result[] = $cat->name;
+			} else {
+				$result[] = [
+					'label' => $cat->name, 
+					'url' => $cat->getUrl(),
+				];
+			}
+			$parentCat = $cat;
+		}
+		return $result;
+	}
+
+	protected function addCanonicalTag($slug) {
+		if ( strpos($slug, '/')!==false ) {
+			$h = Yii::$app->helper;
+			$this->view->registerLinkTag([
+				'rel' => 'canonical', 
+				'href' => $h->getCategoryUrl($h->normalizeSlug($slug))
+			]);
+		}
+	}
+
+	protected function getDataProvider($category) {
+		$query = $category->getProducts()
 			->active()
 			->instock()
 			->visible();
-
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'pagination'=>['defaultPageSize'=>Yii::$app->params['defaultPageSize']]
 		]);
-		return $this->render('view', [
-			'model'=>$model,
-			'dataProvider'=>$dataProvider
-		]);
+		foreach ($dataProvider->getModels() as $product) {
+			$product->prependSlug($category->slug);
+		}
+		return $dataProvider;
 	}
-
 }

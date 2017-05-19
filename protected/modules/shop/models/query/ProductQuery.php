@@ -1,6 +1,6 @@
 <?php
-
 namespace shop\models\query;
+use Yii;
 use shop\models\Product;
 
 /**

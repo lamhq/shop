@@ -3,7 +3,6 @@
 namespace shop\models;
 
 use Yii;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%shop_product}}".
@@ -123,7 +122,7 @@ class Product extends \yii\db\ActiveRecord
     }
     
     public function getUrl() {
-        return Url::to(['/shop/product/view', 'slug'=>$this->slug]);
+        return Yii::$app->helper->getProductUrl($this->slug);
     }
 
     static public function getStockStatusOptions() {

@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use shop\models\Product;
+use shop\models\Category;
 use shop\models\AddToCartForm;
 
 /**
@@ -34,9 +35,49 @@ class ProductController extends Controller
 			'productId' => $model->id,
 			'qty' => 1
 		]);
+
+		$this->buildBreadcrumbData($slug);
+		$this->addCanonicalTag($slug);
 		return $this->render('view', [
 			'model'=>$model,
 			'cart'=>$cart
 		]);
 	}
+
+	protected function buildBreadcrumbData($slug) {
+		$slugs = explode('/', $slug);
+		$result = [];
+		$parentCat = null;
+		foreach ($slugs as $i => $sl) {
+			$cat = Category::find()->bySlug($sl)->one();
+			if (!$cat) continue;
+
+			if ($parentCat) {
+				$cat->prependSlug($parentCat->slug);
+			}
+
+			if ( $i==count($slugs)-1 ) {
+				$prod = Product::find()->bySlug($sl)->one();
+				$result[] = $prod->name;
+			} else {
+				$result[] = [
+					'label' => $cat->name, 
+					'url' => $cat->getUrl(),
+				];
+			}
+			$parentCat = $cat;
+		}
+		return $result;
+	}
+
+	protected function addCanonicalTag($slug) {
+		if ( strpos($slug, '/')!==false ) {
+			$h = Yii::$app->helper;
+			$this->view->registerLinkTag([
+				'rel' => 'canonical', 
+				'href' => $h->getProductUrl($h->normalizeSlug($slug))
+			]);
+		}
+	}
+
 }

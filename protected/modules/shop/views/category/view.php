@@ -3,16 +3,13 @@
 /* @var $model shop\models\Category */
 /* @var $dataProvider yii\data\DataProviderInterface */
 use yii\helpers\Html;
-use shop\widgets\ProductList;
-use shop\widgets\CategoryNavigation;
 
 $this->title = Yii::$app->helper->getPageTitle($model->name);
-$this->params['breadcrumbs'][] = $model->name;
 $image = $model->getImageUrl();
 ?>
 <div class="row">
 	<aside class="col-sm-4">
-		<?= CategoryNavigation::widget(); ?>
+		<?= \shop\widgets\CategorySidebar::widget(); ?>
 	</aside>
 	<div class="col-sm-8">
 		<h2><?= Html::encode($model->name) ?></h2>
@@ -22,7 +19,7 @@ $image = $model->getImageUrl();
 		<p><?= Html::img($image, ['class'=>'img-thumbnail']) ?></p>
 		<?php endif ?>
 		
-		<?= ProductList::widget([
+		<?= \shop\widgets\ProductList::widget([
 			'dataProvider' => $dataProvider,
 			'itemView' => '@shop/widgets/views/productThumb',
 			'toolbarView' => '@shop/widgets/views/productListToolbar',
