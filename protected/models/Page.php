@@ -69,4 +69,8 @@ class Page extends \yii\db\ActiveRecord
     {
         return new \app\models\query\PageQuery(get_called_class());
     }
+
+    static public function findBySlug($slug) {
+        return self::find()->bySlug($slug)->one();
+    }
 }

@@ -48,6 +48,7 @@ $result = [
 			'as cmsHelper' => ['class' => 'app\behaviors\helpers\CmsHelper'],
 			'as emailHelper' => ['class' => 'app\behaviors\helpers\EmailHelper'],
 			'as storageHelper' => ['class' => 'app\behaviors\helpers\StorageHelper'],
+			'as urlHelper' => ['class' => 'app\behaviors\helpers\UrlHelper'],
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -73,16 +73,4 @@ class AppHelper extends Behavior
 	public function createEvent($data) {
 		return new \app\components\Event($data);
 	}
-
-	public function getPageTitle($text) {
-		$t = array_filter([ $text, Yii::$app->params['siteName'] ]);
-		return implode(' | ', $t);
-	}
-
-	public function getYesNoListData() {
-		return [
-			'1' => Yii::t('app', 'Yes'),
-			'0' => Yii::t('app', 'No'),
-		];
-	}
 }
