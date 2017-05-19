@@ -49,7 +49,9 @@ class ProductQuery extends \yii\db\ActiveQuery
     }
 
     public function bySlug($slug) {
-        $this->andWhere(['slug'=>$slug]);
+        $this->andWhere([
+            'slug' => Yii::$app->helper->normalizeSlug($slug)
+        ]);
         return $this;
     }
 }

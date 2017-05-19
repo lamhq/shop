@@ -3,7 +3,6 @@
 namespace shop\models;
 
 use Yii;
-use yii\helpers\Html;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 
@@ -148,6 +147,12 @@ class Category extends \yii\db\ActiveRecord
      * @return string
      */
     public function getUrl() {
-        return \yii\helpers\Url::to(['/shop/category/view', 'slug'=>$this->slug]);
+        return Yii::$app->helper->getCategoryUrl($this->slug);
+    }
+
+    public function prependSlug($slug) {
+        $s = trim($slug);
+        if (!$s) return;
+        $this->slug = $slug . '/' . $this->slug;
     }
 }

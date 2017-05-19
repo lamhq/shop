@@ -34,6 +34,13 @@ return [
 				'class' => 'shop\behaviors\EmailHelper'
 			],
 		],
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'rules' => [
+				'cat/<slug:.*>' => '/shop/category/view',
+			],
+		],
 	],
 	'params' => [
 		'accessRules' => [
@@ -74,6 +81,13 @@ return [
 				'cod' => [
 					'class' => 'shop\observers\payment\Cod',
 					'method' => 'onAfterCheckout',
+					'runOrder' => 10,
+				],
+			],
+			'beforeAction' => [
+				'common' => [
+					'class' => 'shop\observers\Common',
+					'method' => 'onBeforeAction',
 					'runOrder' => 10,
 				],
 			],

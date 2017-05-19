@@ -132,4 +132,10 @@ class Product extends \yii\db\ActiveRecord
             self::STATUS_OUT_OF_STOCK => Yii::t('shop', 'Out Of Stock'),
         ];
     }
+
+    public function prependSlug($slug) {
+        $s = trim($slug);
+        if (!$s) return;
+        $this->slug = $slug . '/' . $this->slug;
+    }
 }

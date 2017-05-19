@@ -19,26 +19,29 @@ class CategoryNavigation extends Widget
      * convert category models to array for use in Menu widget
      */
     protected function getCategoryMenuItems() {
-		$categories = $this->findCategoriesByParentId(null);
-        return $this->categoriesToMenuItems($categories);
+        return $this->categoriesToMenuItems(null);
     }
 
-    protected function categoriesToMenuItems($categories, $level=0) {
+    protected function categoriesToMenuItems($category=null, $level=0) {
         $items = [];
-        foreach ($categories as $c) {
+        $categories = $this->findCategoriesByParent($category);
+        foreach ($categories as $child) {
+            if ($category) {
+                $child->prependSlug($category->slug);
+            }
             $item = [
-	            'label'=>str_repeat('&nbsp;', $level*5).sprintf('%s (%s)', $c->name, $c->productCount),
-	            'url'=> $c->getUrl(),
-	            'active' => $c->slug==\Yii::$app->request->getQueryParam('slug')
+	            'label'=>str_repeat('&nbsp;', $level*5).sprintf('%s (%s)', $child->name, $child->productCount),
+	            'url'=> $child->getUrl(),
+	            'active' => $child->slug==\Yii::$app->request->getQueryParam('slug')
 	        ];
             $items[] = $item;
             $items = array_merge($items, 
-            	$this->categoriesToMenuItems($this->findCategoriesByParentId($c->id), $level+1));
+            	$this->categoriesToMenuItems($child, $level+1));
         }
         return $items;
     }
 
-    protected function findCategoriesByParentId($parentId) {
+    protected function findCategoriesByParent($category) {
     	if ($this->_categories===null) {
     		$this->_categories = Category::find()
             ->active()
@@ -54,7 +57,7 @@ class CategoryNavigation extends Widget
 
     	$result = [];
     	foreach ($this->_categories as $c) {
-    		if ($c->parent_id==$parentId)
+    		if (!$category || $c->parent_id==$category->id)
     			$result[] = $c;
     	}
     	return $result;

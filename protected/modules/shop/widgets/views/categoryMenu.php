@@ -17,9 +17,12 @@
 							$itemsPerCol = 4;
 							$colCount = ceil(count($category->categories) / $itemsPerCol);
 							?>
-							<?php foreach (array_chunk($category->categories, $colCount) as $children): ?>
+							<?php foreach (array_chunk($category->categories, $colCount) as $childrens): ?>
 							<ul class="list-unstyled">
-								<?php foreach ($children as $child): ?>
+								<?php foreach ($childrens as $child): ?>
+								<?php
+								$child->prependSlug($category->slug);
+								?>
 								<li><a href="<?= $child->getUrl(); ?>"><?= $child->name ?></a></li>
 								<?php endforeach ?>
 							</ul>
