@@ -39,12 +39,12 @@ return [
 			'showScriptName' => false,
 			'rules' => [
 				[
-					'pattern' => 'cat/<slug:.*>',
+					'pattern' => 'danh-muc/<slug:.*>',
 					'route' => '/shop/category/view',
 					'suffix' => '.html',
 				],
 				[
-					'pattern' => 'prod/<slug:.*>',
+					'pattern' => 'san-pham/<slug:.*>',
 					'route' => '/shop/product/view',
 					'suffix' => '.html',
 				],

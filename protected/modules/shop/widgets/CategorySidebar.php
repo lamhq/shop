@@ -45,7 +45,7 @@ class CategorySidebar extends Widget
 		if ($this->_categories===null) {
 			$this->_categories = Category::find()
 			->active()
-			->joinWith('categoryProducts', true)
+			->joinWith('categoryProducts')
 			->select([
 				'{{%shop_category}}.*', 
 				'count({{%shop_category_product}}.product_id) as productCount'
