@@ -22,12 +22,6 @@ $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 		'errorHandler' => [
 			'errorAction' => '/backend/default/error',
 		],
-		'urlManager' => [
-			'enablePrettyUrl' => true,
-			'showScriptName' => false,
-			'rules' => [
-			],
-		],
 		'assetManager' => [
 			'hashCallback' => function ($path) {
 				$p = dirname($path);

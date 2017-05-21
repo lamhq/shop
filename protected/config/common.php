@@ -62,6 +62,17 @@ $result = [
 		'formatter'=>[
 			'class' => 'app\components\Formatter',
 		],
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'rules' => [
+				[
+					'pattern' => 'trang/<slug:.*>',
+					'route' => '/page/view',
+					'suffix' => '.html',
+				],
+			],
+		],
 	],
 ];
 
