@@ -155,4 +155,40 @@ class Category extends \yii\db\ActiveRecord
         if (!$s) return;
         $this->slug = $slug . '/' . $this->slug;
     }
+
+    static public function getAllCategories() {
+        return Yii::$app->helper->getVar('shopCategories', function() {
+            return static::find()
+                ->active()
+                ->joinWith('categoryProducts')
+                ->select([
+                    '{{%shop_category}}.*', 
+                    'count({{%shop_category_product}}.product_id) as productCount'
+                ])
+                ->groupBy(['{{%shop_category}}.id'])
+                ->addOrderBy('sort_order ASC')
+                ->all();
+        });
+    }
+
+    static public function travel($callback, $parentId=null, $level=0) {
+        foreach(self::getAllCategories() as $category) {
+            if ($category->parent_id==$parentId) {
+                $callback($category, $level);
+                self::travel($callback, $category->id, $level+1);
+            }
+        }
+    }
+
+    static public function getCategoryOptions($excludes=[]) {
+        $result = [];
+        self::travel(function ($category, $level) use (&$result, $excludes) {
+            if (!in_array($category->id, $excludes)) {
+                $k = (string)$category->id;
+                $v = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level).$category->name;
+                $result[$k] = $v;
+            }
+        });
+        return $result;
+    }
 }

@@ -42,7 +42,7 @@ $this->registerJs('app.setupProductDetailPage();');
 		<h2><?= $f->asCurrency($model->price) ?></h2>
 
 		<div class="cart-section">
-			<?= $this->render('/cart/_cartForm', ['model'=>$cart]) ?>
+			<?= $this->render('_cartForm', ['model'=>$cart]) ?>
 		</div>
 	</div>
 </div>

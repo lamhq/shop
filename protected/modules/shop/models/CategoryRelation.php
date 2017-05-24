@@ -12,8 +12,8 @@ use Yii;
  * @property int $descendant_id
  * @property int $level
  *
- * @property ShopCategory $ancestor
- * @property ShopCategory $descendant
+ * @property Category $ancestor
+ * @property Category $descendant
  */
 class CategoryRelation extends \yii\db\ActiveRecord
 {
@@ -33,8 +33,8 @@ class CategoryRelation extends \yii\db\ActiveRecord
         return [
             [['ancestor_id', 'descendant_id'], 'required'],
             [['ancestor_id', 'descendant_id', 'level'], 'integer'],
-            [['ancestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCategory::className(), 'targetAttribute' => ['ancestor_id' => 'id']],
-            [['descendant_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCategory::className(), 'targetAttribute' => ['descendant_id' => 'id']],
+            [['ancestor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['ancestor_id' => 'id']],
+            [['descendant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['descendant_id' => 'id']],
         ];
     }
 
@@ -56,7 +56,7 @@ class CategoryRelation extends \yii\db\ActiveRecord
      */
     public function getAncestor()
     {
-        return $this->hasOne(ShopCategory::className(), ['id' => 'ancestor_id']);
+        return $this->hasOne(Category::className(), ['id' => 'ancestor_id']);
     }
 
     /**
@@ -64,6 +64,6 @@ class CategoryRelation extends \yii\db\ActiveRecord
      */
     public function getDescendant()
     {
-        return $this->hasOne(ShopCategory::className(), ['id' => 'descendant_id']);
+        return $this->hasOne(Category::className(), ['id' => 'descendant_id']);
     }
 }

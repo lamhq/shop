@@ -24,7 +24,7 @@ class CustomerCheckout extends Behavior
 	public $cookieLifeTime = 3600*5;
 
 	public function getOrder() {
-		return Yii::$app->helper->singleton('order', function () {
+		return Yii::$app->helper->getVar('order', function () {
 			$req = Yii::$app->request;
 			$userId = Yii::$app->user->id;
 			$itemCollection = new CustomerCartItemCollection([

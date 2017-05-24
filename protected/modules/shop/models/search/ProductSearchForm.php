@@ -1,6 +1,6 @@
 <?php
 
-namespace shop\models;
+namespace shop\models\search;
 
 use Yii;
 use yii\base\Model;
@@ -15,7 +15,7 @@ use shop\models\Product;
  */
 class ProductSearchForm extends Model
 {
-	public $s;
+	public $text;
 	public $categoryId;
 	public $inSubCategory;
 	public $inDescription;
@@ -26,14 +26,17 @@ class ProductSearchForm extends Model
 	public function rules()
 	{
 		return [
-			['s', 'safe'],
+			['text', 'safe'],
 			[['categoryId', 'inSubCategory', 'inDescription'], 'integer'],
 		];
 	}
 
-    public function formName()
-    {
+    public function formName() {
         return '';
+    }
+
+    public function getCategoryOptions() {
+    	return \shop\models\Category::getCategoryOptions();
     }
 
 	public function search() {
@@ -42,12 +45,12 @@ class ProductSearchForm extends Model
 			->instock()
 			->visible();
 
-		if ($this->categoryId) {
-			$query->joinWith('categoryProducts');
-			if ($this->inSubCategory) {
-				$query->joinWith('categoryProducts');
-			}
-		}
+		// if ($this->categoryId) {
+		// 	$query->joinWith('categoryProducts');
+		// 	if ($this->inSubCategory) {
+		// 		$query->joinWith('categoryProducts');
+		// 	}
+		// }
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
