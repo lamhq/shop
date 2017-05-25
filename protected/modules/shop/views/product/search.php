@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = Yii::$app->helper->getPageTitle(Yii::t('shop', 'Search'));
 $this->params['breadcrumbs'][] = Yii::t('shop', 'Search');
+$this->registerJs('app.setupSearchPage();');
 ?>
 <h1><?= Yii::t('shop', 'Search') ?> - <?= Html::encode($model->text) ?></h1>
 

@@ -5,7 +5,6 @@ namespace shop\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use shop\models\Product;
 
 /**
  * LoginForm is the model behind the login form.
@@ -13,7 +12,7 @@ use shop\models\Product;
  * @property User|null $user This property is read-only.
  *
  */
-class ProductSearchForm extends Model
+class Product extends Model
 {
 	public $text;
 	public $categoryId;
@@ -46,7 +45,7 @@ class ProductSearchForm extends Model
 	 * @return yii\data\ActiveDataProvider
 	 */
 	public function search() {
-		$query = Product::find()
+		$query = \shop\models\Product::find()
 			->active()
 			->instock()
 			->visible();

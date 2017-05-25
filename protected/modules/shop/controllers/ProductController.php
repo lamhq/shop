@@ -81,7 +81,7 @@ class ProductController extends Controller
 	}
 
 	public function actionSearch() {
-		$model = new \shop\models\search\ProductSearchForm();
+		$model = new \shop\models\search\Product();
 		$model->load(Yii::$app->request->get());
 		$dataProvider = $model->search();
 		return $this->render('search', [

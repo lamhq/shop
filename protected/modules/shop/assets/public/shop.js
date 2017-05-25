@@ -319,6 +319,14 @@ app = Object.assign(app, {
 				$('#review-section').html(response);
 			}
 		});
+	},
+
+	setupSearchPage: function() {
+		var updateFormState = function () {
+			$('#insubcategory').prop('disabled', $('#categoryid').val()=='');
+		}
+		$('#categoryid').change(updateFormState);
+		updateFormState();
 	}
 
 });

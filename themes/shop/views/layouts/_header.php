@@ -46,14 +46,7 @@ use yii\helpers\Url;
 				</div>
 			</div>
 			<div class="col-sm-5">
-				<form id="searchForm" action="<?= Url::to(['/shop/product/search']) ?>" method="GET">
-					<div class="input-group">
-						<input name="text" value="" placeholder="Search" class="form-control input-lg" type="text"/>
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-						</span>
-					</div>
-				</form>
+				<?= \shop\widgets\SearchForm::widget() ?>
 			</div>
 			<div class="col-sm-3">
 				<div id="cart">

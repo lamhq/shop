@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use shop\models\Category;
+use shop\models\search\Product;
 
 class CategoryController extends Controller
 {
@@ -61,14 +62,9 @@ class CategoryController extends Controller
 	}
 
 	protected function getDataProvider($category) {
-		$query = $category->getProducts()
-			->active()
-			->instock()
-			->visible();
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'pagination'=>['defaultPageSize'=>Yii::$app->params['defaultPageSize']]
-		]);
+		$model = new Product();
+		$model->categoryId = $category->id;
+		$dataProvider =$model->search();
 		foreach ($dataProvider->getModels() as $product) {
 			$product->prependSlug($category->slug);
 		}
