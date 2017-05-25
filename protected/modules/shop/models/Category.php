@@ -159,7 +159,6 @@ class Category extends \yii\db\ActiveRecord
     static public function getAllCategories() {
         return Yii::$app->helper->getVar('shopCategories', function() {
             return static::find()
-                ->active()
                 ->joinWith('categoryProducts')
                 ->select([
                     '{{%shop_category}}.*', 
@@ -173,7 +172,8 @@ class Category extends \yii\db\ActiveRecord
 
     static public function travel($callback, $parentId=null, $level=0) {
         foreach(self::getAllCategories() as $category) {
-            if ($category->parent_id==$parentId) {
+            if ($category->status==self::STATUS_ACTIVE 
+                && $category->parent_id==$parentId) {
                 $callback($category, $level);
                 self::travel($callback, $category->id, $level+1);
             }
@@ -189,6 +189,17 @@ class Category extends \yii\db\ActiveRecord
                 $result[$k] = $v;
             }
         });
+        return $result;
+    }
+
+    static public function getDescendants($parentId, $level) {
+        $result = [];
+        foreach (Category::getAllCategories() as $c) {
+            if ($c->parent_id==$parentId) {
+                $result[] = ['id'=>$c->id, 'level'=>$level, 'model'=>$c ];
+                $result = array_merge($result, self::getDescendants($c->id, $level+1));
+            }
+        }
         return $result;
     }
 }

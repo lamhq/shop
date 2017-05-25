@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'Search');
 <label class="control-label"><?= Yii::t('shop', 'Search Criteria') ?></label>
 
 <?php $form = ActiveForm::begin([
+	'method'=>'GET',
+	'action'=>['/shop/product/search'],
 ]); ?>
 	<div class="row">
 		<div class="col-sm-4">
@@ -21,13 +23,19 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'Search');
 			<?= Html::activeDropDownList($model, 'categoryId', $model->getCategoryOptions(), ['class'=>'form-control', 'prompt'=>Yii::t('shop', 'All Categories'), 'encode'=>false ]) ?>
 		</div>
 		<div class="col-sm-3">
-			<?= Html::activeCheckbox($model, 'inSubCategory', ['labelOptions'=>[
-			'class'=>'checkbox-inline'] ]) ?>
+			<?= Html::activeCheckbox($model, 'inSubCategory', [
+				'labelOptions'=>['class'=>'checkbox-inline'], 
+				'uncheck'=>false,
+			]) ?>
 		</div>
 	</div>
 
-	<p><?= Html::activeCheckbox($model, 'inDescription', ['labelOptions'=>[
-			'class'=>'checkbox-inline'] ]) ?></p>
+	<p>
+		<?= Html::activeCheckbox($model, 'inDescription', [
+			'labelOptions'=>['class'=>'checkbox-inline'], 
+			'uncheck'=>false,
+		]) ?>
+	</p>
 
 	<button type="submit" class="btn btn-primary"><?= Yii::t('shop', 'Search') ?></button>
 <?php ActiveForm::end(); ?>

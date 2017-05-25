@@ -66,4 +66,23 @@ class CategoryRelation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'descendant_id']);
     }
+
+    static public function generate() {
+        self::deleteAll();
+        foreach (Category::getAllCategories() as $c) {
+            self::saveRelation($c->id, $c->id, 0);
+            foreach(Category::getDescendants($c->id, 1) as $item) {
+                self::saveRelation($c->id, $item['model']->id, $item['level']);
+            }
+        }
+    }
+
+    static public function saveRelation($ancestorId, $descendantId, $level) {
+         $model = new CategoryRelation([
+            'ancestor_id' => $ancestorId,
+            'descendant_id' => $descendantId,
+            'level' => $level,
+        ]);
+        return $model->save();
+    }
 }
