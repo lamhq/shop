@@ -12,14 +12,6 @@ return [
 		],
 	],
 	'components' => [
-		'db' => [
-			'class' => 'yii\db\Connection',
-			'dsn' => 'mysql:host=localhost;dbname=shop',
-			'username' => 'root',
-			'password' => 'root',
-			'charset' => 'utf8',
-			'tablePrefix' => 'ms_',
-		],
 		'i18n' => [
 			'translations' => [
 				'shop' => [
@@ -35,8 +27,6 @@ return [
 			],
 		],
 		'urlManager' => [
-			'enablePrettyUrl' => true,
-			'showScriptName' => false,
 			'rules' => [
 				[
 					'pattern' => 'danh-muc/<slug:.*>',

@@ -1,6 +1,6 @@
 <?php
 /* @var $this \yii\web\View */
-/* @var $model \shop\models\search\ProductSearchForm */
+/* @var $model \shop\models\search\Product */
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
