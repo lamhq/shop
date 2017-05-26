@@ -1,28 +1,12 @@
 <?php
-$config = yii\helpers\ArrayHelper::merge(require('common.php'), [
-	'id' => 'basic-tests',
-	'basePath' => dirname(__DIR__),    
-	'language' => 'en-US',
+$config = yii\helpers\ArrayHelper::merge(require('_common.php'), [
 	'components' => [
 		'db' => [
-			'class' => 'yii\db\Connection',
-			'dsn' => 'mysql:host=localhost;dbname=yii2_basic_tests',
-			'username' => 'root',
-			'password' => 'root',
-			'charset' => 'utf8',
+			'dsn' => 'mysql:host=127.0.0.1;dbname=shop_test',
 		],
 		'mailer' => [
 			'useFileTransport' => true,
 		],
-		'assetManager' => [            
-			'basePath' => __DIR__ . '/../web/assets',
-		],
-		'urlManager' => [
-			'showScriptName' => true,
-		],
-		'user' => [
-			'identityClass' => 'app\models\User',
-		],        
 		'request' => [
 			'cookieValidationKey' => 'test',
 			'enableCsrfValidation' => false,

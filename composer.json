@@ -25,7 +25,8 @@
         "ivan-chkv/yii2-jquery-magnific-popup": "^2.0",
         "hiqdev/yii2-asset-select2": "^4.0",
         "bower-asset/select2-bootstrap-theme": "^0.1.0@beta",
-        "bower-asset/owl-carousel2": "^2.2"
+        "bower-asset/owl-carousel2": "^2.2",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -45,6 +46,10 @@
         ]
     },
     "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        },
         "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [
                 {
@@ -56,10 +61,6 @@
             "generateCookieValidationKey": [
                 "config/web.php"
             ]
-        },
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
         }
     }
 }

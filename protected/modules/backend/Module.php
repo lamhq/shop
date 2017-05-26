@@ -10,8 +10,6 @@ use yii\base\Controller;
  */
 class Module extends \yii\base\Module
 {
-	public $layout = 'main-box';
-
 	/**
 	 * @inheritdoc
 	 */
@@ -23,6 +21,14 @@ class Module extends \yii\base\Module
 	public function init()
 	{
 		parent::init();
+		$this->applySettingForWebApp();
+	}
+
+	/**
+	 * reconfigure application in runtime
+	 */
+	public function applySettingForWebApp() {
+		if (!Yii::$app instanceof \yii\web\Application) return;
 		
 		// change identity class
 		\Yii::configure(Yii::$app, [
@@ -39,9 +45,6 @@ class Module extends \yii\base\Module
 		// set theme
 		Yii::$app->view->theme->pathMap
 			['@backend/views'] = '@webroot/themes/adminlte/views';
-
-		// register asset
-		\backend\assets\Backend::register(Yii::$app->view);
 
 		// setup access control filter
 		$this->on(Controller::EVENT_BEFORE_ACTION, function($event) {

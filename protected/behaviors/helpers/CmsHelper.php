@@ -12,7 +12,7 @@ use app\models\Block;
 class CmsHelper extends Behavior
 {
 	public function getPageTitle($text) {
-		$t = array_filter([ $text, Yii::$app->params['siteName'] ]);
+		$t = array_filter([ $text, Yii::$app->params['siteTitle'] ]);
 		return implode(' | ', $t);
 	}
 

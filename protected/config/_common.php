@@ -1,29 +1,29 @@
 <?php
-$result = [
+$config = [
+	'id' => 'yii2core',
+	'name' => 'Yii2 Core Project',
 	'vendorPath' => __DIR__ . '/../../vendor',
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
 	'language'=>'vi-VN',
 	'sourceLanguage'=>'en-US',
+	'as observable' => [ 'class'=>'app\behaviors\Observable', ],
 	'params' => [
 		'adminEmail' => 'mailer@local.app',
 		'supportEmail' => 'ubuntu@local.app',
 		'siteTitle' => 'Shop',
 		'storagePath' => 'storage',
 		'defaultPageSize' => 30,
-		'siteName' => 'Shop',
 		'user.passwordResetTokenExpire' => 3600,
 		'cookieLifeTime' => 3600,
-	],
-	'as observable' => [
-		'class'=>'app\behaviors\Observable',
 	],
 	'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection',
-			'dsn' => 'mysql:host=localhost;dbname=bookingcar_vn',
-			'username' => 'root',
-			'password' => 'root',
+			'dsn' => 'mysql:host='.getenv('DB_HOST').';dbname='.getenv('DB_NAME'),
+			'username' => getenv('DB_USERNAME'),
+			'password' => getenv('DB_PASSWORD'),
+			'tablePrefix' => 'ms_',
 			'charset' => 'utf8',
 		],
 		'mailer' => [
@@ -73,6 +73,27 @@ $result = [
 				],
 			],
 		],
+		'view' => [
+			'as bodyClass' => [
+				'class' => 'app\behaviors\BodyClass',
+			],
+			'theme' => [
+				'basePath'=> '@app/views',
+			],
+		],
+		'request' => [
+			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+			'cookieValidationKey' => '6548',
+		],
+		'assetManager' => [
+			'hashCallback' => function ($path) {
+				$p = dirname($path);
+				// make user friendly path
+				$s2 = basename($p);
+				$s1 = basename(dirname($p));
+				return "$s1-$s2";
+			}
+		],		
 	],
 ];
 
@@ -83,8 +104,25 @@ foreach ($modules as $module) {
 	$configFile = sprintf('%s/%s/config.php', $mp, $module);
 	if (is_dir($mp.'/'.$module) && !in_array($module, ['.', '..']) 
 		&& is_file($configFile)) {
-		$result = \yii\helpers\ArrayHelper::merge($result, include($configFile));
+		$config = \yii\helpers\ArrayHelper::merge($config, include($configFile));
 	}
 }
 
-return $result;
+if (YII_ENV_DEV) {
+	// configuration adjustments for 'dev' environment
+	$config['bootstrap'][] = 'debug';
+	$config['modules']['debug'] = [
+		'class' => 'yii\debug\Module',
+		// uncomment the following to add your IP if you are not connecting from localhost.
+		'allowedIPs' => ['*'],
+	];
+
+	$config['bootstrap'][] = 'gii';
+	$config['modules']['gii'] = [
+		'class' => 'yii\gii\Module',
+		// uncomment the following to add your IP if you are not connecting from localhost.
+		'allowedIPs' => ['*'],
+	];
+}
+
+return $config;

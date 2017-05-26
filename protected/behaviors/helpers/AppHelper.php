@@ -10,13 +10,13 @@ use yii\base\Behavior;
 class AppHelper extends Behavior
 {
 	/**
-	 * Return a named singleton value. Its value will be generated on the first run
+	 * Return instance of a variable
 	 * 
-	 * @param  string $name name of the value
-	 * @param  Closure $func anonymous function used to generate the value
+	 * @param  string $name name of the variable
+	 * @param  Closure $func anonymous function used to construct the variable
 	 * @return mixed the value
 	 */
-	public function singleton($name, $func) {
+	public function getVar($name, $func) {
 		$name = 'singleton-'.$name;
 		if (!isset(Yii::$app->params[$name])) {
 			Yii::$app->params[$name] = $func();

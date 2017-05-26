@@ -1,17 +1,6 @@
 <?php
-$config = yii\helpers\ArrayHelper::merge(require('common.php'), [
-	'id' => 'basic-console',
+$config = yii\helpers\ArrayHelper::merge(require('_common.php'), [
 	'controllerNamespace' => 'app\commands',
-	'components' => [
-		'log' => [
-			'targets' => [
-				[
-					'class' => 'yii\log\FileTarget',
-					'levels' => ['error', 'warning'],
-				],
-			],
-		],
-	],
 	/*
 	'controllerMap' => [
 		'fixture' => [ // Fixture generation command line.
@@ -20,5 +9,6 @@ $config = yii\helpers\ArrayHelper::merge(require('common.php'), [
 	],
 	*/
 ]);
-
+unset($config['defaultRoute']);
+unset($config['components']['request']);
 return $config;

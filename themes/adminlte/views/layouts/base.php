@@ -5,6 +5,7 @@
 use yii\helpers\ArrayHelper;
 
 \lamhq\yii2\asset\AdminLte::register($this);
+\backend\assets\Backend::register($this);
 $bodyClass = ArrayHelper::getValue($this->params, 'body-class').' skin-blue';
 ?>
 <?php $this->beginPage() ?>

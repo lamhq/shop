@@ -1,3 +1,7 @@
+<FilesMatch  "\.env|README\.md">
+Deny from all
+</FilesMatch>
+
 Options -Indexes 
 
 # use mod_rewrite for pretty URL support
