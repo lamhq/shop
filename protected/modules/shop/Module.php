@@ -6,8 +6,6 @@ use yii\base\Controller;
 
 class Module extends \yii\base\Module {
 
-	public $layout = 'main';
-
 	/**
 	 * @inheritdoc
 	 */
@@ -36,8 +34,5 @@ class Module extends \yii\base\Module {
 		// set theme
 		Yii::$app->view->theme->pathMap
 			['@shop/views'] = '@webroot/themes/shop/views';
-
-		// register asset
-		\shop\assets\Shop::register(Yii::$app->view);
 	}
 }
