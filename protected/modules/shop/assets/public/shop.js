@@ -119,9 +119,11 @@ app = Object.assign(app, {
 	},
 
 	setupCheckoutSection: function() {
-		app.loadShippingSection()
-			.then(app.loadPaymentSection)
-			.then(app.loadReviewSection);
+		$(function() {
+			app.loadShippingSection()
+				.then(app.loadPaymentSection)
+				.then(app.loadReviewSection);
+		});
 
 		var lockSubmit = function () {
 			$('.btn-order').button('loading');

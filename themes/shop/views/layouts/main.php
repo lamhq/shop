@@ -5,7 +5,7 @@ use yii\widgets\Breadcrumbs;
 
 yii\bootstrap\BootstrapPluginAsset::register($this);
 sersid\fontawesome\Asset::register($this);
-\shop\assets\Shop::register(this);
+\shop\assets\Shop::register($this);
 $this->addBodyClass(Yii::$app->controller->id.'-'.Yii::$app->controller->action->id);
 ?>
 <?php $this->beginPage() ?>

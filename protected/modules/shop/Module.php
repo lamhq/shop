@@ -9,16 +9,23 @@ class Module extends \yii\base\Module {
 	/**
 	 * @inheritdoc
 	 */
-	// public $controllerNamespace = 'shop\controllers';
+	public $controllerNamespace = 'shop\controllers';
 
 	/**
 	 * @inheritdoc
 	 */
 	public function init()
 	{
-		// custom initialization code goes here
 		parent::init();
+		$this->applySettingForWebApp();
+	}
 
+	/**
+	 * reconfigure application in runtime
+	 */
+	public function applySettingForWebApp() {
+		$this->layout = '@webroot/themes/shop/views/layouts/main';
+		
 		// change identity class
 		\Yii::configure(Yii::$app, [
 			'components' => [
@@ -30,9 +37,5 @@ class Module extends \yii\base\Module {
 				],
 			],
 		]);
-
-		// set theme
-		Yii::$app->view->theme->pathMap
-			['@shop/views'] = '@webroot/themes/shop/views';
 	}
 }

@@ -6,9 +6,9 @@ return [
 	'modules' => [
 		'shop' => [
 			'class' => 'shop\Module',
-			'modules'=>[
-				'admin'=>['class' => 'shop\modules\admin\Module'],
-			],
+			// 'modules'=>[
+			// 	'admin'=>['class' => 'shop\modules\admin\Module'],
+			// ],
 		],
 	],
 	'components' => [
