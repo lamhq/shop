@@ -22,9 +22,8 @@ return [
 			]
 		],
 		'helper' => [
-			'as emailHelper' => [
-				'class' => 'shop\behaviors\EmailHelper'
-			],
+			'as emailHelper' => ['class' => 'shop\behaviors\EmailHelper',],
+			'as urlHelper' => ['class' => 'shop\behaviors\UrlHelper'],
 		],
 		'urlManager' => [
 			'rules' => [
