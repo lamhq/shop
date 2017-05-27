@@ -3,6 +3,7 @@
 namespace shop\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use shop\models\Product;
@@ -82,7 +83,15 @@ class ProductController extends Controller
 
 	public function actionSearch() {
 		$model = new \shop\models\search\Product();
-		$model->load(Yii::$app->request->get());
+		$params = Yii::$app->request->get();
+		if ($params) {
+			$this->view->registerLinkTag([
+				'rel' => 'canonical', 
+				'href' => Url::toRoute(['search']),
+			]);
+		}
+		$model->load($params);
+
 		$dataProvider = $model->search();
 		return $this->render('search', [
 			'model' => $model,

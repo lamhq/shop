@@ -11,7 +11,7 @@ $itemCollection = $model->itemCollection;
 $this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = $title;
 $this->registerJs('app.setupCartPage();');
-\app\assets\Select2BootstrapTheme::register($this);
+lamhq\yii2\asset\Select2BootstrapTheme::register($this);
 ?>
 <h1><?= $title ?></h1>
 

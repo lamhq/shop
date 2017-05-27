@@ -1,7 +1,7 @@
 <?php
 use yii\web\View;
 
-\app\assets\OwlCarousel2Asset::register($this);
+\lamhq\yii2\asset\OwlCarousel2::register($this);
 $this->registerJs('app.setupSlideshow();', View::POS_READY);
 ?>
 <div class="owl-carousel owl-theme">
