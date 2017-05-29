@@ -32,6 +32,6 @@ $h = Yii::$app->helper;
 
 		<hr/>
 
-		<p>Powered By <a href="#">lamhq.com</a><br> <?= Yii::$app->name ?> &copy; <?= date('Y') ?></p>
+		<p>Powered By <a href="#">lamhq.com</a><br> <?= Yii::$app->params['siteName'] ?> &copy; <?= date('Y') ?></p>
 	</div>
 </footer>

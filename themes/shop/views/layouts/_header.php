@@ -21,7 +21,7 @@ use yii\helpers\Url;
 						<li><a href="<?= Url::to(['/shop/default/login']) ?>"><?= Yii::t('app', 'Login') ?></a></li>
 						<?php else: ?>
 						<li><a href="<?= Url::to(['/shop/account/update']) ?>"><?= Yii::t('app', 'My Account') ?></a></li>
-						<li><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('app', 'Order History') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></li>
 						<li><a href="<?= Url::to(['/shop/default/logout']) ?>"><?= Yii::t('app', 'Logout') ?></a></li>
 						<?php endif ?>
 					</ul>
@@ -42,7 +42,7 @@ use yii\helpers\Url;
 		<div class="row">
 			<div class="col-sm-4">
 				<div id="logo">
-					<a href="<?= Yii::$app->homeUrl ?>"><img src="<?= Yii::$app->helper->getLogoUrl() ?>" title="<?= Yii::$app->name ?>" alt="<?= Yii::$app->name ?>" class="img-responsive"></a>
+					<a href="<?= Yii::$app->homeUrl ?>"><img src="<?= Yii::$app->helper->getLogoUrl() ?>" title="<?= Yii::$app->params['siteName'] ?>" alt="<?= Yii::$app->params['siteName'] ?>" class="img-responsive"></a>
 				</div>
 			</div>
 			<div class="col-sm-5">

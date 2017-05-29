@@ -38,7 +38,11 @@ $config = [
 		],
 		'i18n' => [
 			'translations' => [
-			],
+				'app' => [
+					'class' => 'yii\i18n\PhpMessageSource',
+					'basePath' => __DIR__ . '/../messages',
+				],
+			]
 		],
 		'cache' => [
 			'class' => 'yii\caching\FileCache',
@@ -126,4 +130,5 @@ if (YII_ENV_DEV) {
 	];
 }
 
+// var_dump($config['components']['i18n']);die;
 return $config;

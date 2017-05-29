@@ -23,7 +23,6 @@ return [
 				'shop' => [
 					'class' => 'yii\i18n\PhpMessageSource',
 					'basePath' => __DIR__ . '/messages',
-					'sourceLanguage' => 'en-US',
 				],
 			]
 		],
