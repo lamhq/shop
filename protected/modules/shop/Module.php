@@ -25,17 +25,5 @@ class Module extends \yii\base\Module {
 	 */
 	public function applySettingForWebApp() {
 		$this->layout = '@webroot/themes/shop/views/layouts/main';
-		
-		// change identity class
-		\Yii::configure(Yii::$app, [
-			'components' => [
-				'user' => [
-					'class' => 'yii\web\User',
-					'identityClass' => 'shop\models\Customer',
-					'enableAutoLogin' => true,
-					'loginUrl' => ['/shop/default/login'],
-				],
-			],
-		]);
 	}
 }

@@ -6,11 +6,11 @@ use yii\helpers\Url;
 		<div id="top-links" class="nav pull-right">
 			<ul class="list-inline">
 				<li>
-					<a href="<?= Url::to(['/shop/default/contact']) ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone"></i></a>
-					<span class="hidden-xs">123456789</span>
+					<a href="<?= Yii::$app->helper->getPageUrl('about-us') ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone"></i></a>
+					<span class="hidden-xs"><?= Yii::$app->params['phone'] ?></span>
 				</li>
 				<li class="dropdown">
-					<a href="<?= Url::to(['/shop/default/contact']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<a href="<?= Url::to(['/shop/account/profile']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<i class="fa fa-user"></i>
 						<span class="hidden-xs"><?= Yii::t('app', 'My Account') ?></span>
 						<span class="caret"></span>

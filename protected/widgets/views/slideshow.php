@@ -2,9 +2,18 @@
 use yii\web\View;
 
 \lamhq\yii2\asset\OwlCarousel2::register($this);
-$this->registerJs('app.setupSlideshow();', View::POS_READY);
+$script = <<<EOT
+$(".slideshow").owlCarousel({
+	items: 1,
+	nav: true,
+	navText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+	dots: true,
+	loop: true
+});
+EOT;
+$this->registerJs($script, View::POS_READY);
 ?>
-<div class="owl-carousel owl-theme">
+<div class="slideshow owl-carousel owl-theme">
 	<?php foreach ($model->slideshowImages as $image): ?>
 	<div class="item">
 	<?php if ($image->link): ?>

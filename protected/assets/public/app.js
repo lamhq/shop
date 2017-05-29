@@ -91,16 +91,5 @@ app = {
 		.then(function (response) {
 			$target.html(response);
 		});
-	},
-
-	setupSlideshow: function () {
-		$(".owl-carousel").owlCarousel({
-			items: 1,
-			nav: true,
-			navText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
-			dots: true,
-			loop: true
-		});
 	}
-
 };

@@ -12,6 +12,12 @@ return [
 		],
 	],
 	'components' => [
+		'user' => [
+			'class' => 'yii\web\User',
+			'identityClass' => 'shop\models\Customer',
+			'enableAutoLogin' => true,
+			'loginUrl' => ['/shop/default/login'],
+		],
 		'i18n' => [
 			'translations' => [
 				'shop' => [
