@@ -23,7 +23,7 @@ $this->registerJs('app.setupCartDropdown();');
 						<td class="text-right">x <?= $item->quantity ?></td>
 						<td class="text-right"><?= $f->asCurrency($item->getTotal()) ?></td>
 						<td class="text-center">
-							<button type="button" title="Remove" class="btn btn-danger btn-xs btn-remove" data-item="<?= $item->id ?>"><i class="fa fa-times"></i></button>
+							<button type="button" title="<?= Yii::t('app', 'Remove') ?>" class="btn btn-danger btn-xs btn-remove" data-item="<?= $item->id ?>"><i class="fa fa-times"></i></button>
 						</td>
 					</tr>
 					<?php endforeach ?>
@@ -42,11 +42,11 @@ $this->registerJs('app.setupCartDropdown();');
 				</tbody>
 			</table>
 			<p class="text-right">
-				<a href="<?= Url::to(['/shop/cart']) ?>"><strong><i class="fa fa-shopping-cart"></i> Checkout</strong></a>
+				<a href="<?= Url::to(['/shop/cart']) ?>"><strong><i class="fa fa-shopping-cart"></i> <?= Yii::t('shop', 'Checkout') ?></strong></a>
 			</p>
 		</li>
 	<?php else: ?>
-			<li><p class="text-center">Your shopping cart is empty!</p></li>
+			<li><p class="text-center"><?= Yii::t('shop', 'Your shopping cart is empty!') ?></p></li>
 	<?php endif ?>
 	</ul>
 </div>

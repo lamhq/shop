@@ -5,4 +5,5 @@ return [
 	'Register' => 'Đăng ký',
 	'Login' => 'Đăng nhập',
 	'Logout' => 'Đăng xuất',
+	'Remove' => 'Xóa',
 ];

@@ -8,7 +8,8 @@ $(".slideshow").owlCarousel({
 	nav: true,
 	navText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
 	dots: true,
-	loop: true
+	loop: true,
+	autoplay: true
 });
 EOT;
 $this->registerJs($script, View::POS_READY);

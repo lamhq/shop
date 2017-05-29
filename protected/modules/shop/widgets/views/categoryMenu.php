@@ -28,7 +28,7 @@
 							</ul>
 							<?php endforeach ?>
 						</div>
-						<a href="<?= $category->getUrl(); ?>" class="see-all"><?= Yii::t('shop', 'Show all') ?> <?= $category->name ?></a> </div>
+						<a href="<?= $category->getUrl(); ?>" class="see-all"><?= Yii::t('shop', 'Show all {0}', $category->name) ?></a> </div>
 				</li>
 				<?php else: ?>
 				<li><a href="<?= $category->getUrl(); ?>"><?= $category->name ?></a></li>
