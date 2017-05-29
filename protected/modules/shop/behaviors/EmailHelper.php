@@ -8,7 +8,7 @@ class EmailHelper extends BaseHelper
 {
 	public function sendRegistrationSuccessEmailToCustomer($customer) {
 		if (!$customer->email) return false;
-		$siteName = Yii::$app->name;
+		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			$customer->email,
@@ -18,7 +18,7 @@ class EmailHelper extends BaseHelper
 	}
 
 	public function sendRegistrationAlertEmailToAdmin($customer) {
-		$siteName = Yii::$app->name;
+		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			Yii::$app->params['adminEmail'],
@@ -32,7 +32,7 @@ class EmailHelper extends BaseHelper
 
 	public function sendNewOrderMailToCustomer($order) {
 		if (!$order->email) return false;
-		$siteName = Yii::$app->name;
+		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			$order->email,
@@ -45,7 +45,7 @@ class EmailHelper extends BaseHelper
 	}
 
 	public function sendNewOrderMailToAdmin($order) {
-		$siteName = Yii::$app->name;
+		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			Yii::$app->params['adminEmail'],

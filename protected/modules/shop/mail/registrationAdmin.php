@@ -7,7 +7,7 @@
 <p>A new customer has signed up:</p>
 
 <p>
-Web Site: <?= Yii::$app->name ?><br/>
+Web Site: <?= Yii::$app->params['siteName'] ?><br/>
 Name: <?= $customer->name ?><br/>
 E-Mail: <?= $customer->email ?><br/>
 Telephone: <?= $customer->telephone ?>

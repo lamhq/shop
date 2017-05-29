@@ -4,7 +4,7 @@
 /* @var $order shop\models\Order */
 $f = Yii::$app->formatter;
 ?>
-<p>Thank you for your interest in <?= Yii::$app->name ?> products. Your order has been received and will be processed once payment has been confirmed.</p>
+<p>Thank you for your interest in <?= Yii::$app->params['siteName'] ?> products. Your order has been received and will be processed once payment has been confirmed.</p>
 
 <?php if ($order->customer_id): ?>
 <p>To view your order click on the link below:</p>

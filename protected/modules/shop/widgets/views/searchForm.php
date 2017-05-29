@@ -3,7 +3,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
-<form id="searchForm" action="<?= Url::to(['/shop/product/search']) ?>" method="GET">
+<form id="search" action="<?= Url::to(['/shop/product/search']) ?>" method="GET">
 	<div class="input-group">
 		<?= Html::textInput('text', $text, [
 			'placeholder'=>Yii::t('shop', 'Search'),

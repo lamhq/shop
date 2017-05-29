@@ -1,4 +1,5 @@
 <?php
+$this->title = Yii::$app->helper->getPageTitle('');
 ?>
 <?= \app\widgets\Slideshow::widget(['slideshowId'=>1]) ?>
 
