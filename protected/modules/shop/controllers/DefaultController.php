@@ -14,8 +14,16 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		return $this->render('index', [
+		$params = Yii::$app->params;
+		$this->view->registerMetaTag([
+			'name' => 'description',
+			'content' => $params['metaDescription'],
 		]);
+		$this->view->registerMetaTag([
+			'name' => 'keywords',
+			'content' => $params['metaKeyword'],
+		]);
+		return $this->render('index');
 	}
 
 	/**

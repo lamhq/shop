@@ -11,7 +11,11 @@ use yii\helpers\Url;
 class UrlHelper extends Behavior
 {
 	public function getLogoUrl() {
-		return Yii::$app->helper->getStorageUrl('shop/logo.png');
+		return Yii::$app->helper->getStorageUrl(Yii::$app->params['logo']);
+	}
+
+	public function getFaviconUrl() {
+		return Yii::$app->helper->getStorageUrl(Yii::$app->params['favicon']);
 	}
 
 	public function getPageUrl($slug) {
