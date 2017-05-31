@@ -1,4 +1,6 @@
 <?php
+use yii\helpers\StringHelper;
+$this->registerJs('app.setupMainMenu();');
 ?>
 <?php if ($categories): ?>
 <div class="container">
@@ -13,17 +15,20 @@
 				<li class="dropdown"><a href="<?= $category->getUrl(); ?>" class="dropdown-toggle" data-toggle="dropdown"><?= $category->name ?></a>
 					<div class="dropdown-menu">
 						<div class="dropdown-inner">
-							<?php 
-							$itemsPerCol = 4;
-							$colCount = ceil(count($category->categories) / $itemsPerCol);
+							<?php
+							$noipc = 4; // number of items per columns
+							$noc = ceil(count($category->categories)/$noipc); // number of column
+							if ( $noc > 4) {
+								$noipc = ceil(count($category->categories)/4);
+							}
 							?>
-							<?php foreach (array_chunk($category->categories, $colCount) as $childrens): ?>
+							<?php foreach (array_chunk($category->categories, $noipc) as $ipc): ?>
 							<ul class="list-unstyled">
-								<?php foreach ($childrens as $child): ?>
+								<?php foreach ($ipc as $child): ?>
 								<?php
 								$child->prependSlug($category->slug);
 								?>
-								<li><a href="<?= $child->getUrl(); ?>"><?= $child->name ?></a></li>
+								<li><a href="<?= $child->getUrl(); ?>"><?= StringHelper::truncate($child->name,17) ?></a></li>
 								<?php endforeach ?>
 							</ul>
 							<?php endforeach ?>

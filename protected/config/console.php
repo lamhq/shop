@@ -9,6 +9,11 @@ $config = yii\helpers\ArrayHelper::merge(require('_common.php'), [
 	],
 	*/
 ]);
+$config['bootstrap'] = ['log'];
+
 unset($config['defaultRoute']);
 unset($config['components']['request']);
+unset($config['modules']['debug']);
+unset($config['modules']['gii']);
+
 return $config;

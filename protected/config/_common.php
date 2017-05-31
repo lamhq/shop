@@ -130,5 +130,4 @@ if (YII_ENV_DEV) {
 	];
 }
 
-// var_dump($config['components']['i18n']);die;
 return $config;

@@ -49,7 +49,7 @@ use yii\helpers\Url;
 				<?= \shop\widgets\SearchForm::widget() ?>
 			</div>
 			<div class="col-sm-3">
-				<div id="cart">
+				<div id="cart" class="btn-group btn-block cart-dropdown">
 					<?= \shop\widgets\CartDropdown::widget() ?>
 				</div>
 			</div>

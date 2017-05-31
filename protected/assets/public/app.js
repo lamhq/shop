@@ -4,7 +4,6 @@
 app = {
 	init: function (baseUrl) {
 		app.baseUrl = baseUrl;
-		app.setupNotifyJs();
 	},
 
 	setupNotifyJs: function () {
@@ -74,22 +73,22 @@ app = {
 	xhr: null,
 
 	ajax: function(setting) {
+		// abort the current ajax request
 		var xhr = app.xhr;
 		if (xhr) {
 			xhr.abort();
 		}
 		
-		setting.error = function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		};
-		app.xhr = $.ajax(setting);
-		return app.xhr;
+		return app.xhr = $.ajax(setting)
+			.fail(function( jqXHR, textStatus, errorThrown ) {
+				alert(errorThrown + "\r\n" + jqXHR.statusText + "\r\n" + jqXHR.responseText);
+			});
 	},
 
 	load: function($target, setting) {
 		return app.ajax(setting)
-		.then(function (response) {
-			$target.html(response);
-		});
+			.done(function (data, textStatus, jqXHR) {
+				$target.html(data);
+			});
 	}
 };

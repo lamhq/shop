@@ -2,6 +2,18 @@
  * javascript for shop module
  */
 app = Object.assign(app, {
+	setupMainMenu: function () {
+		$('#menu .dropdown-menu').each(function() {
+			var menu = $('#menu').offset();
+			var dropdown = $(this).parent().offset();
+
+			var i = (dropdown.left + $(this).outerWidth()) 
+			- (menu.left + $('#menu').outerWidth());
+
+			$(this).toggleClass('right-align', i > 0);
+		});
+	},
+
 	setupProductList: function() {
 		$('.product-toolbar select').change(function () {
 			location.href = this.value;
@@ -41,16 +53,15 @@ app = Object.assign(app, {
 				},
 				complete: function() {
 					$button.button('reset');
-				},
-				success: function(json) {
-					if (json.redirect) {
-						location = json.redirect;
-					}
-
-					app.showSuccess(json.message);
 				}
 			})
-			.then(app.loadCartDropdown);
+			.done(function (json, textStatus, jqXHR) {
+				if (json.redirect) {
+					location = json.redirect;
+				}
+				app.showSuccess(json.message);
+				app.loadCartDropdown();
+			});
 		});
 	},
 
@@ -70,19 +81,19 @@ app = Object.assign(app, {
 				},
 				complete: function() {
 					$button.button('reset');
-				},
-				success: function(json) {
-					if (json.redirect) {
-						location = json.redirect;
-					}
-
-					if (json.success) {
-						app.showSuccess(json.message);
-					}
-					$cartForm.html(json.cartForm);
 				}
 			})
-			.then(app.loadCartDropdown);
+			.done(function (json, textStatus, jqXHR) {
+				if (json.redirect) {
+					location = json.redirect;
+				}
+
+				if (json.success) {
+					app.showSuccess(json.message);
+				}
+				$cartForm.html(json.cartForm);
+				app.loadCartDropdown();
+			});
 		});
 	},
 
@@ -97,13 +108,13 @@ app = Object.assign(app, {
 		$(document).on('click', '.cart-dropdown .btn-remove', function() {
 			var id = $(this).data('item');
 			app.removeCartItem(id)
-				.then(function () {
-					if ($('body').hasClass('cart-index')) {
-						location.reload();
-					} else {
-						app.loadCartDropdown();
-					}
-				});
+			.done(function () {
+				if ($('body').hasClass('cart-index')) {
+					location.reload();
+				} else {
+					app.loadCartDropdown();
+				}
+			});
 		});
 	},
 
@@ -112,7 +123,7 @@ app = Object.assign(app, {
 		$('.cart-table .btn-remove').click(function() {
 			var id = $(this).data('item');
 			app.removeCartItem(id)
-				.then(function () { location.reload(); });
+			.done(function () { location.reload(); });
 		});
 
 		app.setupCheckoutSection();
@@ -121,8 +132,8 @@ app = Object.assign(app, {
 	setupCheckoutSection: function() {
 		$(function() {
 			app.loadShippingSection()
-				.then(app.loadPaymentSection)
-				.then(app.loadReviewSection);
+				.always(app.loadPaymentSection)
+				.always(app.loadReviewSection);
 		});
 
 		var lockSubmit = function () {
@@ -145,9 +156,9 @@ app = Object.assign(app, {
 		// var onShippingChange = function () {
 			// lockSubmit();
 			// saveFormData($('#shipping-section form').serializeArray())
-			// .then(app.loadPaymentSection)
-			// .then(app.loadReviewSection)
-			// .then(unlockSubmit);
+			// .always(app.loadPaymentSection)
+			// .always(app.loadReviewSection)
+			// .always(unlockSubmit);
 		// };
 		// $('#shipping-section').on('select2:select', 'select', onShippingChange);
 		// $('#shipping-section').on('change', 'input,#checkoutform-shippingaddressid', onShippingChange);
@@ -156,8 +167,8 @@ app = Object.assign(app, {
 		// var onPaymentChange = function () {
 			// lockSubmit();
 			// saveFormData($('#payment-section form').serializeArray())
-			// .then(app.loadReviewSection)
-			// .then(unlockSubmit);
+			// .always(app.loadReviewSection)
+			// .always(unlockSubmit);
 		// };
 		// $('#payment-section').on('change', 'input[type=radio],textarea', onPaymentChange);
 
@@ -168,14 +179,14 @@ app = Object.assign(app, {
 
 			lockSubmit();
 			saveFormData(data)
-			.then(function () {
+			.done(function () {
 				return app.ajax({
 					url: app.baseUrl+'/shop/checkout/place-order',
 					type: 'post',
 					dataType: 'json'
 				});
 			})
-			.then(function (json) {
+			.done(function (json) {
 				if (json.redirect) {
 					location = json.redirect;
 				}
@@ -187,19 +198,16 @@ app = Object.assign(app, {
 					app.setupShipping();
 				}
 			})
-			.then(unlockSubmit);
+			.always(unlockSubmit);
 		});
 	},
 
 	loadShippingSection: function() {
-		return app.ajax({
+		return app.load($('#shipping-section'), {
 			url: app.baseUrl+'/shop/checkout/shipping',
-			type: 'get',
-			success: function(response) {
-				$('#shipping-section').html(response);
-				app.setupShipping();
-			}
-		});
+			type: 'get'
+		})
+		.done(app.setupShipping);
 	},
 
 	setupShipping: function() {
@@ -265,14 +273,11 @@ app = Object.assign(app, {
 				url: app.baseUrl+'/shop/default/districts',
 				type: 'get',
 				data: { city: city },
-				dataType: 'json',
-				success: function(json) {
-					if (typeof json === 'object') {
-						setDropdownItems($('.district'), json.districts);
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				dataType: 'json'
+			})
+			.done(function (json, textStatus, jqXHR) {
+				if (typeof json === 'object') {
+					setDropdownItems($('.district'), json.districts);
 				}
 			});
 		});
@@ -285,14 +290,11 @@ app = Object.assign(app, {
 				url: app.baseUrl+'/shop/default/wards',
 				type: 'get',
 				data: { district: district },
-				dataType: 'json',
-				success: function(json) {
-					if (typeof json === 'object') {
-						setDropdownItems($('.ward'), json.wards);
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				dataType: 'json'
+			})
+			.done(function (json, textStatus, jqXHR) {
+				if (typeof json === 'object') {
+					setDropdownItems($('.ward'), json.wards);
 				}
 			});
 		});
@@ -304,22 +306,16 @@ app = Object.assign(app, {
 	},
 
 	loadPaymentSection: function() {
-		return app.ajax({
+		return app.load($('#payment-section'), {
 			url: app.baseUrl+'/shop/checkout/payment',
-			type: 'get',
-			success: function(response) {
-				$('#payment-section').html(response);
-			}
+			type: 'get'
 		});
 	},
 
 	loadReviewSection: function() {
-		return app.ajax({
+		return app.load($('#review-section'), {
 			url: app.baseUrl+'/shop/checkout/review',
-			type: 'get',
-			success: function(response) {
-				$('#review-section').html(response);
-			}
+			type: 'get'
 		});
 	},
 
@@ -330,5 +326,4 @@ app = Object.assign(app, {
 		$('#categoryid').change(updateFormState);
 		updateFormState();
 	}
-
 });

@@ -17,13 +17,5 @@ class Module extends \yii\base\Module {
 	public function init()
 	{
 		parent::init();
-		$this->applySettingForWebApp();
-	}
-
-	/**
-	 * reconfigure application in runtime
-	 */
-	public function applySettingForWebApp() {
-		$this->layout = '@webroot/themes/shop/views/layouts/main';
 	}
 }
