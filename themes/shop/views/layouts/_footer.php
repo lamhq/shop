@@ -12,12 +12,13 @@ $h = Yii::$app->helper;
 				<?= $h->block('footer_links') ?>
 			</div>
 			<div class="col-sm-3">
-				<h5>My Account</h5>
-				<p><a href="#">My Account</a></p>
-				<p><a href="#">Order History</a></p>
+				<h5><?= Yii::t('app', 'My Account') ?></h5>
+				<p><a href="<?= Url::to(['/shop/account/profile']) ?>"><?= Yii::t('app', 'Update Profile') ?></a></p>
+				<p><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></p>
 			</div>
 			<div class="col-sm-3">
-				<p>Sign up for savings, news, updates</p>
+				<!--
+				<h5>Sign up for savings, news, updates</h5>
 				<form id="newsletterForm" action="<?= Url::to(['/shop/default/newsletter']) ?>">
 					<div class="input-group">
 						<input name="search" value="" placeholder="Search" class="form-control" type="text"/>
@@ -26,12 +27,13 @@ $h = Yii::$app->helper;
 						</span>
 					</div>
 				</form>
+				-->
 				<?= $h->block('footer_social') ?>
 			</div>
 		</div>
 
 		<hr/>
 
-		<p>Powered By <a href="#">lamhq.com</a><br> <?= Yii::$app->params['siteName'] ?> &copy; <?= date('Y') ?></p>
+		<p><?= Yii::t('app', 'Powered By') ?> <a href="#">lamhq.com</a><br> <?= Yii::$app->params['siteName'] ?> &copy; <?= date('Y') ?></p>
 	</div>
 </footer>
