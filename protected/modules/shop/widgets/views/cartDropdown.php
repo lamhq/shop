@@ -6,7 +6,7 @@ $f = Yii::$app->formatter;
 $itemCollection = $order->itemCollection;
 $this->registerJs('app.setupCartDropdown();');
 ?>
-<button type="button" data-toggle="dropdown" class="btn btn-inverse btn-block btn-lg dropdown-toggle" aria-expanded="false">
+<button type="button" data-toggle="dropdown" class="btn btn-inverse btn-block btn-lg dropdown-toggle" aria-expanded="false" data-loading-text="<?= Yii::t('app', 'Loading') ?>...">
 	<i class="fa fa-shopping-cart"></i> <span id="cart-total"><?= $f->asCurrency($order->calculateTotal()) ?></span>
 </button>
 
@@ -31,19 +31,21 @@ $this->registerJs('app.setupCartDropdown();');
 		</table>
 	</li>
 	<li>
-		<table class="table table-bordered">
-			<tbody>
-			<?php foreach ($order->collectPrices() as $item): ?>
-				<tr>
-					<td class="text-right"><strong><?= $item['title'] ?></strong></td>
-					<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>
-				</tr>
-			<?php endforeach ?>
-			</tbody>
-		</table>
-		<p class="text-right">
-			<a href="<?= Url::to(['/shop/cart']) ?>"><strong><i class="fa fa-shopping-cart"></i> <?= Yii::t('shop', 'Checkout') ?></strong></a>
-		</p>
+		<div>
+			<table class="table table-bordered">
+				<tbody>
+				<?php foreach ($order->collectPrices() as $item): ?>
+					<tr>
+						<td class="text-right"><strong><?= $item['title'] ?></strong></td>
+						<td class="text-right"><?= $f->asCurrency($item['value']) ?></td>
+					</tr>
+				<?php endforeach ?>
+				</tbody>
+			</table>
+			<p class="text-right">
+				<a href="<?= Url::to(['/shop/cart']) ?>"><strong><i class="fa fa-shopping-cart"></i> <?= Yii::t('shop', 'Checkout') ?></strong></a>
+			</p>
+		</div>
 	</li>
 <?php else: ?>
 		<li><p class="text-center"><?= Yii::t('shop', 'Your shopping cart is empty!') ?></p></li>

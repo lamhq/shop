@@ -6,4 +6,5 @@ return [
 	'Login' => 'Đăng nhập',
 	'Logout' => 'Đăng xuất',
 	'Remove' => 'Xóa',
+	'Loading' => 'Đang xử lý',
 ];

@@ -107,8 +107,11 @@ app = Object.assign(app, {
 		// remove cart item when clicking button remove
 		$(document).on('click', '.cart-dropdown .btn-remove', function() {
 			var id = $(this).data('item');
+			var $button = $('#cart > button');
+			$button.button('loading');
 			app.removeCartItem(id)
 			.done(function () {
+				$button.button('reset');
 				if ($('body').hasClass('cart-index')) {
 					location.reload();
 				} else {
