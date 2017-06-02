@@ -14,7 +14,7 @@ use yii\bootstrap\Html;
 <?= $form->field($model, 'qty') ?>
 <?= $form->field($model, 'productId')->hiddenInput()->label(false) ?>
 <br>
-<button type="submit" data-loading-text="<?= Yii::t('shop', 'Loading') ?>..." class="btn btn-primary btn-lg btn-block btn-cart">
+<button type="submit" data-loading-text="<?= Yii::t('app', 'Loading') ?>..." class="btn btn-primary btn-lg btn-block btn-cart">
 	<?= Yii::t('shop', 'Add to Cart') ?>
 </button>
 <?php ActiveForm::end(); ?>

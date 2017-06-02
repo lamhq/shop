@@ -26,7 +26,7 @@ $this->registerJs('app.setupMainMenu();');
 							<ul class="list-unstyled">
 								<?php foreach ($ipc as $child): ?>
 								<?php
-								$child->prependSlug($category->slug);
+								$child->path = $category->slug.'/'.$child->slug;
 								?>
 								<li><a href="<?= $child->getUrl(); ?>"><?= StringHelper::truncate($child->name,17) ?></a></li>
 								<?php endforeach ?>

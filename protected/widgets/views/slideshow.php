@@ -5,8 +5,8 @@ use yii\web\View;
 $script = <<<EOT
 $(".slideshow").owlCarousel({
 	items: 1,
-	nav: true,
-	navText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+	//nav: true,
+	//navText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
 	dots: true,
 	loop: true,
 	autoplay: true

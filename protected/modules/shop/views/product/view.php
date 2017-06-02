@@ -6,8 +6,6 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use shop\models\Product;
 
-$this->title = Yii::$app->helper->getPageTitle($model->name);
-$this->params['breadcrumbs'][] = $model->name;
 $f = Yii::$app->formatter;
 $stockStatusText = ArrayHelper::getValue($model->getStockStatusOptions(), $model->stock_status);
 $this->registerJs('app.setupProductDetailPage();');

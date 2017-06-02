@@ -53,7 +53,7 @@ class CartController extends Controller
 			$product = $model->getProduct();
 			$s = Yii::t('shop', 'Success: You have added {0} to your {1}!', [
 				Html::a($product->name, $product->getUrl()), 
-				Html::a('shopping cart', Url::to(['/shop/cart'])) 
+				Html::a(Yii::t('shop', 'Shopping cart'), Url::to(['/shop/cart'])) 
 			]);
 			return Yii::$app->helper->jsonSuccess($s);
 		}

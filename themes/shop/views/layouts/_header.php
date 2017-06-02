@@ -6,12 +6,12 @@ use yii\helpers\Url;
 		<div id="top-links" class="nav pull-right">
 			<ul class="list-inline">
 				<li>
-					<a href="<?= Yii::$app->helper->getPageUrl('about-us') ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone"></i></a>
+					<a href="<?= Yii::$app->helper->getPageUrl('gioi-thieu') ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone fa-cs"></i></a>
 					<span class="hidden-xs"><?= Yii::$app->params['phone'] ?></span>
 				</li>
 				<li class="dropdown">
 					<a href="<?= Url::to(['/shop/account/profile']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<i class="fa fa-user"></i>
+						<i class="fa fa-user fa-cs"></i>
 						<span class="hidden-xs"><?= Yii::t('app', 'My Account') ?></span>
 						<span class="caret"></span>
 					</a>
@@ -28,7 +28,7 @@ use yii\helpers\Url;
 				</li>
 				<li>
 					<a href="<?= Url::to(['/shop/cart']) ?>" title="<?= Yii::t('shop', 'Checkout') ?>">
-						<i class="fa fa-shopping-cart"></i>
+						<i class="fa fa-shopping-cart fa-cs"></i>
 						<span class="hidden-xs"><?= Yii::t('shop', 'Checkout') ?></span>
 					</a>
 				</li>

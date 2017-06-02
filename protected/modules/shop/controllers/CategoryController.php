@@ -7,67 +7,80 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use shop\models\Category;
-use shop\models\search\Product;
 
 class CategoryController extends Controller
 {
-	public function actionView($slug)
+	public function actionView($path)
 	{
-        $model = Category::find()->active()->bySlug($slug)->one();
+        $model = Category::find()->active()->bySlug($path)->one();
         if (!$model) {
             throw new NotFoundHttpException;
         }
 
-		$this->addCanonicalTag($slug);
-		$this->view->params['breadcrumbs'] = $this->buildBreadcrumbData($slug);
-		return $this->render('view', [
+        $model->path = $path;
+		$this->registerMetaTags($model);
+		$this->view->params['breadcrumbs'] = $this->buildBreadcrumbData($model);
+		return $this->renderDynamic('view', [
 			'model'=>$model,
 			'dataProvider'=>$this->getDataProvider($model)
 		]);
 	}
 
-	protected function buildBreadcrumbData($slug) {
-		$slugs = explode('/', $slug);
+	protected function renderDynamic($view, $params=[]) {
+		if (Yii::$app->request->headers->has('X-Requested-With')) {
+			return $this->renderPartial($view, $params);
+		} else {
+			return $this->render($view, $params);
+		}
+	}
+
+	protected function buildBreadcrumbData($model) {
+		$slugs = explode('/', $model->path);
 		$result = [];
-		$parentCat = null;
-		foreach ($slugs as $i => $sl) {
-			$cat = Category::find()->bySlug($sl)->one();
-			if (!$cat) continue;
-
-			if ($parentCat) {
-				$cat->prependSlug($parentCat->slug);
-			}
-
+		$parent = null;
+		foreach ($slugs as $i => $slug) {
 			if ( $i==count($slugs)-1 ) {
-				$result[] = $cat->name;
+				$prod = $model;
+				$result[] = $prod->name;
 			} else {
+				$cat = Category::find()->bySlug($slug)->one();
+				if (!$cat) continue;
+
+				$cat->path = $parent ? $parent->path.'/'.$cat->slug : $cat->slug;
 				$result[] = [
 					'label' => $cat->name, 
 					'url' => $cat->getUrl(),
 				];
+				$parent = $cat;
 			}
-			$parentCat = $cat;
 		}
 		return $result;
 	}
 
-	protected function addCanonicalTag($slug) {
-		if ( strpos($slug, '/')!==false ) {
-			$h = Yii::$app->helper;
+	protected function registerMetaTags($model) {
+		$h = Yii::$app->helper;
+		
+		if ( strpos($model->path, '/')!==false ) {
 			$this->view->registerLinkTag([
 				'rel' => 'canonical', 
-				'href' => $h->getCategoryUrl($h->normalizeSlug($slug))
+				'href' => $h->getCategoryUrl($model->slug)
 			]);
 		}
+
+		$this->view->registerMetaTag([
+			'name' => 'description',
+			'content' => $model->meta_description,
+		]);
+		$this->view->registerMetaTag([
+			'name' => 'keywords',
+			'content' => $model->meta_keyword,
+		]);
+		$this->view->title = $h->getPageTitle($model->meta_title);
 	}
 
 	protected function getDataProvider($category) {
-		$model = new Product();
+		$model = new \shop\models\search\Product();
 		$model->categoryId = $category->id;
-		$dataProvider =$model->search();
-		foreach ($dataProvider->getModels() as $product) {
-			$product->prependSlug($category->slug);
-		}
-		return $dataProvider;
+		return $model->search();
 	}
 }

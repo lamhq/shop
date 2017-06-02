@@ -9,6 +9,7 @@ sersid\fontawesome\Asset::register($this);
 $this->registerCssFile($this->theme->getUrl('css/style.css'), [
 	'depends' => [\yii\bootstrap\BootstrapAsset::className()],
 ]);
+$this->registerCssFile('//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700');
 $this->registerJs('app.setupNotifyJs();');
 $this->addBodyClass(Yii::$app->controller->id.'-'.Yii::$app->controller->action->id);
 ?>

@@ -37,6 +37,12 @@ class Product extends \yii\db\ActiveRecord
     const STATUS_OUT_OF_STOCK = 0;
 
     /**
+     * category path used to create pretty url
+     * @var string
+     */
+    public $path;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -122,7 +128,8 @@ class Product extends \yii\db\ActiveRecord
     }
     
     public function getUrl() {
-        return Yii::$app->helper->getProductUrl($this->slug);
+        $s = $this->path ?: $this->slug;
+        return Yii::$app->helper->getProductUrl($s);
     }
 
     static public function getStockStatusOptions() {
@@ -130,11 +137,5 @@ class Product extends \yii\db\ActiveRecord
             self::STATUS_IN_STOCK => Yii::t('shop', 'In Stock'),
             self::STATUS_OUT_OF_STOCK => Yii::t('shop', 'Out Of Stock'),
         ];
-    }
-
-    public function prependSlug($slug) {
-        $s = trim($slug);
-        if (!$s) return;
-        $this->slug = $slug . '/' . $this->slug;
     }
 }

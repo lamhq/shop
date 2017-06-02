@@ -20,13 +20,13 @@ class ProductController extends Controller
 	 * @return string
 	 * @throws NotFoundHttpException
 	 */
-	public function actionView($slug)
+	public function actionView($path)
 	{
 		$model = Product::find()
 			->active()
 			->instock()
 			->visible()
-			->bySlug($slug)
+			->bySlug($path)
 			->one();
 		if (!$model) {
 			throw new NotFoundHttpException;
@@ -36,49 +36,57 @@ class ProductController extends Controller
 			'productId' => $model->id,
 			'qty' => 1
 		]);
-
-		$this->buildBreadcrumbData($slug);
-		$this->addCanonicalTag($slug);
+        $model->path = $path;
+		$this->registerMetaTags($model);
+		$this->view->params['breadcrumbs'] = $this->buildBreadcrumbData($model);
 		return $this->render('view', [
 			'model'=>$model,
 			'cart'=>$cart
 		]);
 	}
 
-	protected function buildBreadcrumbData($slug) {
-		$slugs = explode('/', $slug);
+	protected function buildBreadcrumbData($model) {
+		$slugs = explode('/', $model->path);
 		$result = [];
-		$parentCat = null;
-		foreach ($slugs as $i => $sl) {
-			$cat = Category::find()->bySlug($sl)->one();
-			if (!$cat) continue;
-
-			if ($parentCat) {
-				$cat->prependSlug($parentCat->slug);
-			}
-
+		$parent = null;
+		foreach ($slugs as $i => $slug) {
 			if ( $i==count($slugs)-1 ) {
-				$prod = Product::find()->bySlug($sl)->one();
+				$prod = $model;
 				$result[] = $prod->name;
 			} else {
+				$cat = Category::find()->bySlug($slug)->one();
+				if (!$cat) continue;
+
+				$cat->path = $parent ? $parent->path.'/'.$cat->slug : $cat->slug;
 				$result[] = [
 					'label' => $cat->name, 
 					'url' => $cat->getUrl(),
 				];
+				$parent = $cat;
 			}
-			$parentCat = $cat;
 		}
 		return $result;
 	}
 
-	protected function addCanonicalTag($slug) {
-		if ( strpos($slug, '/')!==false ) {
-			$h = Yii::$app->helper;
+	protected function registerMetaTags($model) {
+		$h = Yii::$app->helper;
+
+		if ( strpos($model->path, '/')!==false ) {
 			$this->view->registerLinkTag([
 				'rel' => 'canonical', 
-				'href' => $h->getProductUrl($h->normalizeSlug($slug))
+				'href' => $h->getProductUrl($model->slug)
 			]);
 		}
+
+		$this->view->registerMetaTag([
+			'name' => 'description',
+			'content' => $model->meta_description,
+		]);
+		$this->view->registerMetaTag([
+			'name' => 'keywords',
+			'content' => $model->meta_keyword,
+		]);
+		$this->view->title = $h->getPageTitle($model->meta_title);
 	}
 
 	public function actionSearch() {

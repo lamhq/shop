@@ -7,7 +7,7 @@ $itemCollection = $order->itemCollection;
 $this->registerJs('app.setupCartDropdown();');
 ?>
 <button type="button" data-toggle="dropdown" class="btn btn-inverse btn-block btn-lg dropdown-toggle" aria-expanded="false" data-loading-text="<?= Yii::t('app', 'Loading') ?>...">
-	<i class="fa fa-shopping-cart"></i> <span id="cart-total"><?= $f->asCurrency($order->calculateTotal()) ?></span>
+	<i class="fa fa-shopping-cart fa-cs"></i> <span id="cart-total"><?= $f->asCurrency($order->calculateTotal()) ?></span>
 </button>
 
 <ul class="dropdown-menu pull-right">

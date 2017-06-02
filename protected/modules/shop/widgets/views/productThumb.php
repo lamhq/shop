@@ -6,7 +6,7 @@
 /* @var $widget shop\widgets\ProductList */
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
-use shop\widgets\AddToCartButton;
+use shop\widgets\CartButton;
 
 $f = Yii::$app->formatter;
 ?>
@@ -16,14 +16,11 @@ $f = Yii::$app->formatter;
 			<?= Html::img($model->getImageUrl(220, 258), ['class'=>'img-responsive']) ?>
 		</a>
 	</div>
-	<div>
-		<div class="caption">
-			<h4><a href="<?= $model->getUrl() ?>"><?= $model->name ?></a></h4>
-			<div class="desc"><?= Html::encode(StringHelper::truncate($model->short_description, 50)) ?></div>
-			<p class="price"><?= $f->asCurrency($model->price) ?></p>
-		</div>
-		<div class="button-group">
-			<?= AddToCartButton::widget(['product'=>$model]) ?>
-		</div>
+	<div class="caption">
+		<h4><a href="<?= $model->getUrl() ?>"><?= $model->name ?></a></h4>
+		<p class="price"><?= $f->asCurrency($model->price) ?></p>
+	</div>
+	<div class="button-group">
+		<?= CartButton::widget(['product'=>$model]) ?>
 	</div>
 </div>

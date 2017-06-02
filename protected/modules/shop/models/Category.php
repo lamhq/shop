@@ -34,10 +34,10 @@ class Category extends \yii\db\ActiveRecord
     const STATUS_INACTIVE = 0;
 
     /**
-     * number of product in category
-     * @var int
+     * category path used to create pretty url
+     * @var string
      */
-    public $productCount;
+    public $path;
 
     /**
      * @inheritdoc
@@ -147,35 +147,42 @@ class Category extends \yii\db\ActiveRecord
      * @return string
      */
     public function getUrl() {
-        return Yii::$app->helper->getCategoryUrl($this->slug);
-    }
-
-    public function prependSlug($slug) {
-        $s = trim($slug);
-        if (!$s) return;
-        $this->slug = $slug . '/' . $this->slug;
+        $s = $this->path ?: $this->slug;
+        return Yii::$app->helper->getCategoryUrl($s);
     }
 
     static public function getAllCategories() {
         return Yii::$app->helper->getVar('shopCategories', function() {
+            // return static::find()
+            //     ->joinWith('categoryProducts')
+            //     ->select([
+            //         '{{%shop_category}}.*', 
+            //         'count({{%shop_category_product}}.product_id) as productCount'
+            //     ])
+            //     ->groupBy(['{{%shop_category}}.id'])
+            //     ->addOrderBy('sort_order ASC')
+            //     ->all();
             return static::find()
-                ->joinWith('categoryProducts')
-                ->select([
-                    '{{%shop_category}}.*', 
-                    'count({{%shop_category_product}}.product_id) as productCount'
-                ])
-                ->groupBy(['{{%shop_category}}.id'])
                 ->addOrderBy('sort_order ASC')
                 ->all();
         });
     }
 
-    static public function travel($callback, $parentId=null, $level=0) {
+    /**
+     * recursively travel the category tree by parent category
+     * @param  callable  $callback A callback that will be called each time a category is found. signature: function handler ( $category, $level, $parent )
+     * @param  mixed  $parent   Category model or null
+     * @param  integer $level   starter depth level
+     */
+    static public function travel($callback, $parent=null, $level=0) {
         foreach(self::getAllCategories() as $category) {
-            if ($category->status==self::STATUS_ACTIVE 
-                && $category->parent_id==$parentId) {
-                $callback($category, $level);
-                self::travel($callback, $category->id, $level+1);
+            $isActive = $category->status==self::STATUS_ACTIVE;
+            $parentMatch = ($parent && $category->parent_id==$parent->id)
+             || (!$parent && $category->parent_id==null);
+          
+            if ( $isActive && $parentMatch ) {
+                $callback($category, $level, $parent);
+                self::travel($callback, $category, $level+1);
             }
         }
     }

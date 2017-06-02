@@ -12,6 +12,7 @@ $config = [
 		'siteName' => 'Shop',
 		'metaDescription' => 'meta description',
 		'metaKeyword' => 'meta tags, meta keys, seo tag',
+		'metaTitle' => 'My Shop',
 		'adminEmail' => 'mailer@local.app',
 		'supportEmail' => 'ubuntu@local.app',
 		'phone' => '0164 785 4321',
@@ -21,6 +22,7 @@ $config = [
 		'defaultPageSize' => 30,
 		'user.passwordResetTokenExpire' => 3600,
 		'cookieLifeTime' => 3600,
+		'featuredProducts' => [1,2,3,4],
 	],
 	'components' => [
 		'db' => [
@@ -96,11 +98,11 @@ $config = [
 		],
 		'assetManager' => [
 			'hashCallback' => function ($path) {
-				$p = dirname($path);
 				// make user friendly path
-				$s2 = basename($p);
-				$s1 = basename(dirname($p));
-				return "$s1-$s2";
+				$suffix = sprintf('%x', crc32($path));
+				$s2 = basename($path);
+				$s1 = basename(dirname($path));
+				return "$s1-$s2-$suffix";
 			}
 		],		
 	],

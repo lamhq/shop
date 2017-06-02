@@ -10,17 +10,13 @@ class ProductList extends ListView
 {
 	public $layout = "{toolbar}\n{items}\n{pager}";
 
-	/**
-	 * path to the view file to render product list toolbar
-	 * @var [type]
-	 */
-	public $toolbarView;
-
 	public $itemOptions = ['class'=>'col-md-4'];
 
-	public $sort;
-
-	public $pageSize;
+	/**
+	 * path to the view file to render product list toolbar
+	 * @var string
+	 */
+	public $toolbarView;
 
 	/**
 	 * param name in query for sort
@@ -39,9 +35,9 @@ class ProductList extends ListView
 	 */
 	public function run()
 	{
-		$this->getView()->registerJs('app.setupProductList();');
-		$this->dataProvider->pagination->defaultPageSize = $this->getLimit();
+		$this->getView()->registerJs(sprintf("app.setupProductList('#%s');", $this->id));
 		$this->applySort();
+		$this->applyLimit();
 		return parent::run();
 	}
 
@@ -87,8 +83,8 @@ class ProductList extends ListView
 			'new' => Yii::t('shop', 'Newest'),
 			'cheap' => Yii::t('shop', 'Price (Low > High)'),
 			'expensive' => Yii::t('shop', 'Price (High > Low)'),
-			'discount' => Yii::t('shop', 'Discount'),
-			'bestseller' => Yii::t('shop', 'Best Seller'),
+			// 'discount' => Yii::t('shop', 'Discount'),
+			// 'bestseller' => Yii::t('shop', 'Best Seller'),
 		];
 	}
 
@@ -107,34 +103,6 @@ class ProductList extends ListView
 
 	public function getSort() {
 		return Yii::$app->request->getQueryParam($this->sortVar);
-	}
-
-	public function getLimitOptions() {
-		return [
-			15 => 15,
-			25 => 25,
-			50 => 50,
-			40 => 75,
-			100 => 100,
-		];
-	}
-
-	public function getLimitDropdownItems() {
-		$result = [];
-		foreach($this->getLimitOptions() as $val => $label) {
-			$url = Url::current([$this->limitVar => $val]);
-			$result[] = [
-				'url' => $url,
-				'label' => $label,
-				'selected' => $val == $this->getLimit()
-			];
-		}
-		return $result;
-	}
-
-	public function getLimit() {
-		$default = array_keys($this->getLimitOptions())[0];
-		return Yii::$app->request->getQueryParam($this->limitVar, $default);
 	}
 
 	public function applySort() {
@@ -158,4 +126,37 @@ class ProductList extends ListView
 		}
 	}
 
+	public function getLimitOptions() {
+		return [
+			15 => 15,
+			25 => 25,
+			50 => 50,
+			40 => 75,
+			100 => 100,
+		];
+	}
+
+	public function getLimitDropdownItems() {
+		$result = [];
+		foreach($this->getLimitOptions() as $val => $label) {
+			$url = Url::current([$this->limitVar => $val, 'page'=>null]);
+			$result[] = [
+				'url' => $url,
+				'label' => $label,
+				'selected' => $val == $this->getLimit()
+			];
+		}
+		return $result;
+	}
+
+	public function getLimit() {
+		$default = array_keys($this->getLimitOptions())[0];
+		return Yii::$app->request->getQueryParam($this->limitVar, $default);
+	}
+
+	public function applyLimit() {
+		if ($this->dataProvider->pagination) {
+			$this->dataProvider->pagination->defaultPageSize = $this->getLimit();
+		}
+	}
 }

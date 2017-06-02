@@ -14,6 +14,17 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
+		$this->registerHomepageMetaTags();
+		return $this->render('index');
+	}
+
+	protected function registerHomepageMetaTags() {
+		if (Yii::$app->request->pathInfo!='') {
+			$this->view->registerLinkTag([
+				'rel' => 'canonical', 
+				'href' => Yii::$app->homeUrl
+			]);
+		}
 		$params = Yii::$app->params;
 		$this->view->registerMetaTag([
 			'name' => 'description',
@@ -23,7 +34,7 @@ class DefaultController extends Controller
 			'name' => 'keywords',
 			'content' => $params['metaKeyword'],
 		]);
-		return $this->render('index');
+		$this->view->title = $params['metaTitle'];
 	}
 
 	/**

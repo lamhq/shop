@@ -33,12 +33,12 @@ return [
 		'urlManager' => [
 			'rules' => [
 				[
-					'pattern' => 'danh-muc/<slug:.*>',
+					'pattern' => 'danh-muc/<path:.*>',
 					'route' => '/shop/category/view',
 					'suffix' => '.html',
 				],
 				[
-					'pattern' => 'san-pham/<slug:.*>',
+					'pattern' => 'san-pham/<path:.*>',
 					'route' => '/shop/product/view',
 					'suffix' => '.html',
 				],

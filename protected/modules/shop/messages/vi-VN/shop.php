@@ -1,10 +1,20 @@
 <?php 
 return [
+	'Categories' => 'Danh mục sản phẩm',
+	'Featured Products' => 'Sản phẩm nổi bật',
 	'Order History' => 'Lịch sử đặt hàng',
 	'Checkout' => 'Thanh toán',
 	'Search' => 'Tìm sản phẩm',
 	'Your shopping cart is empty!' => 'Không có sản phẩm nào trong giỏ hàng!',
 	'Sub-Total' => 'Tạm tính',
 	'Total' => 'Thành tiền',
-	'Show all {0}' => 'Xem toàn bộ',
+	'Show all {0}' => 'Xem toàn bộ ...',
+	'Add to Cart' => 'Chọn mua',
+	'Sort By' => 'Sắp xếp theo',
+	'Show' => 'Số lượng hiển thị',
+	'Newest' => 'Mới nhất',
+	'Price (Low > High)' => 'Giá thấp đến cao',
+	'Price (High > Low)' => 'Giá cao đến thấp',
+	'Success: You have added {0} to your {1}!' => 'Bạn đã thêm {0} vào {1}!',
+	'Shopping cart' => 'Giỏ hàng',
 ];

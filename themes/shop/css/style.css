@@ -6,12 +6,15 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	color: #666;
-	font-size: 12px;
+	font-size: 13px;
 	line-height: 20px;
 	width: 100%;
 }
 h1, h2, h3, h4, h5, h6 {
 	color: #444;
+}
+.fa-cs {
+	font-size: 14px;
 }
 /* Override the bootstrap defaults */
 h1 {
@@ -557,7 +560,6 @@ footer h5 {
 }
 .product-thumb .caption {
 	padding: 0 20px;
-	min-height: 180px;
 }
 .product-list .product-thumb .caption {
 	margin-left: 230px;
@@ -600,6 +602,8 @@ h2.price {
 }
 .product-thumb .price {
 	color: #444;
+	font-weight: bold;
+	font-size: 14px;
 }
 .product-thumb .price-new {
 	font-weight: 600;
@@ -628,7 +632,7 @@ h2.price {
 	}
 }
 .product-thumb .button-group button {
-	width: 60%;
+	width: 100%;
 	border: none;
 	display: inline-block;
 	float: left;
@@ -648,16 +652,6 @@ h2.price {
 	background-color: #ddd;
 	text-decoration: none;
 	cursor: pointer;
-}
-@media (max-width: 1200px) {
-	.product-thumb .button-group button, .product-thumb .button-group button + button {
-		width: 33.33%;
-	}
-}
-@media (max-width: 767px) {
-	.product-thumb .button-group button, .product-thumb .button-group button + button {
-		width: 33.33%;
-	}
 }
 .thumbnails {
 	overflow: auto;
