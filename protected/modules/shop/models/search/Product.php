@@ -47,7 +47,7 @@ class Product extends Model
 	public function search() {
 		$query = \shop\models\Product::find()
 			->active()
-			->instock()
+			// ->instock()
 			->visible();
 
 		$this->addTextFilter($query);

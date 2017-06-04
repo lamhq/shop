@@ -2,7 +2,9 @@
 
 namespace app\assets;
 
+use Yii;
 use yii\web\AssetBundle;
+use yii\web\View;
 
 class App extends AssetBundle
 {
@@ -19,7 +21,7 @@ class App extends AssetBundle
     public function init() {
         $baseUrl = \yii\helpers\Url::base();
         $js = sprintf("app.init('$baseUrl');");
-        \Yii::$app->view->registerJs($js);
+        Yii::$app->view->registerJs($js, View::POS_END);
         return parent::init();
     }
 }

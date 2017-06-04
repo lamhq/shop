@@ -1,7 +1,3 @@
-div.required label.control-label:after {
-    content: " *";
-    color: red;
-}
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
@@ -67,8 +63,8 @@ span.hidden-xs, span.hidden-sm, span.hidden-md, span.hidden-lg {
 .nav-tabs {
 	margin-bottom: 15px;
 }
-div.required .control-label:before {
-	content: '* ';
+div.required .control-label:after {
+	content: ' *';
 	color: #F00;
 	font-weight: bold;
 }
@@ -744,4 +740,9 @@ h2.price {
 .btn-info:hover, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled] {
     background-image: none;
     background-color: #df5c39;
+}
+
+/* review */
+.review {
+    margin-bottom: 30px;
 }

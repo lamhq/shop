@@ -3,6 +3,7 @@
 namespace shop\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%shop_product}}".
@@ -15,6 +16,7 @@ use Yii;
  * @property string $meta_keyword
  * @property string $quantity
  * @property integer $stock_status
+ * @property integer $rating
  * @property integer $status
  * @property string $price
  * @property string $model
@@ -24,9 +26,10 @@ use Yii;
  * @property string $updated_at
  * @property string $available_time
  *
- * @property CategoryProduct[] $shopCategoryProducts
+ * @property CategoryProduct[] $categoryProducts
  * @property Category[] $categories
- * @property ProductImage[] $shopProductImages
+ * @property ProductImage[] $productImages
+ * @property Review[] $reviews
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -57,7 +60,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['description'], 'string'],
-            [['quantity', 'stock_status', 'status', 'viewed'], 'integer'],
+            [['quantity', 'stock_status', 'status', 'rating', 'viewed'], 'integer'],
             [['price'], 'number'],
             [['created_at', 'updated_at', 'available_time'], 'safe'],
             [['name', 'meta_title', 'meta_description', 'meta_keyword', 'slug'], 'string', 'max' => 255],
@@ -79,6 +82,7 @@ class Product extends \yii\db\ActiveRecord
             'meta_keyword' => Yii::t('shop', 'Meta Keyword'),
             'quantity' => Yii::t('shop', 'Quantity'),
             'stock_status' => Yii::t('shop', 'Stock Status'),
+            'rating' => Yii::t('shop', 'Rating'),
             'status' => Yii::t('shop', 'Status'),
             'price' => Yii::t('shop', 'Price'),
             'model' => Yii::t('shop', 'Model'),
@@ -114,6 +118,22 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasMany(ProductImage::className(), ['product_id' => 'id']);
     }
 
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getReviews() 
+    { 
+        return $this->hasMany(Review::className(), ['product_id' => 'id']);
+    }
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getApprovedReviews() 
+    { 
+        return $this->getReviews()->approved();
+    }
+
     /**
      * @inheritdoc
      * @return \shop\models\query\ProductQuery the active query used by this AR class.
@@ -138,4 +158,13 @@ class Product extends \yii\db\ActiveRecord
             self::STATUS_OUT_OF_STOCK => Yii::t('shop', 'Out Of Stock'),
         ];
     }
+
+    public function getStockStatusText() {
+        return ArrayHelper::getValue($this->getStockStatusOptions(), $this->stock_status);
+    }
+
+    public function isOutOfStock() {
+        return $this->stock_status==self::STATUS_OUT_OF_STOCK;
+    }
+    
 }

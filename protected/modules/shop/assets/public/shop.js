@@ -14,19 +14,69 @@ app = Object.assign(app, {
 		});
 	},
 
-	setupProductList: function() {
-		$('.product-toolbar select').change(function () {
-			location.href = this.value;
+	setupProductList: function(target) {
+		$(target).on('change', '.product-toolbar select', function () {
+			app.load(target, { 
+				url: this.value, 
+				src: target
+			});
+		});
+		$(target).on('click', '.pagination a', function (e) {
+			e.preventDefault();
+			app.load(target, { 
+				url: this.href, 
+				src: target
+			});
 		});
 	},
 
 	setupProductDetailPage: function() {
+		// setup product gallery
 		$('.thumbnails a').magnificPopup({
 			type:'image',
 			gallery:{ enabled:true }
 		});
 
+		// setup review form
+		var $reviewForm = $('#reviewForm');
+		$reviewForm.on('submit', 'form', function(e) {
+			e.preventDefault();
+			var $form = $(this);
+			var $button = $form.find('button[type=submit]');
+			app.load($reviewForm, {
+				url: $form.attr('action'),
+				type: 'post',
+				data: $form.serializeArray(),
+				beforeSend: function() {
+					$button.button('loading');
+				},
+				complete: function() {
+					$button.button('reset');
+				}
+			});
+		});
+
 		app.setupAddToCartForm();
+		app.loadReviews()
+		.done(app.loadReviewForm);
+	},
+
+	loadReviews: function () {
+		var $reviewSection = $('#reviews');
+		return app.load($reviewSection, {
+			url: app.baseUrl+'/shop/review/index',
+			type: 'get',
+			data: { productId: $reviewSection.data('product-id') }
+		});
+	},
+
+	loadReviewForm: function () {
+		var $reviewForm = $('#reviewForm');
+		return app.load($reviewForm, {
+			url: app.baseUrl+'/shop/review/form',
+			type: 'get',
+			data: { productId: $reviewForm.data('product-id') }
+		});
 	},
 
 	removeCartItem: function(id) {
@@ -66,8 +116,8 @@ app = Object.assign(app, {
 	},
 
 	setupAddToCartForm: function() {
-		var $cartForm = $('.cart-section');
-		$cartForm.on('submit', '.add-cart-form', function(e) {
+		var $cartForm = $('#cartForm');
+		$cartForm.on('submit', 'form', function(e) {
 			e.preventDefault();
 			var $form = $(this);
 			var $button = $form.find('button[type=submit]');
@@ -98,7 +148,7 @@ app = Object.assign(app, {
 	},
 
 	loadCartDropdown: function() {
-		return app.load($('#cart'), {
+		return app.load('#cart', {
 			url: app.baseUrl+'/shop/checkout/dropdown',
 		});
 	},
@@ -206,7 +256,7 @@ app = Object.assign(app, {
 	},
 
 	loadShippingSection: function() {
-		return app.load($('#shipping-section'), {
+		return app.load('#shipping-section', {
 			url: app.baseUrl+'/shop/checkout/shipping',
 			type: 'get'
 		})
@@ -309,14 +359,14 @@ app = Object.assign(app, {
 	},
 
 	loadPaymentSection: function() {
-		return app.load($('#payment-section'), {
+		return app.load('#payment-section', {
 			url: app.baseUrl+'/shop/checkout/payment',
 			type: 'get'
 		});
 	},
 
 	loadReviewSection: function() {
-		return app.load($('#review-section'), {
+		return app.load('#review-section', {
 			url: app.baseUrl+'/shop/checkout/review',
 			type: 'get'
 		});

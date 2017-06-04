@@ -3,6 +3,7 @@
 namespace shop\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%shop_review}}".
@@ -14,14 +15,23 @@ use Yii;
  * @property string $text
  * @property int $rating
  * @property int $status
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updated_at
  *
- * @property ShopProduct $product
- * @property ShopCustomer $customer
+ * @property Product $product
+ * @property Customer $customer
  */
 class Review extends \yii\db\ActiveRecord
 {
+    const STATUS_APPROVED = 1;
+    const STATUS_PENDING = 0;
+
+    /**
+     * used for captcha validation
+     * @var string
+     */
+    public $verificationCode;
+
     /**
      * @inheritdoc
      */
@@ -36,13 +46,16 @@ class Review extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'author', 'text', 'rating', 'create_time', 'update_time'], 'required'],
+            ['verificationCode', 'required', 'on'=>'frontend'],
+            ['verificationCode', 'captcha', 'captchaAction'=>'/default/captcha', 'on'=>'frontend'],
+
+            [['product_id', 'author', 'text', 'rating'], 'required'],
             [['product_id', 'customer_id', 'rating', 'status'], 'integer'],
             [['text'], 'string'],
-            [['create_time', 'update_time'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['author'], 'string', 'max' => 64],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopProduct::className(), 'targetAttribute' => ['product_id' => 'id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => ShopCustomer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
 
@@ -59,8 +72,8 @@ class Review extends \yii\db\ActiveRecord
             'text' => Yii::t('shop', 'Text'),
             'rating' => Yii::t('shop', 'Rating'),
             'status' => Yii::t('shop', 'Status'),
-            'create_time' => Yii::t('shop', 'Create Time'),
-            'update_time' => Yii::t('shop', 'Update Time'),
+            'created_at' => Yii::t('shop', 'Create Time'),
+            'updated_at' => Yii::t('shop', 'Update Time'),
         ];
     }
 
@@ -69,7 +82,7 @@ class Review extends \yii\db\ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(ShopProduct::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 
     /**
@@ -77,7 +90,7 @@ class Review extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(ShopCustomer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
     }
 
     /**
@@ -87,5 +100,20 @@ class Review extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \shop\models\query\ReviewQuery(get_called_class());
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => function ($event) {
+                    return Yii::$app->formatter->asDbDateTime();
+                },
+            ],
+        ];
+    }
+
+    static public function getReviewRange() {
+        return range(1, 5);
     }
 }

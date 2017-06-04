@@ -37,6 +37,16 @@ class AddToCartForm extends Model
         return '';
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'qty' => Yii::t('shop', 'Qty'),
+        ];
+    }
+
 	/**
 	 * @return Product|null
 	 */

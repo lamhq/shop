@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 use shop\models\Product;
 use shop\models\Category;
 use shop\models\AddToCartForm;
@@ -24,7 +25,6 @@ class ProductController extends Controller
 	{
 		$model = Product::find()
 			->active()
-			->instock()
 			->visible()
 			->bySlug($path)
 			->one();
@@ -87,6 +87,8 @@ class ProductController extends Controller
 			'content' => $model->meta_keyword,
 		]);
 		$this->view->title = $h->getPageTitle($model->meta_title);
+		$this->view->registerJsFile(Yii::$app->params['addThisLink']);
+
 	}
 
 	public function actionSearch() {

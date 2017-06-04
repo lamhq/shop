@@ -85,10 +85,18 @@ app = {
 			});
 	},
 
-	load: function($target, setting) {
+	load: function(target, setting) {
+		var src = setting.src==='undefined' ? false : setting.src;
 		return app.ajax(setting)
 			.done(function (data, textStatus, jqXHR) {
-				$target.html(data);
+				var html = '';
+				if (src) {
+					var $e = $('<div>'+data+'</div>');
+					html = $e.find(src).html();
+				} else {
+					html = data;
+				}
+				$(target).html(html);
 			});
 	}
 };

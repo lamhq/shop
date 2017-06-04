@@ -2,6 +2,8 @@
 
 namespace shop\models\query;
 
+use shop\models\Review;
+
 /**
  * This is the ActiveQuery class for [[\shop\models\Review]].
  *
@@ -9,10 +11,10 @@ namespace shop\models\query;
  */
 class ReviewQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function approved()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        return $this->andWhere('[[status]]='.Review::STATUS_APPROVED);
+    }
 
     /**
      * @inheritdoc
@@ -31,4 +33,11 @@ class ReviewQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function byProductId($productId) {
+        $this->andWhere([
+            'product_id' => $productId
+        ]);
+        return $this;
+    }    
 }

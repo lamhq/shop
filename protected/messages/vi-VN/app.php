@@ -7,6 +7,6 @@ return [
 	'Login' => 'Đăng nhập',
 	'Logout' => 'Đăng xuất',
 	'Remove' => 'Xóa',
-	'Loading' => 'Đang xử lý',
+	'Loading...' => 'Đang xử lý...',
 	'Powered By' => 'Bản quyền thuộc về',
 ];

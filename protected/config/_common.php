@@ -18,6 +18,7 @@ $config = [
 		'phone' => '0164 785 4321',
 		'logo' => 'logo.png',
 		'favicon' => 'favicon.png',
+		'addThisLink' => '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56133df5326f44f0',
 		'storagePath' => 'storage',
 		'defaultPageSize' => 30,
 		'user.passwordResetTokenExpire' => 3600,

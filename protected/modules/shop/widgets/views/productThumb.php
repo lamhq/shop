@@ -18,6 +18,7 @@ $f = Yii::$app->formatter;
 	</div>
 	<div class="caption">
 		<h4><a href="<?= $model->getUrl() ?>"><?= $model->name ?></a></h4>
+		<div class="rating"><?= \shop\widgets\Rating::widget([ 'value'=>$model->rating ]) ?></div>
 		<p class="price"><?= $f->asCurrency($model->price) ?></p>
 	</div>
 	<div class="button-group">

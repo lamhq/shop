@@ -6,7 +6,7 @@ $f = Yii::$app->formatter;
 $itemCollection = $order->itemCollection;
 $this->registerJs('app.setupCartDropdown();');
 ?>
-<button type="button" data-toggle="dropdown" class="btn btn-inverse btn-block btn-lg dropdown-toggle" aria-expanded="false" data-loading-text="<?= Yii::t('app', 'Loading') ?>...">
+<button type="button" data-toggle="dropdown" class="btn btn-inverse btn-block btn-lg dropdown-toggle" aria-expanded="false" data-loading-text="<?= Yii::t('app', 'Loading...') ?>">
 	<i class="fa fa-shopping-cart fa-cs"></i> <span id="cart-total"><?= $f->asCurrency($order->calculateTotal()) ?></span>
 </button>
 
