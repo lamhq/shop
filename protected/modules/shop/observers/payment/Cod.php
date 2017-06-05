@@ -12,7 +12,7 @@ class Cod extends Object
 		$order = $event->sender;
 		if ($order->payment_code!='cod') return;
 		
-		$order->payment_method = 'Cash On Delivery';
+		$order->payment_method = Yii::t('shop','Cash On Delivery');
 		$order->update(false, ['payment_method']);
 		$order->addOrderHistory(Order::STATUS_PENDING);
 	}
@@ -20,7 +20,7 @@ class Cod extends Object
 	public function onCollectPaymentMethod($event) {
 		$data = &$event->triggerData;
 		$data[] = [
-			'title'	=> 'Cash On Delivery',
+			'title'	=> Yii::t('shop','Cash On Delivery'),
 			'code'	=> 'cod',
 		];
 	}

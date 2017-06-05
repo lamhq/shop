@@ -122,7 +122,7 @@ class CheckoutForm extends Order
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), [
-			'comment' => Yii::t('shop', 'Add comments about your order'),
+			'register' => Yii::t('app', 'Register'),
 		]);
 	}
 

@@ -9,4 +9,9 @@ return [
 	'Remove' => 'Xóa',
 	'Loading...' => 'Đang xử lý...',
 	'Powered By' => 'Bản quyền thuộc về',
+	'Update' => 'Sửa',
+	'Remove' => 'Xóa',
+	'Password' => 'Mật khẩu',
+	'Confirm Password' => 'Nhập lại mật khẩu',
+	'-- Please select --' => '-- Để trống --',
 ];

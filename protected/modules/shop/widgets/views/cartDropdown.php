@@ -43,7 +43,7 @@ $this->registerJs('app.setupCartDropdown();');
 				</tbody>
 			</table>
 			<p class="text-right">
-				<a href="<?= Url::to(['/shop/cart']) ?>"><strong><i class="fa fa-shopping-cart"></i> <?= Yii::t('shop', 'Checkout') ?></strong></a>
+				<a href="<?= Url::to(['/shop/cart']) ?>" class="btn btn-primary"><strong><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;<?= Yii::t('shop', 'Checkout') ?></strong></a>
 			</p>
 		</div>
 	</li>

@@ -23,7 +23,7 @@ $cname = Html::getInputName($model, 'shippingAddressType');
 	</div>
 	<div id="address-exist">
 		<?= Html::activeDropDownList($model, 'shippingAddressId', $addresses, 
-		['class'=>'form-control', 'prompt'=>Yii::t('shop','-- Please select --')]) ?>
+		['class'=>'form-control', 'prompt'=>Yii::t('app','-- Please select --')]) ?>
 		<?= Html::error($model, 'shippingAddressId', ['tag'=>'p', 'class'=>'text-danger']) ?>
 	</div>
 	<div class="radio">

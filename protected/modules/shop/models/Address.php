@@ -110,8 +110,8 @@ class Address extends \yii\db\ActiveRecord
 
     public function getText() {
         $city = $this->city ? $this->city->name : '';
-        $district = $this->district ? 'District ' . $this->district->name : '';
-        $ward = $this->ward ? 'Ward ' . $this->ward->name : '';
+        $district = $this->district ? Yii::t('shop', 'District {0}', $this->district->name) : '';
+        $ward = $this->ward ? Yii::t('shop', 'Ward {0}', $this->ward->name) : '';
         $arr = array_filter([$this->name, $city, $district, $ward, $this->address]);
         return implode(', ', $arr);
     }

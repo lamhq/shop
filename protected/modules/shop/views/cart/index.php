@@ -46,10 +46,10 @@ app\assets\BootstrapSelect::register($this);
 								'name'=>"quantity[{$item->id}]"
 							]) ?>
 							<span class="input-group-btn">
-								<button type="submit" data-toggle="tooltip" title="<?= Yii::t('shop', 'Update') ?>" class="btn btn-primary">
+								<button type="submit" data-toggle="tooltip" title="<?= Yii::t('app', 'Update') ?>" class="btn btn-primary">
 									<i class="fa fa-refresh"></i>
 								</button>
-								<button type="button" data-toggle="tooltip" title="<?= Yii::t('shop', 'Remove') ?>" class="btn btn-danger btn-remove" data-item="<?= $item->id ?>">
+								<button type="button" data-toggle="tooltip" title="<?= Yii::t('app', 'Remove') ?>" class="btn btn-danger btn-remove" data-item="<?= $item->id ?>">
 									<i class="fa fa-times-circle"></i>
 								</button>
 							</span>
@@ -64,7 +64,7 @@ app\assets\BootstrapSelect::register($this);
 	</div>
 	<?php ActiveForm::end(); ?>
 
-	<h2><?= Yii::t('shop', 'Checkout') ?></h2>
+	<h1><?= Yii::t('shop', 'Checkout') ?></h1>
 	<div class="row">
 		<div id="shipping-section" class="col-sm-6"></div>
 		<div class="col-sm-6">

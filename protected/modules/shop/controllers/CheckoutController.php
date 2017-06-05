@@ -28,7 +28,7 @@ class CheckoutController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'place-order' => ['POST'],
+					// 'place-order' => ['POST'],
 				],
 			],
 			'checkout' => [

@@ -9,7 +9,7 @@ $cname = Html::getInputName($model, 'payment_code');
 ?>
 <h3><?= Yii::t('shop', 'Payment Detail') ?></h3>
 
-<p><?= Yii::t('shop', 'Please select the preferred payment method to use on this order.') ?></p>
+<p><?= Yii::t('shop', 'Please select the preferred payment method to use on this order:') ?></p>
 
 <?php $form = ActiveForm::begin(['id' => 'paymentForm']); ?>
 	<?php foreach ($model->getAvailablePaymentMethods() as $item): ?>
@@ -22,5 +22,5 @@ $cname = Html::getInputName($model, 'payment_code');
 	<?php endforeach ?>
 	<?= Html::error($model, 'payment_code', ['tag'=>'p', 'class'=>'text-danger']) ?>
 
-	<?php echo $form->field($model, 'comment')->textArea() ?>
+	<?php echo $form->field($model, 'comment')->textArea(['rows'=>5])->label(Yii::t('shop', 'Add comments about your order:')) ?>
 <?php ActiveForm::end(); ?>
