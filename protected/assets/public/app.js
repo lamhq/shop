@@ -81,22 +81,23 @@ app = {
 		
 		return app.xhr = $.ajax(setting)
 			.fail(function( jqXHR, textStatus, errorThrown ) {
-				alert(errorThrown + "\r\n" + jqXHR.statusText + "\r\n" + jqXHR.responseText);
+				console.log('ajax excecution failed on '+setting.url+' . error: '+errorThrown);
+				// alert(errorThrown + "\r\n" + jqXHR.statusText + "\r\n" + jqXHR.responseText);
 			});
 	},
 
 	load: function(target, setting) {
 		var src = setting.src==='undefined' ? false : setting.src;
 		return app.ajax(setting)
-			.done(function (data, textStatus, jqXHR) {
-				var html = '';
-				if (src) {
-					var $e = $('<div>'+data+'</div>');
-					html = $e.find(src).html();
-				} else {
-					html = data;
-				}
-				$(target).html(html);
-			});
+		.then(function (data, textStatus, jqXHR) {
+			var html = '';
+			if (src) {
+				var $e = $('<div>'+data+'</div>');
+				html = $e.find(src).html();
+			} else {
+				html = data;
+			}
+			$(target).html(html);
+		});
 	}
 };

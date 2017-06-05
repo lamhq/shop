@@ -5,8 +5,7 @@ use yii\bootstrap\Html;
 ?>
 <?php $form = ActiveForm::begin([
 	'action' => ['/shop/cart/add'],
-	'enableClientValidation' => true,
-	'validateOnSubmit' => true,
+	'enableClientScript' => false,
 ]); ?>
 <?= \app\widgets\Alert::widget() ?>
 <?= $form->field($model, 'qty') ?>

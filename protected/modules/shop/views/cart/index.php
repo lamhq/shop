@@ -11,7 +11,7 @@ $itemCollection = $model->itemCollection;
 $this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = $title;
 $this->registerJs('app.setupCartPage();');
-lamhq\yii2\asset\Select2BootstrapTheme::register($this);
+app\assets\BootstrapSelect::register($this);
 ?>
 <h1><?= $title ?></h1>
 
@@ -19,8 +19,7 @@ lamhq\yii2\asset\Select2BootstrapTheme::register($this);
 	<?php $form = ActiveForm::begin([
 		'id' => 'cartForm',
 		'action' => ['/shop/cart/update'],
-		'enableClientValidation' => true,
-		'validateOnSubmit' => true,
+		'enableClientScript' => false,
 	]); ?>
 	<div class="table-responsive">
 		<table class="table table-bordered cart-table">

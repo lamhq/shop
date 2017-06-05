@@ -58,7 +58,7 @@ app = Object.assign(app, {
 
 		app.setupAddToCartForm();
 		app.loadReviews()
-		.done(app.loadReviewForm);
+		.then(app.loadReviewForm);
 	},
 
 	loadReviews: function () {
@@ -105,7 +105,7 @@ app = Object.assign(app, {
 					$button.button('reset');
 				}
 			})
-			.done(function (json, textStatus, jqXHR) {
+			.then(function (json, textStatus, jqXHR) {
 				if (json.redirect) {
 					location = json.redirect;
 				}
@@ -133,7 +133,7 @@ app = Object.assign(app, {
 					$button.button('reset');
 				}
 			})
-			.done(function (json, textStatus, jqXHR) {
+			.then(function (json, textStatus, jqXHR) {
 				if (json.redirect) {
 					location = json.redirect;
 				}
@@ -160,7 +160,7 @@ app = Object.assign(app, {
 			var $button = $('#cart > button');
 			$button.button('loading');
 			app.removeCartItem(id)
-			.done(function () {
+			.then(function () {
 				$button.button('reset');
 				if ($('body').hasClass('cart-index')) {
 					location.reload();
@@ -176,17 +176,17 @@ app = Object.assign(app, {
 		$('.cart-table .btn-remove').click(function() {
 			var id = $(this).data('item');
 			app.removeCartItem(id)
-			.done(function () { location.reload(); });
+			.then(function () { location.reload(); });
 		});
 
 		app.setupCheckoutSection();
 	},
 
 	setupCheckoutSection: function() {
-		$(function() {
+		$(window).load(function() {
 			app.loadShippingSection()
-				.always(app.loadPaymentSection)
-				.always(app.loadReviewSection);
+				.then(app.loadPaymentSection)
+				.then(app.loadReviewSection);
 		});
 
 		var lockSubmit = function () {
@@ -213,7 +213,7 @@ app = Object.assign(app, {
 			// .always(app.loadReviewSection)
 			// .always(unlockSubmit);
 		// };
-		// $('#shipping-section').on('select2:select', 'select', onShippingChange);
+		// $('#shipping-section').on('change', 'select', onShippingChange);
 		// $('#shipping-section').on('change', 'input,#checkoutform-shippingaddressid', onShippingChange);
 
 		// reload review section on payment change
@@ -232,14 +232,14 @@ app = Object.assign(app, {
 
 			lockSubmit();
 			saveFormData(data)
-			.done(function () {
+			.then(function () {
 				return app.ajax({
 					url: app.baseUrl+'/shop/checkout/place-order',
 					type: 'post',
 					dataType: 'json'
 				});
 			})
-			.done(function (json) {
+			.then(function (json) {
 				if (json.redirect) {
 					location = json.redirect;
 				}
@@ -259,8 +259,7 @@ app = Object.assign(app, {
 		return app.load('#shipping-section', {
 			url: app.baseUrl+'/shop/checkout/shipping',
 			type: 'get'
-		})
-		.done(app.setupShipping);
+		}).then(app.setupShipping);
 	},
 
 	setupShipping: function() {
@@ -304,8 +303,13 @@ app = Object.assign(app, {
 	},
 
 	setupAddressControls: function () {
+		$('.selectpicker').selectpicker({
+			liveSearch: true
+		});
+
 		// update options of a select control
 		var setDropdownItems = function ($dropdown, items) {
+			// save the empty option
 			var $option = $dropdown.find('option:first');
 			$dropdown.empty();
 			$dropdown.append($option);
@@ -315,11 +319,12 @@ app = Object.assign(app, {
 				$option.text(this.label);
 				$dropdown.append($option);
 			});
+			$dropdown.closest('.selectpicker').selectpicker('refresh');
 			$dropdown.trigger('change');
 		};
 
 		// reload + reset district dropdown when changing city
-		$('.city').change(function () {
+		$('select.city').on('change', function () {
 			var city = this.value;
 			if (city=='') return;
 			$.ajax({
@@ -328,15 +333,15 @@ app = Object.assign(app, {
 				data: { city: city },
 				dataType: 'json'
 			})
-			.done(function (json, textStatus, jqXHR) {
+			.then(function (json, textStatus, jqXHR) {
 				if (typeof json === 'object') {
-					setDropdownItems($('.district'), json.districts);
+					setDropdownItems($('select.district'), json.districts);
 				}
 			});
 		});
 
 		// reload + reset ward dropdown when changing district
-		$('.district').change(function () {
+		$('select.district').on('change', function () {
 			var district = this.value;
 			if (district=='') return;
 			$.ajax({
@@ -345,16 +350,11 @@ app = Object.assign(app, {
 				data: { district: district },
 				dataType: 'json'
 			})
-			.done(function (json, textStatus, jqXHR) {
+			.then(function (json, textStatus, jqXHR) {
 				if (typeof json === 'object') {
-					setDropdownItems($('.ward'), json.wards);
+					setDropdownItems($('select.ward'), json.wards);
 				}
 			});
-		});
-
-		$('.select2').select2({
-			theme: "bootstrap",
-			width: 'resolve'
 		});
 	},
 

@@ -21,11 +21,11 @@
         "lamhq/yii2-adminlte-asset": "^1.0",
         "lamhq/yii2-notify-asset": "^0.0.1",
         "lamhq/yii2-owlcarousel2-asset": "dev-master",
-        "lamhq/yii2-select2-bootstrap-theme-asset": "^1.0",
         "lamhq/php-helpers": "^0.0.3",
         "trntv/yii2-datetime-widget": "^1.0",
         "ivan-chkv/yii2-jquery-magnific-popup": "^2.0",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "bower-asset/bootstrap-select": "^1.12"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
