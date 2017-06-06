@@ -127,9 +127,11 @@ class CheckoutController extends Controller
 	public function actionSuccess()
 	{
 		$model = $this->getOrder();
+		if (!$model->id)
+			return $this->redirect(Url::home());
 		$model->itemCollection->clear();
 		$this->clearOrderSessionData();
-		return $this->render('success');
+		return $this->render('success', ['model'=>$model]);
 	}
 
 	/**

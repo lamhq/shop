@@ -59,4 +59,11 @@ return [
 	'District {0}' => 'Quận {0}',
 	'Ward {0}' => 'Phường {0}',
 	'Payment Code' => 'Phương thức thanh toán',
+	'Your order has been placed!' => 'Đặt hàng thành công',
+	'Your order number is: ' => 'Mã số đơn đặt hàng của bạn là:',
+	'You can view your order history by going to the {0} page and by clicking on {1}.' => 'Bạn có thể kiểm tra đơn hàng bằng cách vào mục {0} và click chọn {1}.',
+	'Thanks for shopping with us online!' => 'Cảm ơn bạn đã tin tưởng và ủng hộ chúng tôi !',
+	'Please direct any questions you have to {0}' => 'Mọi thắc mắc xin liên hệ {0}',
+	'store owner' => 'chủ shop',
+	'Continue' => 'Tiếp tục',
 ];
