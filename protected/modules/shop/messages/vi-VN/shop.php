@@ -66,5 +66,4 @@ return [
 	'Thanks for shopping with us online!' => 'Cảm ơn bạn đã tin tưởng và ủng hộ chúng tôi !',
 	'Please direct any questions you have to {0}' => 'Mọi thắc mắc xin liên hệ {0}',
 	'store owner' => 'chủ shop',
-	'Continue' => 'Tiếp tục',
 ];

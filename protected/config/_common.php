@@ -106,6 +106,9 @@ $config = [
 				return "$s1-$s2-$suffix";
 			}
 		],		
+        'errorHandler' => [
+            'errorAction' => '/default/error',
+        ],
 	],
 ];
 

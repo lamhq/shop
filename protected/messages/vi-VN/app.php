@@ -14,4 +14,7 @@ return [
 	'Password' => 'Mật khẩu',
 	'Confirm Password' => 'Nhập lại mật khẩu',
 	'-- Please select --' => '-- Để trống --',
+	'Error' => 'Lỗi',
+	'Continue' => 'Tiếp tục',
+	'Something went wrong!' => 'Có lỗi xảy ra!',
 ];
