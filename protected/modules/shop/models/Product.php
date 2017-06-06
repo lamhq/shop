@@ -15,7 +15,6 @@ use yii\helpers\ArrayHelper;
  * @property string $meta_description
  * @property string $meta_keyword
  * @property string $quantity
- * @property integer $stock_status
  * @property integer $rating
  * @property integer $status
  * @property string $price
@@ -35,9 +34,6 @@ class Product extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
-
-    const STATUS_IN_STOCK = 1;
-    const STATUS_OUT_OF_STOCK = 0;
 
     /**
      * category path used to create pretty url
@@ -60,7 +56,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['description'], 'string'],
-            [['quantity', 'stock_status', 'status', 'rating', 'viewed'], 'integer'],
+            [['quantity', 'status', 'rating', 'viewed'], 'integer'],
             [['price'], 'number'],
             [['created_at', 'updated_at', 'available_time'], 'safe'],
             [['name', 'meta_title', 'meta_description', 'meta_keyword', 'slug'], 'string', 'max' => 255],
@@ -81,7 +77,6 @@ class Product extends \yii\db\ActiveRecord
             'meta_description' => Yii::t('shop', 'Meta Description'),
             'meta_keyword' => Yii::t('shop', 'Meta Keyword'),
             'quantity' => Yii::t('shop', 'Quantity'),
-            'stock_status' => Yii::t('shop', 'Stock Status'),
             'rating' => Yii::t('shop', 'Rating'),
             'status' => Yii::t('shop', 'Status'),
             'price' => Yii::t('shop', 'Price'),
@@ -152,19 +147,12 @@ class Product extends \yii\db\ActiveRecord
         return Yii::$app->helper->getProductUrl($s);
     }
 
-    static public function getStockStatusOptions() {
-        return [
-            self::STATUS_IN_STOCK => Yii::t('shop', 'In Stock'),
-            self::STATUS_OUT_OF_STOCK => Yii::t('shop', 'Out Of Stock'),
-        ];
-    }
-
     public function getStockStatusText() {
-        return ArrayHelper::getValue($this->getStockStatusOptions(), $this->stock_status);
+        return $this->isOutOfStock() ? Yii::t('shop', 'Out Of Stock') : Yii::t('shop', 'In Stock');
     }
 
     public function isOutOfStock() {
-        return $this->stock_status==self::STATUS_OUT_OF_STOCK;
+        return $this->quantity <= 0;
     }
     
 }

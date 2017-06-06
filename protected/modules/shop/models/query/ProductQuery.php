@@ -34,7 +34,7 @@ class ProductQuery extends \yii\db\ActiveQuery
     }
 
     public function instock() {
-        $this->andWhere(['stock_status' => Product::STATUS_IN_STOCK]);
+        $this->andWhere(['quantity > 0']);
         return $this;
     }
 

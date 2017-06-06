@@ -103,6 +103,12 @@ class CheckoutController extends Controller
 	public function actionPlaceOrder()
 	{
 		$model = $this->getOrder();
+		if (!$model->itemCollection->hasStock()) {
+			return Yii::$app->helper->jsonError('', [
+				'redirect'=> Url::to(['/shop/cart/index'])
+			]);
+		}
+
 		if ( $model->placeOrder() ) {
 			$event = Yii::$app->helper->createEvent([
 				'sender' => $model,

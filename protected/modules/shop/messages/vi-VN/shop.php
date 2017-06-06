@@ -48,6 +48,7 @@ return [
 	'Review' => 'Xác nhận đặt hàng',
 	'Place Order' => 'ĐẶT MUA',
 	'Continue Shopping' => 'Tiếp tục mua hàng',
+	'Please check your cart, some items are not in stock!'=>'Sản phẩm bạn đặt mua hiện đã hết hàng, xin hãy loại bỏ chúng ra khỏi giỏ để tiến hành thanh toán.',
 	'Name' => 'Họ tên',
 	'Telephone' => 'Điện thoại',
 	'City' => 'Tỉnh / Thành phố',

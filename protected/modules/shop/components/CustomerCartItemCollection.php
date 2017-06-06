@@ -88,6 +88,10 @@ class CustomerCartItemCollection extends CartItemCollection {
 	}
 
 	public function hasStock() {
+		foreach ($this->getItems() as $item) {
+			if ($item->product->isOutOfStock())
+				return false;
+		}
 		return true;
 	}
 

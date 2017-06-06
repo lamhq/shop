@@ -69,6 +69,10 @@ class CartController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$model = $this->getOrder();
+		if (!$model->itemCollection->hasStock()) {
+			Yii::$app->helper->setError(Yii::t('shop', 'Please check your cart, some items are not in stock!'));
+		}
 		return $this->render('index', [
 			'model'=>$this->getOrder()
 		]);

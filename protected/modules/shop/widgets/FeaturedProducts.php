@@ -16,7 +16,6 @@ class FeaturedProducts extends Widget
 		$productIds = Yii::$app->params['featuredProducts'];
 		$query = Product::find()
 			->active()
-			->instock()
 			->visible()
 			->andWhere(['in', 'id', $productIds]);
 		$dataProvider = new ActiveDataProvider([

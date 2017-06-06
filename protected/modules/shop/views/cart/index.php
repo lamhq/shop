@@ -37,7 +37,14 @@ app\assets\BootstrapSelect::register($this);
 				<?php $product = $item->product ?>
 				<tr>
 					<td class="text-center"><?= Html::img($product->getImageUrl(47, 47), ['class'=>'img-thumbnail']) ?></td>
-					<td><?= Html::a($product->name, $product->getUrl()) ?></td>
+					<td>
+						<div><?= Html::a($product->name, $product->getUrl()) ?></div>
+						<?php if ($product->isOutOfStock()): ?>
+							<div>
+								<em class="text-danger"><?= Yii::t('shop', 'Out Of Stock') ?></em>
+							</div>
+						<?php endif ?>
+					</td>
 					<td>
 						<div class="input-group btn-block" style="max-width: 200px;">
 							<?= Html::activeTextInput($item, "quantity", [
