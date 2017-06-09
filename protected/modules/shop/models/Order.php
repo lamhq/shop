@@ -227,20 +227,23 @@ class Order extends \yii\db\ActiveRecord
 
 	static public function getStatuses() {
 		return [
-			self::STATUS_PENDING => 'Pending',
-			self::STATUS_PROCESSING => 'Processing',
-			self::STATUS_SHIPPED => 'Shipped',
-			self::STATUS_COMPLETE => 'Complete',
-			self::STATUS_CANCELED => 'Cancelled',
-			self::STATUS_REFUNDED => 'Refunded',
+			self::STATUS_PENDING => Yii::t('shop', 'Pending'),
+			self::STATUS_PROCESSING => Yii::t('shop', 'Processing'),
+			self::STATUS_SHIPPED => Yii::t('shop', 'Shipped'),
+			self::STATUS_COMPLETE => Yii::t('shop', 'Complete'),
+			self::STATUS_CANCELED => Yii::t('shop', 'Cancelled'),
+			self::STATUS_REFUNDED => Yii::t('shop', 'Refunded'),
 		];
 	}
 	
+	static public function getStatusText($status) {
+		return \yii\helpers\ArrayHelper::getValue(self::getStatuses(), $status);
+	}
+
 	public function getDisplayStatus() {
-		return \yii\helpers\ArrayHelper::getValue(self::getStatuses(), $this->status);
+		return self::getStatusText($this->status);
 	}
 	
-    
     public function getNumberOfProducts() {
     	$result = 0;
         foreach ($this->orderProducts as $item) {

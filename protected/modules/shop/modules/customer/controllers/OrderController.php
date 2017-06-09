@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
+use shop\models\Order;
 
 class OrderController extends Controller
 {
@@ -24,15 +25,13 @@ class OrderController extends Controller
 	}
 
 	public function actionView($id) {
-		// $model = AccountForm::findOne(Yii::$app->user->identity->id);
-		// if ( $model->load(Yii::$app->request->post()) 
-		// 	&& $model->save() ) {
-		// 	Yii::$app->helper->setSuccess(Yii::t('app', 'Data saved.'));
-		// 	return $this->refresh();
-		// }
-		
-		// return $this->render('edit', [
-		// 	'model' => $model
-		// ]);
+		$model = Order::findOne($id);
+		if (!$model || $model->customer_id!=Yii::$app->user->id) {
+            throw new NotFoundHttpException;
+		}
+
+		return $this->render('view', [
+			'model' => $model
+		]);
 	}
 }

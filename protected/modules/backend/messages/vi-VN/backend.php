@@ -7,10 +7,11 @@ return [
 	// login
 	'Sign In' => 'Đăng nhập',
 	'Username' => 'Tên đăng nhập',
+	'Email or phone' => 'Email hoặc số điện thoại',
 	'Password' => 'Mật khẩu',
 	'Remember me' => 'Tự động đăng nhập lần sau',
 	'I forgot my password' => 'Tôi quên mật khẩu rồi!!!',
-	'Incorrect username or password.' => 'Thông tin đăng nhập sai',
+	'Incorrect username or password.' => 'Thông tin đăng nhập sai.',
 
 	// Forgot pasword
 	'Request password reset' => 'Quên mật khẩu tài khoản',

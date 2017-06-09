@@ -6,8 +6,8 @@ use yii\bootstrap\Html;
 use yii\helpers\Url;
 
 $f = Yii::$app->formatter;
-$title = Yii::t('shop', 'Shopping Cart');
 $itemCollection = $model->itemCollection;
+$title = Yii::t('shop', 'Shopping Cart');
 $this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = $title;
 $this->registerJs('app.setupCartPage();');
@@ -26,7 +26,7 @@ app\assets\BootstrapSelect::register($this);
 			<thead>
 				<tr>
 					<th><?= Yii::t('shop', 'Image') ?></th>
-					<th><?= Yii::t('shop', 'Product Name') ?></th>
+					<th><?= Yii::t('shop', 'Product') ?></th>
 					<th><?= Yii::t('shop', 'Quantity') ?></th>
 					<th><?= Yii::t('shop', 'Unit Price') ?></th>
 					<th><?= Yii::t('shop', 'Total') ?></th>

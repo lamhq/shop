@@ -6,12 +6,14 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \app\models\LoginForm */
 
-$this->title = Yii::t('shop', 'Sign In');
+$title = Yii::t('backend', 'Sign In');
+$this->title = Yii::$app->helper->getPageTitle($title);
+$this->params['breadcrumbs'][] = $title;
 ?>
 <div class="row">
-	<div class="col-md-6 col-md-offset-3">
+	<div class="col-sm-4 col-sm-offset-4">
 		<div class="well">
-			<h2><?= $this->title ?></h2>
+			<h2><?= $title ?></h2>
 			<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 				<?php echo $form->field($model, 'username') ?>
 				<?php echo $form->field($model, 'password')->passwordInput() ?>

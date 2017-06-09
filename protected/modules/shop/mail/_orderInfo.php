@@ -4,23 +4,24 @@ $f = Yii::$app->formatter;
 <table style="border-collapse: collapse; width: 100%; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD; margin-bottom: 20px;">
 	<thead>
 		<tr>
-			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;" colspan="2">Order Details</td>
+			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;" colspan="2"><?= Yii::t('shop', 'Order Details') ?></td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td style="font-size: 12px;	border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; text-align: left; padding: 7px;">
-				<b>Order ID:</b> <?= $order->id; ?><br />
-				<b>Date Added:</b> <?= $f->asDate($order->created_at) ?><br />
-				<b>Payment Method: </b> <?= $order->payment_method; ?><br />
+				<b><?= Yii::t('shop', 'Order ID') ?>:</b> #<?= $order->id; ?><br />
+				<b><?= Yii::t('shop', 'Create Time') ?>:</b> <?= $f->asDate($order->created_at) ?><br />
+				<b><?= Yii::t('shop', 'Payment Method') ?>:</b> <?= $order->payment_method; ?><br />
 			</td>
 			<td style="font-size: 12px;	border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; text-align: left; padding: 7px;">
+				<b><?= Yii::t('shop', 'Name') ?>:</b> <?= $order->name; ?><br />
 				<?php if ($order->email): ?>
-				<b>E-mail:</b> <?= $order->email; ?><br />
+				<b><?= Yii::t('shop', 'Email') ?>:</b> <?= $order->email; ?><br />
 				<?php endif ?>
-				<b>Telephone:</b> <?= $order->telephone; ?><br />
-				<b>IP Address:</b> <?= $order->ip; ?><br />
-				<b>Order Status:</b> <?= $order->getDisplayStatus(); ?><br /></td>
+				<b><?= Yii::t('shop', 'Telephone') ?>:</b> <?= $order->telephone; ?><br />
+				<b><?= Yii::t('shop', 'Status') ?>:</b> <?= $order->getDisplayStatus(); ?><br />
+			</td>
 		</tr>
 	</tbody>
 </table>
@@ -29,7 +30,7 @@ $f = Yii::$app->formatter;
 <table style="border-collapse: collapse; width: 100%; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD; margin-bottom: 20px;">
 	<thead>
 		<tr>
-			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;">Instructions</td>
+			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;"><?= Yii::t('shop', 'Comment') ?></td>
 		</tr>
 	</thead>
 	<tbody>
@@ -43,7 +44,7 @@ $f = Yii::$app->formatter;
 <table style="border-collapse: collapse; width: 100%; border-top: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD; margin-bottom: 20px;">
 	<thead>
 		<tr>
-			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;">Shipping Address</td>
+			<td style="font-size: 12px; border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD; background-color: #EFEFEF; font-weight: bold; text-align: left; padding: 7px; color: #222222;"><?= Yii::t('shop', 'Shipping Detail') ?></td>
 		</tr>
 	</thead>
 	<tbody>
