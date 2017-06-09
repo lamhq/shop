@@ -24,9 +24,6 @@ class Module extends \yii\base\Module
 		$this->applySettingForWebApp();
 	}
 
-	/**
-	 * reconfigure application in runtime
-	 */
 	public function applySettingForWebApp() {
 		if (!Yii::$app instanceof \yii\web\Application) return;
 		

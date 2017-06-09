@@ -91,10 +91,10 @@ class Order extends \yii\db\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id' => Yii::t('shop', 'ID'),
+			'id' => Yii::t('shop', 'Order ID'),
 			'invoice_no' => Yii::t('shop', 'Invoice No'),
 			'customer_id' => Yii::t('shop', 'Customer ID'),
-			'name' => Yii::t('shop', 'Name'),
+			'name' => Yii::t('shop', 'Customer'),
 			'email' => Yii::t('shop', 'Email'),
 			'telephone' => Yii::t('shop', 'Telephone'),
 			'payment_method' => Yii::t('shop', 'Payment Method'),
@@ -114,6 +114,8 @@ class Order extends \yii\db\ActiveRecord
 			'accept_language' => Yii::t('shop', 'Accept Language'),
 			'created_at' => Yii::t('shop', 'Create Time'),
 			'updated_at' => Yii::t('shop', 'Update Time'),
+			'numberOfProducts' => Yii::t('shop', 'No. of Products'),
+			'displayStatus' => Yii::t('shop', 'Status'),
 		];
 	}
 
@@ -220,7 +222,7 @@ class Order extends \yii\db\ActiveRecord
 	}
 
 	public function getCustomerViewLink() {
-		return '#';
+		return Yii::$app->helper->getCustomerOrderUrl($this->id);
 	}
 
 	static public function getStatuses() {
@@ -238,4 +240,12 @@ class Order extends \yii\db\ActiveRecord
 		return \yii\helpers\ArrayHelper::getValue(self::getStatuses(), $this->status);
 	}
 	
+    
+    public function getNumberOfProducts() {
+    	$result = 0;
+        foreach ($this->orderProducts as $item) {
+        	$result += $item->quantity;
+        }
+        return $result;
+    }
 }

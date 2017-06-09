@@ -87,6 +87,14 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasOne(Address::className(), ['id' => 'address_id']);
     }
 
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getOrders() 
+    { 
+        return $this->hasMany(Order::className(), ['customer_id' => 'id']);
+    }
+
     /**
      * @inheritdoc
      * @return \shop\models\query\CustomerQuery the active query used by this AR class.
@@ -265,5 +273,4 @@ class Customer extends \yii\db\ActiveRecord implements IdentityInterface
             ],
         ];
     }
-    
 }

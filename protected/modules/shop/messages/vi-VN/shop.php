@@ -66,4 +66,10 @@ return [
 	'Thanks for shopping with us online!' => 'Cảm ơn bạn đã tin tưởng và ủng hộ chúng tôi !',
 	'Please direct any questions you have to {0}' => 'Mọi thắc mắc xin liên hệ {0}',
 	'store owner' => 'chủ shop',
+	'My Orders' => 'Đơn đặt hàng',
+	'Order ID' => 'Mã đơn hàng',
+	'Customer' => 'Khách hàng',
+	'No. of Products' => 'Số lượng sản phẩm',
+	'Status' => 'Trạng thái',
+	'Create Time' => 'Ngày tạo',
 ];

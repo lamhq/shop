@@ -10,7 +10,7 @@ use yii\helpers\Url;
 					<span class="hidden-xs"><?= Yii::$app->params['phone'] ?></span>
 				</li>
 				<li class="dropdown">
-					<a href="<?= Url::to(['/shop/account/profile']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<a href="<?= Url::to(['/shop/customer/account']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<i class="fa fa-user fa-cs"></i>
 						<span class="hidden-xs"><?= Yii::t('app', 'My Account') ?></span>
 						<span class="caret"></span>
@@ -20,8 +20,8 @@ use yii\helpers\Url;
 						<li><a href="<?= Url::to(['/shop/default/register']) ?>"><?= Yii::t('app', 'Register') ?></a></li>
 						<li><a href="<?= Url::to(['/shop/default/login']) ?>"><?= Yii::t('app', 'Login') ?></a></li>
 						<?php else: ?>
-						<li><a href="<?= Url::to(['/shop/account/update']) ?>"><?= Yii::t('app', 'My Account') ?></a></li>
-						<li><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/customer/account/dashboard']) ?>"><?= Yii::t('app', 'My Account') ?></a></li>
+						<li><a href="<?= Url::to(['/shop/customer/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></li>
 						<li><a href="<?= Url::to(['/shop/default/logout']) ?>"><?= Yii::t('app', 'Logout') ?></a></li>
 						<?php endif ?>
 					</ul>
