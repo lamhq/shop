@@ -7,6 +7,10 @@ use yii\helpers\Url;
 
 $title = Yii::t('app', 'Edit Information');
 $this->title = Yii::$app->helper->getPageTitle($title);
+$this->params['breadcrumbs'][] = [
+	'label' => Yii::t('app', 'My Dashboard'),
+	'url' => ['account/dashboard'],
+];
 $this->params['breadcrumbs'][] = $title;
 $this->registerJs('app.setupEditAccountPage();');
 ?>
@@ -32,7 +36,7 @@ $this->registerJs('app.setupEditAccountPage();');
 
 <div class="form-group">
 	<div class="col-sm-3 text-right">
-		<a href="<?= Url::to(['/shop/customer/account/dashboard']) ?>" class="btn btn-default"><?= Yii::t('app', 'Back') ?></a>
+		<a href="<?= Url::to(['dashboard']) ?>" class="btn btn-default"><?= Yii::t('app', 'Back') ?></a>
 	</div>
 	<div class="col-sm-9">
 		<button type="submit" class="btn btn-primary"><?= Yii::t('app', 'Update') ?></button>

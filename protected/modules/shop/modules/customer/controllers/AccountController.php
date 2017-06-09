@@ -4,7 +4,6 @@ namespace shop\modules\customer\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use shop\models\AccountForm;
 

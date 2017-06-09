@@ -14,7 +14,7 @@ $h = Yii::$app->helper;
 			<div class="col-sm-3">
 				<h5><?= Yii::t('app', 'My Account') ?></h5>
 				<p><a href="<?= Url::to(['/shop/customer/account/edit']) ?>"><?= Yii::t('app', 'Update Profile') ?></a></p>
-				<p><a href="<?= Url::to(['/shop/account/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></p>
+				<p><a href="<?= Url::to(['/shop/customer/order']) ?>"><?= Yii::t('shop', 'Order History') ?></a></p>
 			</div>
 			<div class="col-sm-3">
 				<!--

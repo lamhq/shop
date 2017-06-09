@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $title;
 	<legend><?= Yii::t('app', 'Account Information') ?></legend>
 	<p><?= Yii::t('shop', 'Name') ?>: <?= $account->name ?></p>
 	<p><?= Yii::t('shop', 'Telephone') ?>: <?= $account->telephone ?></p>
-	<p><a href="<?= Url::to(['/shop/customer/account/edit']) ?>"><?= Yii::t('app', 'Edit'); ?></a></p>
+	<p><a href="<?= Url::to(['edit']) ?>"><?= Yii::t('app', 'Edit'); ?></a></p>
 </fieldset>
 
 <fieldset>
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $title;
 	<?= GridView::widget([
 		'dataProvider' => $dataProvider,
 		'summary' => false,
+		'options' => ['class'=>'grid-view table-responsive'],
 		'columns' => [
 			[
 				'attribute' => 'id',
