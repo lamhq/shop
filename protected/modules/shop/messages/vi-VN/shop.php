@@ -1,5 +1,24 @@
 <?php 
 return [
+	// model attributes
+	'Name' => 'Họ tên',
+	'Telephone' => 'Điện thoại',
+	'City' => 'Tỉnh / Thành phố',
+	'District' => 'Quận / Huyện',
+	'Ward' => 'Phường / Xã',
+	'Address' => 'Số nhà, tên đường',
+	
+	// layout
+	// home
+	// category
+	// product
+	// checkout
+	// search
+	// account dashboard
+	// account edit
+	// order history
+	// order detail
+
 	'Categories' => 'Danh mục sản phẩm',
 	'Featured Products' => 'Sản phẩm nổi bật',
 	'Order History' => 'Lịch sử đặt hàng',
@@ -49,12 +68,6 @@ return [
 	'Place Order' => 'ĐẶT MUA',
 	'Continue Shopping' => 'Tiếp tục mua hàng',
 	'Please check your cart, some items are not in stock!'=>'Sản phẩm bạn đặt mua hiện đã hết hàng, xin hãy loại bỏ chúng ra khỏi giỏ để tiến hành thanh toán.',
-	'Name' => 'Họ tên',
-	'Telephone' => 'Điện thoại',
-	'City' => 'Tỉnh / Thành phố',
-	'District' => 'Quận / Huyện',
-	'Ward' => 'Phường / Xã',
-	'Address' => 'Số nhà, tên đường',
 	'I want to use an existing address' => 'Sử dụng địa chỉ có sẵn',
 	'I want to use a new address' => 'Nhập địa chỉ mới',
 	'District {0}' => 'Quận {0}',

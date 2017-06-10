@@ -31,8 +31,8 @@ class SignupForm extends Model
 			['email', 'trim'],
 			['email', 'email'],
 			['email', 'string', 'max' => 255],
-			['email', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => 'This email address has already been taken.'],
-			['telephone', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => 'This telephone number has already been taken.'],
+			['email', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => Yii::t('app', 'This email address has already been taken.')],
+			['telephone', 'unique', 'targetClass' => '\shop\models\Customer', 'message' => Yii::t('app', 'This telephone number has already been taken.')],
 
 			[['password','password_repeat'], 'required'],
 			['password', 'string', 'min' => 6],
@@ -48,6 +48,8 @@ class SignupForm extends Model
 		return [
 			'password' => Yii::t('app', 'Password'),
 			'password_repeat' => Yii::t('app', 'Confirm Password'),
+			'name' => Yii::t('shop', 'Name'),
+			'telephone' => Yii::t('shop', 'Telephone'),
 		];
 	}
 

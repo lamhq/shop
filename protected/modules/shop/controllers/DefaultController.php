@@ -79,7 +79,7 @@ class DefaultController extends Controller
 			$user = $model->signup();
 			if ($user) {
 				Yii::$app->getUser()->login($user);
-				Yii::$app->helper->setSuccess(Yii::t('app', 'Your account has been successfully created. Check your email for further instructions.'));
+				Yii::$app->helper->setSuccess(Yii::t('app', 'Your account has been successfully created.'));
 				return $this->goHome();
 			}
 		}

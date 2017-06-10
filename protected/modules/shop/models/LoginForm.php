@@ -2,35 +2,29 @@
 namespace shop\models;
 
 use Yii;
+use app\models\LoginForm as BaseLogin;
 
 /**
  * Login form
  */
-class LoginForm extends \backend\models\LoginForm
+class LoginForm extends BaseLogin
 {
 	/**
 	 * @inheritdoc
 	 */
 	public function attributeLabels()
 	{
-		return [
-			'username' => Yii::t('backend', 'Email or phone'),
-			'password' => Yii::t('backend', 'Password'),
-			'rememberMe' => Yii::t('backend', 'Remember me'),
-		];
+		return array_merge(parent::attributeLabels(), [
+			'username' => Yii::t('app', 'Email or phone'),
+		]);
 	}
 
 	/**
 	 * Finds user by [[username]]
 	 *
-	 * @return User|null
+	 * @return yii\base\Model|null
 	 */
-	protected function getUser()
-	{
-		if ($this->_user === null) {
-			$this->_user = Customer::findByUsername($this->username);
-		}
-
-		return $this->_user;
+	protected function findUserByUsername($name) {
+		return Customer::findByUsername($name);
 	}
 }

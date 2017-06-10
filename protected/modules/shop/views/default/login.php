@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \app\models\LoginForm */
 
-$title = Yii::t('backend', 'Sign In');
+$title = Yii::t('app', 'Login');
 $this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = $title;
 ?>
@@ -18,12 +18,12 @@ $this->params['breadcrumbs'][] = $title;
 				<?php echo $form->field($model, 'username') ?>
 				<?php echo $form->field($model, 'password')->passwordInput() ?>
 				<?php echo $form->field($model, 'rememberMe')->checkbox(['class'=>'simple']) ?>
-				<?php echo Html::submitButton(Yii::t('backend', 'Sign In'), [
+				<?php echo Html::submitButton(Yii::t('app', 'Login'), [
 					'class' => 'btn btn-primary btn-flat btn-block',
 					'name' => 'login-button'
 				]) ?>
 			<?php ActiveForm::end(); ?>
-			<em><a href="<?= yii\helpers\Url::to(['/shop/default/request-password-reset']) ?>"><?= Yii::t('backend', 'I forgot my password') ?></a></em>
+			<em><a href="<?= yii\helpers\Url::to(['/shop/default/request-password-reset']) ?>"><?= Yii::t('app', 'I forgot my password') ?></a></em>
 		</div>
 	</div>
 </div>
