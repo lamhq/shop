@@ -4,11 +4,12 @@
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = Yii::$app->helper->getPageTitle(Yii::t('shop', 'Search'));
+$title = Yii::t('shop', 'Search');
+$this->title = Yii::$app->helper->getPageTitle($title);
 $this->params['breadcrumbs'][] = Yii::t('shop', 'Search');
 $this->registerJs('app.setupSearchPage();');
 ?>
-<h1><?= Yii::t('shop', 'Search') ?> - <?= Html::encode($model->text) ?></h1>
+<h1><?= $title ?> - <?= Html::encode($model->text) ?></h1>
 
 <label class="control-label"><?= Yii::t('shop', 'Search Criteria') ?></label>
 
@@ -40,6 +41,8 @@ $this->registerJs('app.setupSearchPage();');
 
 	<button type="submit" class="btn btn-primary"><?= Yii::t('shop', 'Search') ?></button>
 <?php ActiveForm::end(); ?>
+
+<h2><?= Yii::t('shop', 'Products meeting the search criteria') ?></h2>
 
 <?= \shop\widgets\ProductList::widget([
 	'dataProvider' => $dataProvider,

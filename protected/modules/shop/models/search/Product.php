@@ -30,6 +30,17 @@ class Product extends Model
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'inDescription' => Yii::t('shop', 'In Description'),
+			'inSubCategory' => Yii::t('shop', 'In Sub Category'),
+		];
+	}
+
     public function formName() {
         return '';
     }

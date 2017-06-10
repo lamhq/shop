@@ -7,6 +7,8 @@ return [
 	'District' => 'Quận / Huyện',
 	'Ward' => 'Phường / Xã',
 	'Address' => 'Số nhà, tên đường',
+	'In Description' => 'Tìm trong chi tiết sản phẩm',
+	'In Sub Category' => 'Tìm trong danh mục con',
 	
 	// layout
 	// home
@@ -14,6 +16,9 @@ return [
 	// product
 	// checkout
 	// search
+	'Search Criteria' => 'Điều kiện tìm kiếm',
+	'All Categories' => 'Tất cả danh mục',
+	'Products meeting the search criteria' => 'Sản phẩm tìm thấy',
 	// account dashboard
 	// account edit
 	// order history
