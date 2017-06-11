@@ -9,6 +9,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use shop\models\LoginForm;
 use shop\models\SignupForm;
+use shop\models\PasswordResetRequestForm;
+use shop\models\ResetPasswordForm;
 
 class DefaultController extends Controller
 {
@@ -86,6 +88,51 @@ class DefaultController extends Controller
 
 		return $this->render('register', [
 			'model' => $model
+		]);
+	}
+
+	/**
+	 * Requests password reset.
+	 *
+	 * @return mixed
+	 */
+	public function actionRequestPasswordReset()
+	{
+		$model = new PasswordResetRequestForm();
+		if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			$model->sendEmail();
+			Yii::$app->helper->setSuccess(Yii::t('app', 'If there is an account associated with this information you will receive an email with a link to reset your password.'));
+			return $this->refresh();
+		}
+
+		return $this->render('requestPasswordReset', [
+			'model' => $model,
+		]);
+	}
+
+	/**
+	 * Resets password.
+	 *
+	 * @param string $token
+	 * @return mixed
+	 * @throws BadRequestHttpException
+	 */
+	public function actionResetPassword($token)
+	{
+		try {
+			$model = new ResetPasswordForm($token);
+		} catch (InvalidParamException $e) {
+			throw new BadRequestHttpException($e->getMessage());
+		}
+
+		if ( $model->load(Yii::$app->request->post()) 
+			&& $model->validate() && $model->resetPassword() ) {
+			Yii::$app->session->setFlash('success', Yii::t('app', 'New password saved.') );
+			return $this->goHome();
+		}
+
+		return $this->render('resetPassword', [
+			'model' => $model,
 		]);
 	}
 

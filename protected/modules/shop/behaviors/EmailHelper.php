@@ -12,8 +12,21 @@ class EmailHelper extends BaseHelper
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			$customer->email,
-			$siteName.' - Thank you for registering',
+			$siteName.' - '.Yii::t('app', 'Thank you for registering'),
 			'@shop/mail/registrationCustomer'
+		);
+	}
+
+	public function sendRequestPasswordResetEmailToCustomer($customer) {
+		$siteName = Yii::$app->params['siteName'];
+		return $this->sendMail(
+			[ Yii::$app->params['supportEmail'] => $siteName ],
+			$customer->email,
+			Yii::t('app', 'Password reset for {0}', $siteName),
+			'@shop/mail/passwordResetToken',
+			[
+				'user' => $customer
+			]
 		);
 	}
 
