@@ -6,7 +6,7 @@ use yii\helpers\Url;
 		<div id="top-links" class="nav pull-right">
 			<ul class="list-inline">
 				<li>
-					<a href="<?= Yii::$app->helper->getPageUrl('gioi-thieu') ?>" title="<?= Yii::t('app', 'Contact') ?>"><i class="fa fa-phone fa-cs"></i></a>
+					<a href="<?= Yii::$app->helper->getPageUrl('gioi-thieu') ?>"><i class="fa fa-phone fa-cs"></i></a>
 					<span class="hidden-xs"><?= Yii::$app->params['phone'] ?></span>
 				</li>
 				<li class="dropdown">

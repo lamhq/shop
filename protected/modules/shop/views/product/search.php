@@ -48,4 +48,5 @@ $this->registerJs('app.setupSearchPage();');
 	'dataProvider' => $dataProvider,
 	'itemView' => '@shop/widgets/views/productThumb',
 	'toolbarView' => '@shop/widgets/views/productListToolbar',
+	'itemOptions' => ['class'=>'col-md-3'],
 ]); ?>

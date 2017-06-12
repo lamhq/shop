@@ -49,7 +49,7 @@ class EmailHelper extends BaseHelper
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			$order->email,
-			$siteName.' - Order '.$order->id,
+			sprintf('%s - %s #%s', $siteName, Yii::t('shop', 'Order'), $order->id),
 			'@shop/mail/newOrderCustomer',
 			[
 				'order' => $order,
@@ -62,7 +62,7 @@ class EmailHelper extends BaseHelper
 		return $this->sendMail(
 			[ Yii::$app->params['supportEmail'] => $siteName ],
 			Yii::$app->params['adminEmail'],
-			$siteName.' - Order '.$order->id,
+			sprintf('%s - %s #%s', $siteName, Yii::t('shop', 'Order'), $order->id),
 			'@shop/mail/newOrderAdmin',
 			[
 				'order' => $order,

@@ -3,9 +3,24 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Breadcrumbs;
 
-yii\bootstrap\BootstrapPluginAsset::register($this);
-sersid\fontawesome\Asset::register($this);
+$leftColumn = trim(ArrayHelper::getValue($this->blocks, 'leftColumn'));
+$rightColumn = ArrayHelper::getValue($this->blocks, 'rightColumn');
+$topContent = ArrayHelper::getValue($this->blocks, 'topContent');
+$bottomContent = ArrayHelper::getValue($this->blocks, 'bottomContent');
+
+// determine width of main column
+if ($leftColumn && $rightColumn) {
+	$contentClass = 'col-sm-6';
+} elseif ($leftColumn || $rightColumn) {
+	$contentClass = 'col-sm-9';
+} else {
+	$contentClass = 'col-sm-12';
+}
+
+\yii\bootstrap\BootstrapPluginAsset::register($this);
+\sersid\fontawesome\Asset::register($this);
 \shop\assets\Shop::register($this);
+
 $this->registerCssFile($this->theme->getUrl('css/style.css'), [
 	'depends' => [\yii\bootstrap\BootstrapAsset::className()],
 ]);
@@ -43,7 +58,23 @@ $this->addBodyClass(Yii::$app->controller->id.'-'.Yii::$app->controller->action-
 			<?= \app\widgets\Alert::widget() ?>
 
 			<div class="row">
-				<div id="content" class="col-sm-12"><?= $content; ?></div>
+				<?php if ($leftColumn): ?>
+				<aside id="column-left" class="col-sm-3">
+					<?= $leftColumn ?>
+				</aside>
+				<?php endif ?>
+
+				<div id="content" class="<?= $contentClass ?>">
+					<?= $topContent ?>
+					<?= $content; ?>
+					<?= $bottomContent; ?>
+				</div>
+
+				<?php if ($rightColumn): ?>
+				<aside id="column-right" class="col-sm-3">
+					<?= $rightColumn ?>
+				</aside>
+				<?php endif ?>
 			</div>
 		</div>
 

@@ -8,7 +8,7 @@ return [
 	'Password Repeat' => 'Nhập lại mật khẩu',
 	'Confirm Password' => 'Nhập lại mật khẩu',
 
-	// button, control
+	// button, control, layout, alert
 	'Continue' => 'Tiếp tục',
 	'Back' => 'Quay lại',
 	'Remove' => 'Xóa',
@@ -16,6 +16,11 @@ return [
 	'Edit' => 'Sửa',
 	'Update' => 'Sửa',
 	'Loading...' => 'Đang xử lý...',
+	'Error' => 'Lỗi',
+	'Something went wrong!' => 'Có lỗi xảy ra!',
+	'Data saved.' => 'Thông tin đã được lưu.',
+	'Powered By' => 'Bản quyền thuộc về',
+	'Logout' => 'Đăng xuất',
 	'-- Please select --' => '-- Để trống --',
 
 	// login
@@ -47,16 +52,12 @@ return [
 	'Password must be same.' => 'Mật khẩu không khớp.',
 	'New password saved.' => 'Mật khẩu mới đã được lưu.',
 
-	'Logout' => 'Đăng xuất',
-	'Contact' => 'Liên lạc',
-	'My Account' => 'Tài khoản',
-	'Update Profile' => 'Cập nhật',
+	// customer account
 	'My Dashboard' => 'Trang quản lý',
+	'Update Profile' => 'Cập nhật',
+	'My Account' => 'Tài khoản',
 	'Account Information' => 'Thông tin tài khoản',
+	'Edit Account' => 'Cập nhật tài khoản',
 	'Edit Information' => 'Sửa thông tin',
-	'Powered By' => 'Bản quyền thuộc về',
 	'Change Password' => 'Đổi mật khẩu',
-	'Error' => 'Lỗi',
-	'Something went wrong!' => 'Có lỗi xảy ra!',
-	'Data saved.' => 'Thông tin đã được lưu.',
 ];

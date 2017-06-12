@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use shop\widgets\AccountNavigation;
 
 $title = Yii::t('app', 'My Dashboard');
 $this->title = Yii::$app->helper->getPageTitle($title);
@@ -57,3 +58,7 @@ $this->params['breadcrumbs'][] = $title;
 	]) ?>
 	<?php Pjax::end(); ?>
 </fieldset>
+
+<?php $this->beginBlock('leftColumn') ?>
+	<?= AccountNavigation::widget() ?>
+<?php $this->endBlock() ?>

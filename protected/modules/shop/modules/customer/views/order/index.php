@@ -5,6 +5,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use shop\widgets\AccountNavigation;
 
 $title = Yii::t('shop', 'Order History');
 $this->title = Yii::$app->helper->getPageTitle($title);
@@ -50,3 +51,7 @@ $this->params['breadcrumbs'][] = $title;
 	],
 ]) ?>
 <?php Pjax::end(); ?>
+
+<?php $this->beginBlock('leftColumn') ?>
+	<?= AccountNavigation::widget() ?>
+<?php $this->endBlock() ?>

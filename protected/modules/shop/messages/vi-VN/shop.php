@@ -10,6 +10,9 @@ return [
 	'In Description' => 'Tìm trong chi tiết sản phẩm',
 	'In Sub Category' => 'Tìm trong danh mục con',
 	
+	// email template
+	'Order' => 'Đơn hàng',
+	
 	// layout
 	// home
 	// category

@@ -4,6 +4,7 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use shop\widgets\AccountNavigation;
 
 $title = Yii::t('app', 'Edit Information');
 $this->title = Yii::$app->helper->getPageTitle($title);
@@ -35,11 +36,13 @@ $this->registerJs('app.setupEditAccountPage();');
 </fieldset>
 
 <div class="form-group">
-	<div class="col-sm-3 text-right">
+	<div class="col-sm-push-3 col-sm-9">
 		<a href="<?= Url::to(['dashboard']) ?>" class="btn btn-default"><?= Yii::t('app', 'Back') ?></a>
-	</div>
-	<div class="col-sm-9">
-		<button type="submit" class="btn btn-primary"><?= Yii::t('app', 'Update') ?></button>
+		<button type="submit" class="btn btn-primary">&nbsp;&nbsp;<?= Yii::t('app', 'Update') ?>&nbsp;&nbsp;</button>
 	</div>
 </div>
 <?php ActiveForm::end(); ?>
+
+<?php $this->beginBlock('leftColumn') ?>
+	<?= AccountNavigation::widget() ?>
+<?php $this->endBlock() ?>
