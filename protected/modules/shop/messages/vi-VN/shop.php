@@ -12,7 +12,11 @@ return [
 	
 	// email template
 	'Order' => 'Đơn hàng',
-	
+	'You have received an order.' => 'Bạn có một đơn đặt hàng hàng chờ xử lý.',
+	'Thank you for your interest in {0} products. Your order has been received and will be processed soon.' => 'Cảm ơn bạn đã đặt hàng tại hệ thống của chúng tôi. Đơn đặt hàng của bạn đang được chúng tôi xử lý.',
+	'To view your order click on the link below:' => 'Để theo dõi thông tin đơn hàng, bạn có thể click vào link bên dưới',
+	'Please reply to this e-mail if you have any questions.' => 'Mọi thắc mắc bạn vui lòng trả lời lại email này.',
+
 	// layout
 	// home
 	// category

@@ -14,10 +14,14 @@ abstract class ResetPasswordForm extends Model
     public $password_repeat;
 
     /**
-     * @var yii\base\Model
+     * @var app\models\ForgotPasswordInterface
      */
     private $_user;
 
+    /**
+     * @return app\models\ForgotPasswordInterface
+     */
+    abstract protected function findUserByAccessToken($token);
 
     /**
      * Creates a form model given a token.
@@ -37,9 +41,6 @@ abstract class ResetPasswordForm extends Model
         }
         parent::__construct($config);
     }
-
-    abstract protected function findUserByAccessToken($token);
-
 
     /**
      * @inheritdoc

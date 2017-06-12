@@ -6,48 +6,11 @@ use app\behaviors\helpers\EmailHelper as BaseHelper;
 
 class EmailHelper extends BaseHelper
 {
-	public function sendRegistrationSuccessEmailToCustomer($customer) {
-		if (!$customer->email) return false;
-		$siteName = Yii::$app->params['siteName'];
-		return $this->sendMail(
-			[ Yii::$app->params['supportEmail'] => $siteName ],
-			$customer->email,
-			$siteName.' - '.Yii::t('app', 'Thank you for registering'),
-			'@shop/mail/registrationCustomer'
-		);
-	}
-
-	public function sendRequestPasswordResetEmailToCustomer($customer) {
-		$siteName = Yii::$app->params['siteName'];
-		return $this->sendMail(
-			[ Yii::$app->params['supportEmail'] => $siteName ],
-			$customer->email,
-			Yii::t('app', 'Password reset for {0}', $siteName),
-			'@shop/mail/passwordResetToken',
-			[
-				'user' => $customer
-			]
-		);
-	}
-
-	public function sendRegistrationAlertEmailToAdmin($customer) {
-		$siteName = Yii::$app->params['siteName'];
-		return $this->sendMail(
-			[ Yii::$app->params['supportEmail'] => $siteName ],
-			Yii::$app->params['adminEmail'],
-			'New customer', 
-			'@shop/mail/registrationAdmin', 
-			[
-				'customer' => $customer,
-			]
-		);
-	}
-
 	public function sendNewOrderMailToCustomer($order) {
 		if (!$order->email) return false;
 		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
-			[ Yii::$app->params['supportEmail'] => $siteName ],
+			[ Yii::$app->params['adminEmail'] => $siteName ],
 			$order->email,
 			sprintf('%s - %s #%s', $siteName, Yii::t('shop', 'Order'), $order->id),
 			'@shop/mail/newOrderCustomer',
@@ -60,7 +23,7 @@ class EmailHelper extends BaseHelper
 	public function sendNewOrderMailToAdmin($order) {
 		$siteName = Yii::$app->params['siteName'];
 		return $this->sendMail(
-			[ Yii::$app->params['supportEmail'] => $siteName ],
+			[ Yii::$app->params['autoEmail'] => $siteName ],
 			Yii::$app->params['adminEmail'],
 			sprintf('%s - %s #%s', $siteName, Yii::t('shop', 'Order'), $order->id),
 			'@shop/mail/newOrderAdmin',

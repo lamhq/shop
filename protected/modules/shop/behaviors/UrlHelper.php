@@ -25,6 +25,6 @@ class UrlHelper extends BaseUrlHelper
 	}
 
 	public function getCustomerOrderUrl($id) {
-		return Url::to(['/shop/customer/order/view', 'id'=>$id]);
+		return Url::to(['/shop/customer/order/view', 'id'=>$id], true);
 	}
 }

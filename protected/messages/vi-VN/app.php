@@ -23,6 +23,17 @@ return [
 	'Logout' => 'Đăng xuất',
 	'-- Please select --' => '-- Để trống --',
 
+	// email template
+	'Registration at {0}' => 'Đăng ký tài khoản tại {0}',
+	'Thank you for registering' => 'Cảm ơn bạn đã đăng ký',
+	'Welcome and thank you for registering at {0}!' => 'Cảm ơn bạn đã đăng ký tài khoản tại {0}!',
+	'Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:' => 'Tài khoản của bạn đã được tạo, bạn có thể đăng nhập vào website chúng tôi bằng đường link bên dưới:',
+	'Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.' => 'Sau khi đăng nhập, bạn có thể sử dụng một số chức năng đặc biệt dành cho thành viên và quản lý đơn đặt hàng của bạn.',
+	'New customer at {0}' => 'Khách hàng mới tại {0}',
+	'A new customer has signed up:' => 'Một khách hàng vừa đăng ký tài khoản trên website của bạn:',
+	'Name' => 'Họ tên',
+	'Telephone' => 'Điện thoại',
+
 	// login
 	'Login' => 'Đăng nhập',
 	'I forgot my password' => 'Tôi quên mật khẩu rồi!!!',
@@ -36,7 +47,6 @@ return [
 	'Your account has been successfully created.' => 'Tài khoản của bạn đã được tạo.',
 	'This email address has already been taken.' => 'Email này đã được sử dụng, vui lòng chọn email khác.',
 	'This telephone number has already been taken.' => 'Số điện thoại này đã được sử dụng, vui lòng chọn số điện thoại khác.',
-	'Thank you for registering' => 'Cảm ơn bạn đã đăng ký',
 
 	// forgot password
 	'Forgot Your Password?' => 'Bạn quên mật khẩu?',
