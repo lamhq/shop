@@ -106,6 +106,17 @@ class Customer extends \yii\db\ActiveRecord
         return new \shop\models\query\CustomerQuery(get_called_class());
     }
 
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => function ($event) {
+                    return Yii::$app->formatter->asDbDateTime();
+                },
+            ],
+        ];
+    }
+
     /**
      * @param Address $address
      */
@@ -130,22 +141,6 @@ class Customer extends \yii\db\ActiveRecord
     }
 
     /**
-     * Finds user by login id
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::find()
-            ->where('(email=:s OR telephone=:s) AND status=:status', [
-                ':s'=>$username,
-                ':status'=>self::STATUS_ACTIVE,
-            ])
-            ->one();
-    }
-
-    /**
      * Validates password
      *
      * @param string $password password to validate
@@ -164,6 +159,22 @@ class Customer extends \yii\db\ActiveRecord
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * Finds user by login id
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::find()
+            ->where('(email=:s OR telephone=:s) AND status=:status', [
+                ':s'=>$username,
+                ':status'=>self::STATUS_ACTIVE,
+            ])
+            ->one();
     }
 
     /**
@@ -283,16 +294,5 @@ class Customer extends \yii\db\ActiveRecord
 
     public function sendResetPasswordEmail() {
         return Yii::$app->helper->sendRequestPasswordResetEmailToCustomer($this);
-    }
-
-    public function behaviors() {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'value' => function ($event) {
-                    return Yii::$app->formatter->asDbDateTime();
-                },
-            ],
-        ];
     }
 }

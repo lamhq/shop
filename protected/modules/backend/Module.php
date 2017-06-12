@@ -13,11 +13,6 @@ class Module extends \yii\base\Module
 	/**
 	 * @inheritdoc
 	 */
-	public $controllerNamespace = 'backend\controllers';
-
-	/**
-	 * @inheritdoc
-	 */
 	public function init()
 	{
 		parent::init();
@@ -39,9 +34,7 @@ class Module extends \yii\base\Module
 			],
 		]);
 
-		// set theme
-		Yii::$app->view->theme->pathMap
-			['@backend/views'] = '@webroot/themes/adminlte/views';
+		$this->layout = '@webroot/themes/adminlte/views/layouts/main-box';
 
 		// setup access control filter
 		$this->on(Controller::EVENT_BEFORE_ACTION, function($event) {

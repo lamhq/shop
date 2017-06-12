@@ -67,19 +67,19 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
-            'meta_title' => Yii::t('app', 'Meta Title'),
-            'meta_description' => Yii::t('app', 'Meta Description'),
-            'meta_keyword' => Yii::t('app', 'Meta Keyword'),
-            'image' => Yii::t('app', 'Image'),
-            'slug' => Yii::t('app', 'Slug'),
-            'status' => Yii::t('app', 'Status'),
-            'sort_order' => Yii::t('app', 'Sort Order'),
-            'parent_id' => Yii::t('app', 'Parent ID'),
-            'created_at' => Yii::t('app', 'Create Time'),
-            'updated_at' => Yii::t('app', 'Update Time'),
+            'id' => Yii::t('shop', 'ID'),
+            'name' => Yii::t('shop', 'Name'),
+            'description' => Yii::t('shop', 'Description'),
+            'meta_title' => Yii::t('shop', 'Meta Title'),
+            'meta_description' => Yii::t('shop', 'Meta Description'),
+            'meta_keyword' => Yii::t('shop', 'Meta Keyword'),
+            'image' => Yii::t('shop', 'Image'),
+            'slug' => Yii::t('shop', 'Slug'),
+            'status' => Yii::t('shop', 'Status'),
+            'sort_order' => Yii::t('shop', 'Sort Order'),
+            'parent_id' => Yii::t('shop', 'Parent ID'),
+            'created_at' => Yii::t('shop', 'Create Time'),
+            'updated_at' => Yii::t('shop', 'Update Time'),
         ];
     }
 

@@ -5,7 +5,10 @@
 use yii\helpers\ArrayHelper;
 
 \lamhq\yii2\asset\AdminLte::register($this);
-\backend\assets\Backend::register($this);
+\app\assets\App::register($this);
+$this->registerCssFile($this->theme->getUrl('css/style.css'), [
+	'depends' => [\lamhq\yii2\asset\AdminLte::className()],
+]);
 $bodyClass = ArrayHelper::getValue($this->params, 'body-class').' skin-blue';
 ?>
 <?php $this->beginPage() ?>
