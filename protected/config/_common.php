@@ -61,6 +61,7 @@ $config = [
 			'as emailHelper' => ['class' => 'app\behaviors\helpers\EmailHelper'],
 			'as storageHelper' => ['class' => 'app\behaviors\helpers\StorageHelper'],
 			'as urlHelper' => ['class' => 'app\behaviors\helpers\UrlHelper'],
+			'as dateHelper' => ['class' => 'app\behaviors\helpers\DateHelper'],
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -80,17 +81,9 @@ $config = [
 			'rules' => [
 				[
 					'pattern' => 'trang/<slug:.*>',
-					'route' => '/page/view',
+					'route' => '/frontend/page/view',
 					'suffix' => '.html',
 				],
-			],
-		],
-		'view' => [
-			'as bodyClass' => [
-				'class' => 'app\behaviors\BodyClass',
-			],
-			'theme' => [
-				'basePath'=> '@app/views',
 			],
 		],
 		'request' => [
@@ -106,9 +99,10 @@ $config = [
 				return "$s1-$s2-$suffix";
 			}
 		],		
-        'errorHandler' => [
-            'errorAction' => '/default/error',
-        ],
+		'view' => [
+			'as bodyClass' => [ 'class' => 'app\behaviors\BodyClass' ],
+			'theme' => [ 'basePath'=> '@app/views' ],
+		],
 	],
 ];
 

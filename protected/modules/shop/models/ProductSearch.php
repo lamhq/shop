@@ -1,6 +1,6 @@
 <?php
 
-namespace shop\models\search;
+namespace shop\models;
 
 use Yii;
 use yii\base\Model;
@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
  * @property User|null $user This property is read-only.
  *
  */
-class Product extends Model
+class ProductSearch extends Model
 {
 	public $text;
 	public $categoryId;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * this config file will be merged with application global config
+ */
+
 Yii::setAlias('@backend', realpath(__DIR__));
 
 return [

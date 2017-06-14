@@ -4,8 +4,59 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c078b9bb98d740597e76ccd37d43d4db",
+    "content-hash": "29885bf623a2fe623e0a1aeecc553bbc",
     "packages": [
+        {
+            "name": "asofter/yii2-imperavi-redactor",
+            "version": "0.0.3",
+            "target-dir": "yii/imperavi",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asofter/yii2-imperavi-redactor.git",
+                "reference": "08e05dd323f7b8f247a68324a5767eb14ffb7a1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asofter/yii2-imperavi-redactor/zipball/08e05dd323f7b8f247a68324a5767eb14ffb7a1f",
+                "reference": "08e05dd323f7b8f247a68324a5767eb14ffb7a1f",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-0": {
+                    "yii\\imperavi\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Yaremchuk",
+                    "email": "alwex10@gmail.com"
+                },
+                {
+                    "name": "Veaceslav Medvedev",
+                    "email": "slavcopost@gmail.com"
+                },
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru",
+                    "homepage": "http://rmcreative.ru/"
+                }
+            ],
+            "description": "Imperavi Redactor WYSIWYG widget (OEM-licensed for Yii 2)",
+            "keywords": [
+                "imperavi",
+                "imperavi redactor",
+                "yii"
+            ],
+            "time": "2016-01-12T16:21:51+00:00"
+        },
         {
             "name": "bower-asset/admin-lte",
             "version": "v2.3.11",
@@ -498,48 +549,6 @@
             "description": "Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results."
         },
         {
-            "name": "bower-asset/select2-bootstrap-theme",
-            "version": "0.1.0-beta.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/select2/select2-bootstrap-theme.git",
-                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/select2/select2-bootstrap-theme/zipball/7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
-                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/bootstrap": ">=3.3.4,<4.0.0",
-                "bower-asset/select2": ">=4.0.0,<5.0.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "src/build.scss",
-                    "src/build.less"
-                ],
-                "bower-asset-ignore": [
-                    "**/.*",
-                    "node_modules",
-                    "components"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "A theme for Select2 v4 and Bootstrap 3.",
-            "keywords": [
-                "bootstrap",
-                "css",
-                "less",
-                "sass",
-                "select2"
-            ]
-        },
-        {
             "name": "bower-asset/yii2-pjax",
             "version": "v2.0.6",
             "source": {
@@ -911,35 +920,6 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Owl Carousel 2 asset bundle for Yii 2.0 Framework",
             "time": "2017-05-26 12:55:29"
-        },
-        {
-            "name": "lamhq/yii2-select2-bootstrap-theme-asset",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lamhq/yii2-select2-bootstrap-theme-asset.git",
-                "reference": "aa593da050081d557d8b1bda0bf33b49b48d5872"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lamhq/yii2-select2-bootstrap-theme-asset/zipball/aa593da050081d557d8b1bda0bf33b49b48d5872",
-                "reference": "aa593da050081d557d8b1bda0bf33b49b48d5872",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/select2-bootstrap-theme": "^0.1.0@beta",
-                "hiqdev/yii2-asset-select2": "^4.0",
-                "yiisoft/yii2": "2.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "lamhq\\yii2\\asset\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Select2 bootstrap theme asset bundle for Yii 2.0 Framework",
-            "time": "2017-05-27T09:39:23+00:00"
         },
         {
             "name": "sersid/yii2-font-awesome-asset",
@@ -1454,6 +1434,48 @@
             "time": "2016-10-30 11:50:56"
         },
         {
+            "name": "bower-asset/select2-bootstrap-theme",
+            "version": "0.1.0-beta.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2-bootstrap-theme.git",
+                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2-bootstrap-theme/zipball/7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
+                "reference": "7ad6e79f01dbb67c5f77ef102f9570266eca1aea",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.3.4,<4.0.0",
+                "bower-asset/select2": ">=4.0.0,<5.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "src/build.scss",
+                    "src/build.less"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "components"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A theme for Select2 v4 and Bootstrap 3.",
+            "keywords": [
+                "bootstrap",
+                "css",
+                "less",
+                "sass",
+                "select2"
+            ]
+        },
+        {
             "name": "bower-asset/typeahead.js",
             "version": "v0.11.1",
             "source": {
@@ -1816,6 +1838,35 @@
                 "url"
             ],
             "time": "2017-05-09 09:16:44"
+        },
+        {
+            "name": "lamhq/yii2-select2-bootstrap-theme-asset",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lamhq/yii2-select2-bootstrap-theme-asset.git",
+                "reference": "aa593da050081d557d8b1bda0bf33b49b48d5872"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lamhq/yii2-select2-bootstrap-theme-asset/zipball/aa593da050081d557d8b1bda0bf33b49b48d5872",
+                "reference": "aa593da050081d557d8b1bda0bf33b49b48d5872",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/select2-bootstrap-theme": "^0.1.0@beta",
+                "hiqdev/yii2-asset-select2": "^4.0",
+                "yiisoft/yii2": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lamhq\\yii2\\asset\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Select2 bootstrap theme asset bundle for Yii 2.0 Framework",
+            "time": "2017-05-27T09:39:23+00:00"
         },
         {
             "name": "myclabs/deep-copy",

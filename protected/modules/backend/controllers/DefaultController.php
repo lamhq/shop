@@ -26,13 +26,17 @@ class DefaultController extends Controller
 		];
 	}
 
+	protected function setLayout($name) {
+		$this->layout = '@webroot/themes/adminlte/views/layouts/'.$name;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function beforeAction($action)
 	{
 		if ($action->id=='error') {
-			$this->layout = Yii::$app->user->isGuest ? 'base' : 'main';
+			$this->setLayout(Yii::$app->user->isGuest ? 'base' : 'main');
 			$this->view->params['body-class'] = 'login-page';
 		}
 
@@ -62,7 +66,7 @@ class DefaultController extends Controller
 		if ($model->load(Yii::$app->request->post()) && $model->login()) {
 			return $this->goBack();
 		} else {
-			$this->layout = 'base-box';
+			$this->setLayout('base-box');
 			return $this->render('login', [
 				'model' => $model,
 			]);
@@ -98,7 +102,7 @@ class DefaultController extends Controller
 			}
 		}
 
-		$this->layout = 'base-box';
+		$this->setLayout('base-box');
 		return $this->render('requestPasswordResetToken', [
 			'model' => $model,
 		]);
@@ -125,7 +129,7 @@ class DefaultController extends Controller
 			return $this->goHome();
 		}
 
-		$this->layout = 'base-box';
+		$this->setLayout('base-box');
 		return $this->render('resetPassword', [
 			'model' => $model,
 		]);

@@ -99,5 +99,124 @@ app = {
 			}
 			$(target).html(html);
 		});
-	}
+	},
+
+	setupAjaxUploadWidget: function (options) {
+		var $widget = $('#'+options.id);
+
+		var checkExtension = function(file) {
+			if (options.extensions.length < 1) return true;
+			var fileExt = file.name.split('.').pop();
+			if ( $.inArray(fileExt.toLowerCase(), options.extensions)<0 ) {
+				alert('File type is not allowed');
+				return false;
+			}
+			return true;
+		};
+
+		var checkMaxSize = function(file) {
+			if (options.maxSize==0) return true;
+
+			if ( file.size > options.maxSize*1000 ) {
+				alert('File is too large');
+				return false;
+			}
+			return true;
+		};
+
+		var uploadFile = function(fileInput) {
+			return new Promise(function(resolve, reject) {
+				if ( fileInput.files.length === 0
+						|| !checkExtension(fileInput.files[0])
+						|| !checkMaxSize(fileInput.files[0])
+					){
+					fileInput.value = '';
+					return;
+				}
+
+				var data = new FormData();
+				data.append('ajax-file', fileInput.files[0]);
+				$widget.find('.loader').removeClass('hide'); // show loading
+				fileInput.value = '';
+
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(){
+					if(request.readyState == 4){	// done
+						$widget.find('.loader').addClass('hide');
+						try {
+							var response = JSON.parse(request.response);
+							resolve(response);
+							// options.onSuccess(resp);
+						} catch (e){
+							// options.onFail(request.responseText);
+						}
+					}
+				};
+				// request.upload.addEventListener('progress', options.onProgress, false);
+				request.open('POST', options.uploadUrl);
+				request.send(data);
+			});
+		};
+
+		/**
+		 * add file upload item to widget
+		 * @param object data { url, value }
+		 */
+		var addItem = function (data) {
+			if (data.value.trim()=='') return;
+			var html = options.itemTemplate
+				.replace('{img}', '<img src="{url}" alt="" class="img-responsive" />')
+				.replace('{title}', '')
+				.replace('{removeButton}', '<i class="fa fa-times remove" title="Remove">delete</i>')
+				.replace('{input}', '<input type=hidden name="{name}[value]" value="{value}" />'
+					+ '<input type=hidden name="{name}[url]" value="{url}" />'
+					+ '<input type=hidden name="{name}[path]" value="{path}" />'
+				);
+			html = html.replace(/{url}/g, data.url)
+				.replace(/{value}/g, data.value)
+				.replace(/{path}/g, data.path)
+				.replace(/{name}/g, options.name);
+
+			var $item = $(html);
+			console.log($widget.length);
+			$widget.find('.ajax-files').append($item);
+			$widget.find('.placeholderInput').prop('disabled', true);
+		};
+
+		var removeItem = function ($item) {
+			$widget.find('.placeholderInput').prop('disabled', false);
+			$item.remove();
+		};
+
+		// validate and send file content to server by ajax
+		$widget.on('change', '.ajax-file-input', function() {
+			uploadFile(this).then(function (data) {
+				removeItem($widget.find('.item'));
+				addItem(data);
+			});
+		});
+
+		// remove current selected file
+		$widget.on('click', '.remove', function() {
+			$widget.find('.placeholderInput').prop('disabled', false);
+			removeItem($(this).closest('.item'));
+		});
+
+		if (options.multiple) {
+			options.value.forEach(function(item, index, array) {
+				addItem({
+					url: item.url,
+					value: item.value,
+					path: item.path
+				});
+			});
+		} else {
+			var item = options.value;
+			addItem({
+				url: item.url,
+				value: item.value,
+				path: item.path
+			});
+		}
+	}	
 };

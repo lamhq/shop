@@ -1,14 +1,11 @@
 <?php
-
 namespace shop;
+
 use Yii;
 use yii\base\Controller;
 
-class Module extends \yii\base\Module {
+class Module extends \frontend\Module {
 
-	/**
-	 * @inheritdoc
-	 */
 	public function init()
 	{
 		parent::init();

@@ -2,6 +2,7 @@
 /**
  * @var $this yii\web\View
  */
+use yii\helpers\ArrayHelper;
 use yii\widgets\Breadcrumbs;
 use app\widgets\Alert;
 $this->params['body-class'] = 'sidebar-mini';
@@ -35,7 +36,9 @@ $this->params['body-class'] = 'sidebar-mini';
 
 		<!-- Main content -->
 		<section class="content">
-			<p class="text-right"><?= $this->blocks['buttons']  ?></p>
+			<p class="text-right">
+				<?= ArrayHelper::getValue($this->blocks, 'buttons') ?>
+			</p>
 		
 			<?= Alert::widget() ?>
 

@@ -89,7 +89,9 @@ class StorageHelper extends Behavior {
 
 	protected function getNoImageUrl($width=null, $height=null) {
 		$src = $this->getStoragePath('no-image.jpg');
-		if ( !is_file($src) ) return 'http://placehold.it/230x200?text='.urlencode(Yii::$app->params['siteName']);
+		if ( !is_file($src) ) {
+			return sprintf('http://placehold.it/%dx%d?text=%s', $width, $height, urlencode(Yii::$app->params['siteName']));
+		}
 
 		$filename = "no-image-{$width}x{$height}.jpg";
 		$dst = $this->getTemporaryFilePath($filename);

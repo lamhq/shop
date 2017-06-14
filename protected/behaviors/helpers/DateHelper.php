@@ -1,6 +1,8 @@
 <?php
 namespace app\behaviors\helpers;
+
 use Yii;
+use yii\base\Behavior;
 
 /**
  * @author Lam Huynh <lamhq.com>
@@ -8,24 +10,35 @@ use Yii;
 class DateHelper extends Behavior
 {
 	/**
-	 * get datetime format for bootstrap datepicker client library
-	 * see: https://github.com/Eonasdan/bootstrap-datetimepicker
+	 * Get datetime format string to use in various places
 	 * 
+	 * @param  string $place place to use date format
+	 * - php : php date() function
+	 * - yii : Yii::$app->formatter->asDate()
+	 * - datepicker : date format in datepicker (https://github.com/Eonasdan/bootstrap-datetimepicker)
+	 * - db : date format for storing in database
 	 * @return string
 	 */
-	public function getDatepickerDatetimeFormat() {
-		return 'DD/MM/YYYY HH:mm';
-	}
+	public function getDateFormat($place='php') {
+		$result = '';
+		switch ($place) {
+			case 'php':
+				$result = 'd-m-Y H:i';
+				break;
 
-	/**
-	 * get datetime format use in yii formatter
-	 * see: http://www.yiiframework.com/doc-2.0/yii-i18n-formatter.html#$datetimeFormat-detail
-	 * 
-	 * @return string
-	 */
-	public function getAppDatetimeFormat() {
-		$f = \Yii::$app->formatter->datetimeFormat;
-		return $f;
+			case 'datepicker':
+				$result = 'DD-MM-YYYY HH:mm';
+				break;
+			
+			case 'yii':
+				$result = 'php:d-m-Y H:i';
+				break;
+
+			case 'db':
+				$result = 'Y-m-d H:i:s';
+				break;
+		}
+		return $result;
 	}
 	
 	/**

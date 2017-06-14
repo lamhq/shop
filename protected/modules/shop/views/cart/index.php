@@ -83,6 +83,6 @@ app\assets\BootstrapSelect::register($this);
 <?php else: ?>
 	<p><?= Yii::t('shop', 'Your shopping cart is empty!') ?></p>
 	<div class="buttons clearfix">
-		<div class="pull-right"><a href="<?= Yii::$app->homeUrl ?>" class="btn btn-primary"><?= Yii::t('shop', 'Continue') ?></a></div>
+		<div class="pull-right"><a href="<?= Yii::$app->homeUrl ?>" class="btn btn-primary"><?= Yii::t('app', 'Continue') ?></a></div>
 	</div>
 <?php endif ?>

@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use shop\models\Product;
+use shop\models\ProductSearch;
 use shop\models\Category;
 use shop\models\AddToCartForm;
 
@@ -92,7 +93,7 @@ class ProductController extends Controller
 	}
 
 	public function actionSearch() {
-		$model = new \shop\models\search\Product();
+		$model = new ProductSearch();
 		$params = Yii::$app->request->get();
 		if ($params) {
 			$this->view->registerLinkTag([

@@ -34,6 +34,7 @@ return [
 	'Home' => 'Trang chính',
     'Data saved.' => 'Thông tin đã được lưu.',
     'Data removed.' => 'Thông tin đã được xóa.',
-    'Create {modelClass}' => 'Lưu thông tin {modelClass}',
-    'Update {modelClass}' => 'Sửa thông tin {modelClass}',
+    'Create {0}' => 'Đăng {0}',
+    'Update {0}' => 'Sửa thông tin {0}',
+    'Update' => 'Sửa thông tin',
 ];

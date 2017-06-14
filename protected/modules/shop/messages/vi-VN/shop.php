@@ -9,6 +9,8 @@ return [
 	'Address' => 'Số nhà, tên đường',
 	'In Description' => 'Tìm trong chi tiết sản phẩm',
 	'In Sub Category' => 'Tìm trong danh mục con',
+	'Active' => 'Hiển thị',
+	'In-active' => 'Ẩn',
 	
 	// email template
 	'Order' => 'Đơn hàng',

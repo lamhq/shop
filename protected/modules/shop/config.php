@@ -1,4 +1,8 @@
 <?php
+/**
+ * this config file will be merged with application global config
+ */
+
 Yii::setAlias('@shop', realpath(__DIR__));
 
 return [
@@ -8,7 +12,7 @@ return [
 			'class' => 'shop\Module',
 			'modules'=>[
 				'customer'=>['class' => 'shop\modules\customer\Module'],
-				// 'admin'=>['class' => 'shop\modules\admin\Module'],
+				'manage'=>['class' => 'shop\modules\manage\Module'],
 			],
 		],
 	],
@@ -50,7 +54,9 @@ return [
 		'accessRules' => [
 			[
 				'allow' => true,
-				'controllers' => ['shop/admin/product'],
+				'controllers' => [
+					'shop/manage/product',
+				],
 				'roles' => ['@'],
 			],
 		],
@@ -85,13 +91,6 @@ return [
 				'cod' => [
 					'class' => 'shop\observers\payment\Cod',
 					'method' => 'onAfterCheckout',
-					'runOrder' => 10,
-				],
-			],
-			'beforeAction' => [
-				'common' => [
-					'class' => 'shop\observers\Common',
-					'method' => 'onBeforeAction',
 					'runOrder' => 10,
 				],
 			],

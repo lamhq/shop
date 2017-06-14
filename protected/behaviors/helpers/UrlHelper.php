@@ -19,7 +19,7 @@ class UrlHelper extends Behavior
 	}
 
 	public function getPageUrl($slug) {
-		return Url::to(['/page/view', 'slug'=>$slug], true);
+		return Url::to(['/frontend/page/view', 'slug'=>$slug], true);
 	}
 	
 	public function normalizeSlug($slug) {

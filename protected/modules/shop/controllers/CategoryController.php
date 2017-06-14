@@ -78,7 +78,7 @@ class CategoryController extends Controller
 	}
 
 	protected function getDataProvider($category) {
-		$model = new \shop\models\search\Product();
+		$model = new \shop\models\ProductSearch();
 		$model->categoryId = $category->id;
 		return $model->search();
 	}

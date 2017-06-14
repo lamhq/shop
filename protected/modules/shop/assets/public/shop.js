@@ -235,7 +235,7 @@ app = Object.assign(app, {
 			.then(function () {
 				return app.ajax({
 					url: app.baseUrl+'/shop/checkout/place-order',
-					type: 'post',
+					type: 'get',
 					dataType: 'json'
 				});
 			})
@@ -378,5 +378,15 @@ app = Object.assign(app, {
 		}
 		$('#categoryid').change(updateFormState);
 		updateFormState();
+	},
+
+	setupEditAccountPage: function() {
+		// show change password section if user check change password checkbox
+		var updateCPSection = function() {
+			$('.cp-section')
+				.toggle($('#accountform-changepassword').prop('checked'));
+		};
+		$('#accountform-changepassword').on('change', updateCPSection);
+		updateCPSection();
 	}
 });
