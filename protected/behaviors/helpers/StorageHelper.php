@@ -99,5 +99,4 @@ class StorageHelper extends Behavior {
 		ImageHelper::resize($src, $dst, ['width'=>$width, 'height'=>$height]);
 		return $url;
 	}
-
 }

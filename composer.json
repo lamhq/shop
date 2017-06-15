@@ -18,6 +18,7 @@
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "yiisoft/yii2-jui": "^2.0",
         "lamhq/yii2-adminlte-asset": "^1.0",
         "lamhq/yii2-notify-asset": "^0.0.1",
         "lamhq/yii2-owlcarousel2-asset": "dev-master",

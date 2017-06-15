@@ -103,6 +103,7 @@ app = {
 
 	setupAjaxUploadWidget: function (options) {
 		var $widget = $('#'+options.id);
+		var counter = 0;
 
 		var checkExtension = function(file) {
 			if (options.extensions.length < 1) return true;
@@ -136,6 +137,8 @@ app = {
 
 				var data = new FormData();
 				data.append('ajax-file', fileInput.files[0]);
+				var csrfInput = $widget.find('.csrf')[0];
+				data.append(csrfInput.name, csrfInput.value);
 				$widget.find('.loader').removeClass('hide'); // show loading
 				fileInput.value = '';
 
@@ -165,21 +168,26 @@ app = {
 		var addItem = function (data) {
 			if (data.value.trim()=='') return;
 			var html = options.itemTemplate
-				.replace('{img}', '<img src="{url}" alt="" class="img-responsive" />')
+				.replace('{img}', '<img src="{url}" alt="" />')
 				.replace('{title}', '')
-				.replace('{removeButton}', '<i class="fa fa-times remove" title="Remove">delete</i>')
+				.replace('{removeButton}', '<span class="glyphicon glyphicon-remove-sign remove" aria-hidden="true"></span>')
 				.replace('{input}', '<input type=hidden name="{name}[value]" value="{value}" />'
 					+ '<input type=hidden name="{name}[url]" value="{url}" />'
 					+ '<input type=hidden name="{name}[path]" value="{path}" />'
 				);
+
+			var prefixName = options.name; 
+			if (options.multiple) {
+				prefixName = options.name+'[i'+counter+']';
+				counter++;
+			}
 			html = html.replace(/{url}/g, data.url)
 				.replace(/{value}/g, data.value)
 				.replace(/{path}/g, data.path)
-				.replace(/{name}/g, options.name);
+				.replace(/{name}/g, prefixName);
 
 			var $item = $(html);
-			console.log($widget.length);
-			$widget.find('.ajax-files').append($item);
+			$widget.find('.upload-files').append($item);
 			$widget.find('.placeholderInput').prop('disabled', true);
 		};
 
@@ -191,7 +199,9 @@ app = {
 		// validate and send file content to server by ajax
 		$widget.on('change', '.ajax-file-input', function() {
 			uploadFile(this).then(function (data) {
-				removeItem($widget.find('.item'));
+				if (!options.multiple) {
+					removeItem($widget.find('.item'));
+				}
 				addItem(data);
 			});
 		});
@@ -202,6 +212,7 @@ app = {
 			removeItem($(this).closest('.item'));
 		});
 
+		// init items
 		if (options.multiple) {
 			options.value.forEach(function(item, index, array) {
 				addItem({
@@ -217,6 +228,18 @@ app = {
 				value: item.value,
 				path: item.path
 			});
+		}
+
+		// init sortable items
+		$widget.find('.upload-files').sortable({
+			opacity: 0.6,
+			revert: true,
+			placeholder: 'sortable-placeholder',
+			cursor: 'move'
+		});
+
+		if (options.multiple) {
+			$widget.find('.ajax-file-input').prop('multiple', true);
 		}
 	}	
 };

@@ -10,3 +10,50 @@
 .select2-search--inline .select2-search__field:focus {
   border: medium none;
 }
+
+.ajax-upload .upload-files {
+	overflow: hidden;
+}
+
+.ajax-upload .item,
+.ajax-upload .sortable-placeholder {
+    float: left;
+    height: 154px;
+    margin: 0 10px 10px 0;
+    position: relative;
+    border: 2px dashed #999;
+    border-radius: 7px;
+    cursor: move;
+}
+
+.ajax-upload .sortable-placeholder {
+    width: 150px;
+}
+
+.ajax-upload img {
+	height: 100%;
+	width: auto;
+	border-radius: 7px;
+	min-width: 100px;
+	min-height: 100px;
+}
+
+.ajax-upload .remove {
+	display: block;
+    width: 50px;
+    height: 50px;
+    top: 5px;
+    right: 5px;
+    font-size: 42px;
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+    padding: 4px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+}
+
+.ajax-upload .btn-file {
+	margin-bottom: 10px;
+}

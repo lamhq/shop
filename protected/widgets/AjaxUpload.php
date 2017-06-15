@@ -1,6 +1,7 @@
 <?php
 namespace app\widgets;
 
+use Yii;
 use yii\widgets\InputWidget;
 use yii\helpers\Html;
 
@@ -35,7 +36,9 @@ class AjaxUpload extends InputWidget {
 	/**
 	 * @var string current file link
 	 */
-	public $itemTemplate = '<div class="item">{img}{title}{removeButton}{input}</div>';
+	public $itemTemplate = '<div class="item">
+		{removeButton}{img}{title}{input}
+	</div>';
 
 	/**
 	 * Executes the widget.
@@ -45,10 +48,13 @@ class AjaxUpload extends InputWidget {
 	public function run() {
 		$this->prepareOptions();
 		$this->id = $this->options['id'];
+		$request = Yii::$app->getRequest();
 		return $this->render('ajax-upload', [
 			'model'=>$this->model,
 			'attribute'=>$this->attribute,
-			'options'=>$this->options
+			'options'=>$this->options,
+			'csrfToken' => $request->getCsrfToken(),
+			'csrfName' => $request->csrfParam,
 		]);
 	}
 

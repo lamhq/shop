@@ -18,18 +18,6 @@ class DefaultController extends Controller
 			'error' => [
 				'class' => 'yii\web\ErrorAction',
 			],
-			'captcha' => [
-				'class' => 'yii\captcha\CaptchaAction',
-			],
 		];
 	}
-
-	/**
-	 * Renders the index view for the module
-	 * @return string
-	 */
-	public function actionIndex() {
-		return 'welcome to yii2 core project';
-	}
-
 }

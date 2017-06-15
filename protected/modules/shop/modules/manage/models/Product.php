@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use app\behaviors\DateFormatConvertBehavior;
 use shop\models\Category;
 use shop\models\Product as BaseProduct;
+use shop\models\ProductImage;
 
 class Product extends BaseProduct
 {
@@ -14,7 +15,7 @@ class Product extends BaseProduct
 	 * for search
 	 */
 	public $categoryId;
-	
+
 	/**
 	 * list of category's ids assigned to this model
 	 */
@@ -44,7 +45,7 @@ class Product extends BaseProduct
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
-			[['categoryIds'], 'safe', 'on'=>['insert','update']],
+			[['categoryIds','imageItems'], 'safe', 'on'=>['insert','update']],
 			[['name'], 'required', 'on'=>['insert','update']],
 			[['name', 'price', 'status', 'categoryId'], 'safe', 'on'=>'search'],
 		]);
@@ -141,7 +142,7 @@ class Product extends BaseProduct
 			$this->imageItems[] = [
 				'value' => $model->image,
 				'path' => Yii::$app->helper->getStoragePath($model->image),
-				'url' => $model->getImageUrl(100,100),
+				'url' => Yii::$app->helper->getStorageUrl($model->image),
 			];
 		}
 	}
@@ -160,6 +161,7 @@ class Product extends BaseProduct
 
 	public function afterSave( $insert, $changedAttributes ) {
 		$this->saveCategories();
+		$this->saveImages();
 	}
 
 	public function saveCategories() {
@@ -169,5 +171,60 @@ class Product extends BaseProduct
 			$model = Category::findOne($catId);
 			$this->link('categories', $model);
 		}
-	}	
+	}
+
+	public function saveImages() {
+		$h = Yii::$app->helper;
+		// save old image list before removing all existing records
+		$oldImages = [];
+		foreach ($this->productImages as $model) {
+			$oldImages[] = $h->getStoragePath($model->image);
+		}
+
+		$this->unlinkAll('productImages',true);
+		// var_dump('remove all product image record');
+
+		// save upload images
+		$newImages = [];
+		$featuredImage = '';
+		if (is_array($this->imageItems)) {
+			$this->imageItems = array_values($this->imageItems);
+			foreach ($this->imageItems as $i => &$item) {
+				// if this is new image, save it
+				if ( !in_array($item['path'], $oldImages) ) {
+					$value = 'shop/product/'.basename($item['value']);
+					$path = $h->createPathForSave($h->getStoragePath($value));
+					rename($item['path'], $path);
+					// var_dump(sprintf('move %s to %s', $item['path'], $path));
+					$item = [
+						'value' => $value,
+						'path' => $path,
+					];
+				}
+
+				$newImages[] = $item['path'];
+				$model = new ProductImage([
+					'image' => $item['value'],
+					'product_id' => $this->id,
+				]);
+				$model->save();
+				// var_dump('save image record: '.$item['value']);
+				
+				// make the first image in list to featured image
+				if ($i==0) {
+					$featuredImage = $item['value'];
+				}
+			}
+		}
+
+		// remove unused images
+		$removeImages = array_diff($oldImages, $newImages);
+		foreach ($removeImages as $file) {
+			unlink($file);
+			// var_dump('remove file: '.$file);
+		}
+
+		// update main image
+		BaseProduct::updateAll(['image' => $featuredImage], 'id='.$this->id);
+	}
 }

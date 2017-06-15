@@ -27,7 +27,7 @@ $this->registerJs('app.setupProductForm();');
 ]); ?>
 	<?= $form->field($model, 'name')->textInput() ?>
 	<?= $form->field($model, 'imageItems')->widget('app\widgets\AjaxUpload', [
-		'uploadUrl' => Url::to(['/storage/upload']),
+		'uploadUrl' => Url::to(['/default/upload']),
 		'multiple' => true,
 		'extensions' => ['jpg', 'png', 'gif'],
 		'maxSize' => 4000,
