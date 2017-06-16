@@ -56,6 +56,7 @@ return [
 				'allow' => true,
 				'controllers' => [
 					'shop/manage/product',
+					'shop/manage/category',
 				],
 				'roles' => ['@'],
 			],

@@ -33,10 +33,7 @@ $this->registerJs('app.setupProductForm();');
 		'extensions' => ['jpg', 'png', 'gif'],
 		'maxSize' => 4000,
 	]); ?>
-	<?= $form->field($model, 'price')->widget(\yii\widgets\MaskedInput::className(), [
-	    'mask' => '999.999.999',
-	    'clientOptions' => ['reverse'=>true],
-	]) ?>
+	<?= $form->field($model, 'price')->textInput() ?>
 	<?= $form->field($model, 'categoryIds')->dropdownList($model->getCategoryOptions(), [
 		'multiple'=>'multiple',
 		'class'=>'selectpicker',

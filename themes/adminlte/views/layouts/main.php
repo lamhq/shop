@@ -16,30 +16,21 @@ $this->params['body-class'] = 'sidebar-mini';
 	<!-- Right side column. Contains the navbar and content of the page -->
 	<aside class="content-wrapper">
 		<!-- Content Header (Page header) -->
-		<section class="content-header">
-			<h1>
+		<section class="content-header clearfix">
+			<h1 class="pull-left">
 				<?= $this->title ?>
 				<?php if(isset($this->params['subtitle'])): ?>
 					<small><?= $this->params['subtitle'] ?></small>
 				<?php endif; ?>
 			</h1>
 
-			<?= Breadcrumbs::widget([
-				'homeLink'=>[
-					'label'=>Yii::t('backend', 'Home'),
-					'url'=>['/backend']
-				],
-				'tag'=>'ol',
-				'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-			]) ?>
+			<div class="pull-right">
+				<?= ArrayHelper::getValue($this->blocks, 'buttons') ?>
+			</div>
 		</section>
 
 		<!-- Main content -->
 		<section class="content">
-			<p class="text-right">
-				<?= ArrayHelper::getValue($this->blocks, 'buttons') ?>
-			</p>
-		
 			<?= Alert::widget() ?>
 
 			<?php echo $content ?>

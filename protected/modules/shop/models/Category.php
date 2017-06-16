@@ -181,8 +181,8 @@ class Category extends \yii\db\ActiveRecord
 			 || (!$parent && $category->parent_id==null);
 		  
 			if ( $isActive && $parentMatch ) {
-				$callback($category, $level, $parent);
-				self::travel($callback, $category, $level+1);
+				$stop = $callback($category, $level, $parent);
+				if (!$stop) self::travel($callback, $category, $level+1);
 			}
 		}
 	}
@@ -190,10 +190,13 @@ class Category extends \yii\db\ActiveRecord
 	static public function getCategoryOptions($excludes=[]) {
 		$result = [];
 		self::travel(function ($category, $level) use (&$result, $excludes) {
-			if (!in_array($category->id, $excludes)) {
+			if ( in_array($category->id, $excludes) ) {
+				return true;	// stop traveling
+			} else {
 				$k = (string)$category->id;
 				$v = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $level).$category->name;
 				$result[$k] = $v;
+				return false;
 			}
 		});
 		return $result;
@@ -209,4 +212,12 @@ class Category extends \yii\db\ActiveRecord
 		}
 		return $result;
 	}
+
+	static public function getStatusOptions() {
+		return [
+			self::STATUS_ACTIVE => Yii::t('shop', 'Active'),
+			self::STATUS_INACTIVE => Yii::t('shop', 'In-active'),
+		];
+	}
+	
 }
