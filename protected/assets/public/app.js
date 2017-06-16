@@ -51,7 +51,7 @@ app = {
 	},
 
 	showSuccess: function(message) {
-		$.notify(message, { 
+		$.notify(message, {
 			position:"right bottom",
 			className: "success"
 		});
@@ -78,7 +78,7 @@ app = {
 		if (xhr) {
 			xhr.abort();
 		}
-		
+
 		return app.xhr = $.ajax(setting)
 			.fail(function( jqXHR, textStatus, errorThrown ) {
 				console.log('ajax excecution failed on '+setting.url+' . error: '+errorThrown);
@@ -107,8 +107,8 @@ app = {
 
 		var checkExtension = function(file) {
 			if (options.extensions.length < 1) return true;
-			var fileExt = file.name.split('.').pop();
-			if ( $.inArray(fileExt.toLowerCase(), options.extensions)<0 ) {
+			var extension = file.name.split('.').pop();
+			if ( $.inArray(extension.toLowerCase(), options.extensions)<0 ) {
 				alert('File type is not allowed');
 				return false;
 			}
@@ -125,22 +125,25 @@ app = {
 			return true;
 		};
 
-		var uploadFile = function(fileInput) {
+		var isImage = function(name) {
+			var extension = name.split('.').pop();
+			return ['jpg', 'png', 'gif'].indexOf(extension.toLowerCase()) > -1;
+		}
+
+		var uploadFile = function(file) {
 			return new Promise(function(resolve, reject) {
-				if ( fileInput.files.length === 0
-						|| !checkExtension(fileInput.files[0])
-						|| !checkMaxSize(fileInput.files[0])
-					){
-					fileInput.value = '';
-					return;
+				if ( !checkExtension(file) || !checkMaxSize(file) ) {
+					return false;
 				}
 
+				// append file data to form
 				var data = new FormData();
-				data.append('ajax-file', fileInput.files[0]);
-				var csrfInput = $widget.find('.csrf')[0];
-				data.append(csrfInput.name, csrfInput.value);
+				data.append('file', file);
+
+				// append csrf param to form
+				data.append(app.getCsrfParamName(), app.getCsrfParamValue());
+
 				$widget.find('.loader').removeClass('hide'); // show loading
-				fileInput.value = '';
 
 				var request = new XMLHttpRequest();
 				request.onreadystatechange = function(){
@@ -167,26 +170,40 @@ app = {
 		 */
 		var addItem = function (data) {
 			if (data.value.trim()=='') return;
+
+			var img = title = '';
+			if ( isImage(data.value) ) {
+				img = '<img src="{url}" alt="" />';
+				title = '';
+			} else {
+				img = '';
+				title = '<span class="title">'+data.value.split('/').pop()+'</span>';
+			}
+
+			var inputName = options.name;
+			if (options.multiple) {
+				inputName = options.name+'[i'+counter+']';
+				counter++;
+			}
+
 			var html = options.itemTemplate
-				.replace('{img}', '<img src="{url}" alt="" />')
-				.replace('{title}', '')
+				.replace('{img}', img)
+				.replace('{title}', title)
 				.replace('{removeButton}', '<span class="glyphicon glyphicon-remove-sign remove" aria-hidden="true"></span>')
 				.replace('{input}', '<input type=hidden name="{name}[value]" value="{value}" />'
 					+ '<input type=hidden name="{name}[url]" value="{url}" />'
 					+ '<input type=hidden name="{name}[path]" value="{path}" />'
 				);
 
-			var prefixName = options.name; 
-			if (options.multiple) {
-				prefixName = options.name+'[i'+counter+']';
-				counter++;
-			}
 			html = html.replace(/{url}/g, data.url)
 				.replace(/{value}/g, data.value)
 				.replace(/{path}/g, data.path)
-				.replace(/{name}/g, prefixName);
+				.replace(/{name}/g, inputName);
 
 			var $item = $(html);
+			if ( !isImage(data.value) ) {
+				$item.addClass('not-image');
+			}
 			$widget.find('.upload-files').append($item);
 			$widget.find('.placeholderInput').prop('disabled', true);
 		};
@@ -198,12 +215,20 @@ app = {
 
 		// validate and send file content to server by ajax
 		$widget.on('change', '.ajax-file-input', function() {
-			uploadFile(this).then(function (data) {
-				if (!options.multiple) {
-					removeItem($widget.find('.item'));
-				}
-				addItem(data);
+			if ( this.files.length === 0){
+				this.value = '';
+				return;
+			}
+
+			$(this.files).each(function () {
+				uploadFile(this).then(function (data) {
+					if (!options.multiple) {
+						removeItem($widget.find('.item'));
+					}
+					addItem(data);
+				});
 			});
+			this.value = '';
 		});
 
 		// remove current selected file
@@ -241,5 +266,14 @@ app = {
 		if (options.multiple) {
 			$widget.find('.ajax-file-input').prop('multiple', true);
 		}
-	}	
+	},
+
+	getCsrfParamName: function () {
+		return $('meta[name=csrf-param]').attr('content');
+	},
+
+	getCsrfParamValue: function () {
+		return $('meta[name=csrf-token]').attr('content');
+	},
+
 };

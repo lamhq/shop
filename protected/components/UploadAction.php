@@ -10,14 +10,14 @@ use yii\base\Action;
 class UploadAction extends Action {
 
 	/**
+	 * the param name in post request containt file field
 	 * @var string
 	 */
-	public $fileIndex = 'ajax-file';
+	public $fileIndex = 'file';
 
 	public function run() {
 		$response = [];
 		$h = Yii::$app->helper;
-		Yii::$app->controller->enableCsrfValidation = false;
 		try {
 			if ( !isset($_FILES[$this->fileIndex]) ) {
 				throw new BadRequestHttpException(Yii::t('app', 'Invalid request.'));
@@ -37,17 +37,16 @@ class UploadAction extends Action {
 
 	protected function saveUploadFile($file) {
 		$h = Yii::$app->helper;
-		$orgName = $file['name'];
-		$filePath = $h->createPathForSave($h->getTemporaryFilePath($orgName));
-		$filename = basename($filePath);
-		$url = $h->getTemporaryFileUrl($filename);
-		if ( !move_uploaded_file($file['tmp_name'], $filePath) )
-			throw new CHttpException(500, 'Error saving file to server.');
+		$storagePath = $h->createPathForSave($h->getTemporaryFilePath($file['name']));
+		$filename = basename($storagePath);
+		$storageUrl = $h->getTemporaryFileUrl($filename);
+		if ( !move_uploaded_file($file['tmp_name'], $storagePath) )
+			throw new ServerErrorHttpException(Yii::t('app', 'Error saving file to server.'));
 		return [
 			'value'=>$filename,
-			'url'=>$url,
-			'path'=>$filePath,
-			'label'=>$orgName,
+			'url'=>$storageUrl,
+			'path'=>$storagePath,
+			'label'=>$file['name'],
 		];
 	}
 

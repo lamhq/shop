@@ -48,13 +48,10 @@ class AjaxUpload extends InputWidget {
 	public function run() {
 		$this->prepareOptions();
 		$this->id = $this->options['id'];
-		$request = Yii::$app->getRequest();
 		return $this->render('ajax-upload', [
 			'model'=>$this->model,
 			'attribute'=>$this->attribute,
 			'options'=>$this->options,
-			'csrfToken' => $request->getCsrfToken(),
-			'csrfName' => $request->csrfParam,
 		]);
 	}
 

@@ -12,9 +12,9 @@ class AdminLteMenu extends AuthMenu
 {
 	public $options = ['class'=>'sidebar-menu'];
 
-	public $labelTemplate = '<a href="#">{icon}{label}{right}</a>';
+	public $labelTemplate = '<a href="#">{icon} {label} {right}</a>';
 
-	public $linkTemplate ='<a href="{url}">{icon}{label}{right}</a>';
+	public $linkTemplate ='<a href="{url}">{icon} {label} {right}</a>';
 
 	public $submenuTemplate = '<ul class="treeview-menu">{items}</ul>';
 	

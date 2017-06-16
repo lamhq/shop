@@ -35,14 +35,15 @@ $this->registerJs('app.setupProductForm();');
 	<?= $form->field($model, 'description')->widget(
 		\yii\imperavi\Widget::className(),
 		[
-			'plugins' => ['fullscreen', 'fontcolor', 'video'],
+			'id' => 'product-description',
+			// 'plugins' => ['fullscreen', 'fontcolor', 'video'],
 			'options' => [
 				'minHeight' => 400,
 				'maxHeight' => 400,
 				'buttonSource' => true,
 				'convertDivs' => false,
 				'removeEmptyTags' => false,
-				'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+				'imageUpload' => Url::to(['/default/redactorUpload']),
 			]
 		]
 	) ?>
@@ -52,7 +53,7 @@ $this->registerJs('app.setupProductForm();');
 	<?= $form->field($model, 'available_time')->widget(
 			'trntv\yii\datetime\DateTimeWidget',
 			[ 'momentDatetimeFormat' => Yii::$app->helper->getDateFormat('datepicker') ]
-		); 
+		);
 	?>
 	<?= $form->field($model, 'categoryIds')->dropdownList($model->getCategoryOptions(), [
 		'multiple'=>'multiple',

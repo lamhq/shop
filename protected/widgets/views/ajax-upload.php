@@ -9,7 +9,6 @@ $this->registerJs(sprintf("app.setupAjaxUploadWidget(%s);", json_encode($options
 ?>
 <div id="<?= $options['id'] ?>" class="ajax-upload">
 	<?= Html::hiddenInput($options['name'], '', ['class'=>'placeholderInput']) ?>
-	<?= Html::hiddenInput($csrfName, $csrfToken, ['class'=>'csrf', 'disabled'=>true]) ?>
 	<div class="btn btn-default btn-file">
 		<span class=""><?= Yii::t('app', 'Choose file') ?></span>
 		<input type="file" class="ajax-file-input" />

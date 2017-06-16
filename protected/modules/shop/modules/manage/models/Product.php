@@ -190,7 +190,7 @@ class Product extends BaseProduct
 		if (is_array($this->imageItems)) {
 			$this->imageItems = array_values($this->imageItems);
 			foreach ($this->imageItems as $i => &$item) {
-				// if this is new image, save it
+				// move images from temporary directory to storage directory
 				if ( !in_array($item['path'], $oldImages) ) {
 					$value = 'shop/product/'.basename($item['value']);
 					$path = $h->createPathForSave($h->getStoragePath($value));
@@ -202,7 +202,10 @@ class Product extends BaseProduct
 					];
 				}
 
+				// collect new images
 				$newImages[] = $item['path'];
+				
+				// save image relation
 				$model = new ProductImage([
 					'image' => $item['value'],
 					'product_id' => $this->id,
@@ -210,7 +213,7 @@ class Product extends BaseProduct
 				$model->save();
 				// var_dump('save image record: '.$item['value']);
 				
-				// make the first image in list to featured image
+				// save the first image in list as featured image
 				if ($i==0) {
 					$featuredImage = $item['value'];
 				}
@@ -220,7 +223,7 @@ class Product extends BaseProduct
 		// remove unused images
 		$removeImages = array_diff($oldImages, $newImages);
 		foreach ($removeImages as $file) {
-			unlink($file);
+			if (is_file($file)) unlink($file);
 			// var_dump('remove file: '.$file);
 		}
 

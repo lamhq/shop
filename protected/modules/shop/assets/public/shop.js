@@ -80,10 +80,13 @@ app = Object.assign(app, {
 	},
 
 	removeCartItem: function(id) {
+		var data = { key: id };
+		data[app.getCsrfParamName()] = app.getCsrfParamValue();
+
 		return app.ajax({
 			url: app.baseUrl+'/shop/cart/remove',
 			type: 'post',
-			data: { key: id, _csrf: $('meta[name=csrf-token]').attr('content') },
+			data: data,
 			dataType: 'json'
 		});
 	},
@@ -92,11 +95,13 @@ app = Object.assign(app, {
 		$(document).on('click', '.btn-cart', function () {
 			var $button = $(this);
 			var prodId = $button.data('product');
-			var csrf = $button.find('input[name=_csrf]').val();
+			var data = { productId: prodId, qty: 1 };
+			data[app.getCsrfParamName()] = app.getCsrfParamValue();
+
 			app.ajax({
 				url: app.baseUrl+'/shop/cart/add',
 				type: 'post',
-				data: { productId: prodId, qty: 1, _csrf: csrf },
+				data: data,
 				dataType: 'json',
 				beforeSend: function() {
 					$button.button('loading');

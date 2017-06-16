@@ -18,6 +18,9 @@ class DefaultController extends Controller
 			'upload' => [
 				'class' => 'app\components\UploadAction',
 			],
+			'redactorUpload' => [
+				'class' => 'app\components\RedactorUploadAction',
+			],
 			'captcha' => [
 				'class' => 'yii\captcha\CaptchaAction',
 			],

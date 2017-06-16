@@ -22,7 +22,7 @@
         "lamhq/yii2-adminlte-asset": "^1.0",
         "lamhq/yii2-notify-asset": "^0.0.1",
         "lamhq/yii2-owlcarousel2-asset": "dev-master",
-        "lamhq/php-helpers": "^0.0.3",
+        "lamhq/php-helpers": "^0.0.6",
         "trntv/yii2-datetime-widget": "^1.0",
         "ivan-chkv/yii2-jquery-magnific-popup": "^2.0",
         "vlucas/phpdotenv": "^2.4",

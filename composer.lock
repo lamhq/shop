@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "35b1c5d396faf65b5037d2370ddece50",
+    "content-hash": "982a54b8ac35eac572dd5d04cffc0a4c",
     "packages": [
         {
             "name": "asofter/yii2-imperavi-redactor",
@@ -838,16 +838,16 @@
         },
         {
             "name": "lamhq/php-helpers",
-            "version": "0.0.3",
+            "version": "0.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lamhq/php-helpers.git",
-                "reference": "ccb57811b5c29bf1153e8f0eb0daab66ebf4279f"
+                "reference": "57c175d860ac6e5f602554e642484bdebb799ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lamhq/php-helpers/zipball/ccb57811b5c29bf1153e8f0eb0daab66ebf4279f",
-                "reference": "ccb57811b5c29bf1153e8f0eb0daab66ebf4279f",
+                "url": "https://api.github.com/repos/lamhq/php-helpers/zipball/57c175d860ac6e5f602554e642484bdebb799ba8",
+                "reference": "57c175d860ac6e5f602554e642484bdebb799ba8",
                 "shasum": ""
             },
             "type": "library",
@@ -858,7 +858,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Helper functions for php",
-            "time": "2017-03-16T03:50:16+00:00"
+            "time": "2017-04-19T09:01:49+00:00"
         },
         {
             "name": "lamhq/yii2-adminlte-asset",
@@ -1625,7 +1625,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2017-06-02T00:30:24+00:00"
+            "time": "2017-06-02 00:30:24"
         },
         {
             "name": "codeception/specify",
@@ -1805,7 +1805,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-06-02T07:51:32+00:00"
+            "time": "2017-06-02 07:51:32"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1870,7 +1870,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-06-10T19:55:42+00:00"
+            "time": "2017-06-10 19:55:42"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1912,7 +1912,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-04-12T18:52:22+00:00"
+            "time": "2017-04-12 18:52:22"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2159,7 +2159,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2017-05-31T16:22:32+00:00"
+            "time": "2017-05-31 16:22:32"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2490,7 +2490,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-06-14T16:53:16+00:00"
+            "time": "2017-06-14 16:53:16"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3331,7 +3331,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-10T12:08:03+00:00"
+            "time": "2017-06-10 12:08:03"
         },
         {
             "name": "symfony/css-selector",
@@ -3440,7 +3440,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-07T14:09:28+00:00"
+            "time": "2017-06-07 14:09:28"
         },
         {
             "name": "symfony/dom-crawler",
@@ -3559,7 +3559,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-12T16:03:21+00:00"
+            "time": "2017-06-12 16:03:21"
         },
         {
             "name": "symfony/finder",
@@ -3608,7 +3608,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01T21:02:15+00:00"
+            "time": "2017-06-01 21:02:15"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -3667,7 +3667,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-14T15:44:48+00:00"
+            "time": "2017-06-14 15:44:48"
         },
         {
             "name": "symfony/yaml",
@@ -3722,7 +3722,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-14T20:38:21+00:00"
+            "time": "2017-06-14 20:38:21"
         },
         {
             "name": "webmozart/assert",
@@ -3866,7 +3866,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2017-06-13T15:08:53+00:00"
+            "time": "2017-06-13 15:08:53"
         },
         {
             "name": "yiisoft/yii2-gii",
