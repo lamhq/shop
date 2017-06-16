@@ -9,6 +9,7 @@ return [
 	'Confirm Password' => 'Nhập lại mật khẩu',
 
 	// button, control, layout, alert
+	'Choose file' => 'Đăng hình',
 	'Continue' => 'Tiếp tục',
 	'Back' => 'Quay lại',
 	'Remove' => 'Xóa',

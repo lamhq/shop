@@ -78,7 +78,7 @@ class Product extends \yii\db\ActiveRecord
 			'meta_title' => Yii::t('shop', 'Meta Title'),
 			'meta_description' => Yii::t('shop', 'Meta Description'),
 			'meta_keyword' => Yii::t('shop', 'Meta Keyword'),
-			'quantity' => Yii::t('shop', 'Quantity'),
+			'quantity' => Yii::t('shop', 'Stock Quantity'),
 			'rating' => Yii::t('shop', 'Rating'),
 			'status' => Yii::t('shop', 'Status'),
 			'price' => Yii::t('shop', 'Price'),
@@ -87,7 +87,8 @@ class Product extends \yii\db\ActiveRecord
 			'viewed' => Yii::t('shop', 'Viewed'),
 			'created_at' => Yii::t('shop', 'Create Time'),
 			'updated_at' => Yii::t('shop', 'Update Time'),
-			'available_time' => Yii::t('shop', 'Available Time'),
+			'available_time' => Yii::t('shop', 'Available Date'),
+			'image' => Yii::t('shop', 'Image'),
 		];
 	}
 

@@ -57,7 +57,9 @@ class Product extends BaseProduct
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), [
+			'categoryId' => Yii::t('shop', 'Category'),
 			'categoryIds' => Yii::t('shop', 'Categories'),
+			'imageItems' => Yii::t('shop', 'Images'),
 		]);
 	}
 

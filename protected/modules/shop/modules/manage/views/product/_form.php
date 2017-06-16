@@ -22,6 +22,7 @@ $this->registerJs('app.setupProductForm();');
 		'horizontalCssClasses' => [
 			'label' => 'col-sm-2',
 			'wrapper' => 'col-sm-10',
+			'hint' => 'col-sm-10 col-sm-offset-2',
 		],
 	],
 ]); ?>
@@ -32,6 +33,15 @@ $this->registerJs('app.setupProductForm();');
 		'extensions' => ['jpg', 'png', 'gif'],
 		'maxSize' => 4000,
 	]); ?>
+	<?= $form->field($model, 'price')->widget(\yii\widgets\MaskedInput::className(), [
+	    'mask' => '999.999.999',
+	    'clientOptions' => ['reverse'=>true],
+	]) ?>
+	<?= $form->field($model, 'categoryIds')->dropdownList($model->getCategoryOptions(), [
+		'multiple'=>'multiple',
+		'class'=>'selectpicker',
+		'style'=>'width:100%',
+	]) ?>
 	<?= $form->field($model, 'description')->widget(
 		\yii\imperavi\Widget::className(),
 		[
@@ -47,23 +57,20 @@ $this->registerJs('app.setupProductForm();');
 			]
 		]
 	) ?>
-	<?= $form->field($model, 'price')->textInput() ?>
 	<?= $form->field($model, 'quantity')->textInput() ?>
 	<?= $form->field($model, 'status')->dropdownList($model->getStatusOptions()) ?>
 	<?= $form->field($model, 'available_time')->widget(
 			'trntv\yii\datetime\DateTimeWidget',
 			[ 'momentDatetimeFormat' => Yii::$app->helper->getDateFormat('datepicker') ]
-		);
+		)->hint(Yii::t('shop','The day which product will be shown up in your website.'))
 	?>
-	<?= $form->field($model, 'categoryIds')->dropdownList($model->getCategoryOptions(), [
-		'multiple'=>'multiple',
-		'class'=>'selectpicker',
-		'style'=>'width:100%',
-	]) ?>
 	<?= $form->field($model, 'model')->textInput() ?>
-	<?= $form->field($model, 'meta_title')->textInput() ?>
-	<?= $form->field($model, 'meta_description')->textArea(['rows'=>5]) ?>
-	<?= $form->field($model, 'meta_keyword')->textArea(['rows'=>5]) ?>
+	<?= $form->field($model, 'meta_title')->textInput()
+		->hint(Yii::t('shop','Use for SEO.')) ?>
+	<?= $form->field($model, 'meta_description')->textArea(['rows'=>5])
+		->hint(Yii::t('shop','Use for SEO.')) ?>
+	<?= $form->field($model, 'meta_keyword')->textArea(['rows'=>5])
+		->hint(Yii::t('shop','Use for SEO.')) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

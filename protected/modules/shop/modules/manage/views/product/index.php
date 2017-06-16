@@ -16,9 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $this->beginBlock('buttons') ?>
 	<a href="<?= Url::to(['create']) ?>" class="btn btn-primary" data-toggle="tooltip" data-original-title="<?= Yii::t('backend', 'Add New') ?>"><i class="fa fa-plus"></i></a>
+	<!--
 	<button class="btn btn-default btn-multi-update" type="button">
 		<i class="fa fa-pencil"></i>
 	</button>
+	-->
 <?php $this->endBlock() ?>
 
 <?= GridView::widget([

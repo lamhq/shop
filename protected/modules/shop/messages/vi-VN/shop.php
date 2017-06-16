@@ -11,6 +11,17 @@ return [
 	'In Sub Category' => 'Tìm trong danh mục con',
 	'Active' => 'Hiển thị',
 	'In-active' => 'Ẩn',
+	'Product Name' => 'Tên sản phẩm',
+	'Images' => 'Hình ảnh',
+	'Description' => 'Mô tả',
+	'Price' => 'Giá',
+	'Available Date' => 'Ngày hiển thị',
+	'Meta Title' => 'Thẻ title',
+	'Meta Description' => 'Thẻ description',
+	'Meta Keyword' => 'Thẻ keyword',
+	'Category' => 'Danh mục',
+	'Categories' => 'Danh mục sản phẩm',
+	'Stock Quantity' => 'Số lượng tồn',
 	
 	// email template
 	'Order' => 'Đơn hàng',
@@ -33,7 +44,6 @@ return [
 	// order history
 	// order detail
 
-	'Categories' => 'Danh mục sản phẩm',
 	'Featured Products' => 'Sản phẩm nổi bật',
 	'Order History' => 'Lịch sử đặt hàng',
 	'Checkout' => 'Thanh toán',
@@ -57,7 +67,6 @@ return [
 	'Out Of Stock' => 'Hết hàng',
 	'Qty' => 'Số lượng',
 	'{0} reviews' => '{0} nhận xét',
-	'Description' => 'Thông tin',
 	'Reviews ({0})' => 'Nhận xét ({0})',
 	'Customer\'s reviews' => 'Nhận xét từ người dùng',
 	'Write a review' => 'Viết nhận xét của bạn',
@@ -109,4 +118,8 @@ return [
 	'Complete' => 'Hoàn tất',
 	'Cancelled' => 'Bị hủy',
 	'Refunded' => 'Đã hoàn lại',
+
+	// backend: manage product
+	'The day which product will be shown up in your website.' => 'Ngày sản phẩm hiển thị trên website.',
+	'Use for SEO.' => 'Dùng cho SEO.',
 ];

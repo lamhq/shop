@@ -84,3 +84,8 @@
     width: 150px;
     background-position: center center;
 }
+
+/**
+ * form
+ */
+form .help-block { margin-top: 0; }

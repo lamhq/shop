@@ -24,7 +24,7 @@ use shop\models\Category;
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="">
 		<button class="btn btn-primary" type="submit">
 			<i class="fa fa-filter"></i> <?= Yii::t('backend', 'Filter') ?>
 		</button>
