@@ -76,8 +76,8 @@ class Category extends \yii\db\ActiveRecord
 			'image' => Yii::t('shop', 'Image'),
 			'slug' => Yii::t('shop', 'Slug'),
 			'status' => Yii::t('shop', 'Status'),
-			'sort_order' => Yii::t('shop', 'Sort Order'),
-			'parent_id' => Yii::t('shop', 'Parent ID'),
+			'sort_order' => Yii::t('shop', 'Display Order'),
+			'parent_id' => Yii::t('shop', 'Parent Category'),
 			'created_at' => Yii::t('shop', 'Create Time'),
 			'updated_at' => Yii::t('shop', 'Update Time'),
 		];

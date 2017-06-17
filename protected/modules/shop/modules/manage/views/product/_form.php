@@ -45,7 +45,7 @@ $this->registerJs('app.setupProductForm();');
 			'id' => 'product-description',
 			// 'plugins' => ['fullscreen', 'fontcolor', 'video'],
 			'options' => [
-				'minHeight' => 400,
+				'minHeight' => 300,
 				'maxHeight' => 400,
 				'buttonSource' => true,
 				'convertDivs' => false,

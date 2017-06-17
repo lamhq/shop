@@ -22,6 +22,8 @@ return [
 	'Category' => 'Danh mục',
 	'Categories' => 'Danh mục sản phẩm',
 	'Stock Quantity' => 'Số lượng tồn',
+	'Display Order' => 'Thứ tự hiển thị',
+	'Parent Category' => 'Danh mục cha',
 	
 	// email template
 	'Order' => 'Đơn hàng',

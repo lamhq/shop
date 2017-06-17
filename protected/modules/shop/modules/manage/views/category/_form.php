@@ -20,7 +20,21 @@ use yii\bootstrap\ActiveForm;
  
 	<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-	<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+	<?= $form->field($model, 'description')->widget(
+		\yii\imperavi\Widget::className(),
+		[
+			'id' => 'product-description',
+			// 'plugins' => ['fullscreen', 'fontcolor', 'video'],
+			'options' => [
+				'minHeight' => 300,
+				'maxHeight' => 400,
+				'buttonSource' => true,
+				'convertDivs' => false,
+				'removeEmptyTags' => false,
+				'imageUpload' => Url::to(['/default/redactorUpload']),
+			]
+		]
+	) ?>
 
 	<?= $form->field($model, 'uploadImage')->widget('app\widgets\AjaxUpload', [
 		'uploadUrl' => Url::to(['/default/upload']),
@@ -36,10 +50,13 @@ use yii\bootstrap\ActiveForm;
 	<?= $form->field($model, 'parent_id')->dropdownList($model->getParentCategoryOptions(),
 	['prompt'=>Yii::t('shop', ''), 'encode'=>false, 'style'=>'font-family: monospace;' ]) ?>
 
-	<?= $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'meta_title')->textInput(['maxlength' => true])
+		->hint(Yii::t('shop','Use for SEO.')) ?>
 
-	<?= $form->field($model, 'meta_description')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'meta_description')->textInput(['maxlength' => true])
+		->hint(Yii::t('shop','Use for SEO.')) ?>
 
-	<?= $form->field($model, 'meta_keyword')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'meta_keyword')->textInput(['maxlength' => true])
+		->hint(Yii::t('shop','Use for SEO.')) ?>
  
 <?php ActiveForm::end(); ?> 

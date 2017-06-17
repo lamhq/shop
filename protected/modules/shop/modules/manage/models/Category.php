@@ -3,6 +3,7 @@ namespace shop\modules\manage\models;
 
 use Yii;
 use shop\models\Category as BaseCategory;
+use shop\models\CategoryRelation;
 
 class Category extends BaseCategory
 {
@@ -20,6 +21,16 @@ class Category extends BaseCategory
 		return array_merge(parent::rules(), [
 			[['uploadImage'], 'safe'],
 			[['name'], 'required'],
+		]);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return array_merge(parent::attributeLabels(), [
+			'uploadImage' => Yii::t('shop', 'Image'),
 		]);
 	}
 
@@ -51,6 +62,11 @@ class Category extends BaseCategory
 
 	public function afterSave( $insert, $changedAttributes ) {
 		$this->saveImage();
+		$this->reindex();
+	}
+
+	public function reindex() {
+		CategoryRelation::generate();
 	}
 
 	public function saveImage() {
