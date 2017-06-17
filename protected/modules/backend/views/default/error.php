@@ -18,7 +18,7 @@ $code = property_exists($exception, 'statusCode') ? $exception->statusCode : 500
 		<h3><i class="fa fa-warning text-yellow"></i> <?= Html::encode($message) ?></h3>
 
 		<p>
-			Click <a href="<?= Url::to(['/backend']) ?>">here</a> to return.
+			<?= Yii::t('backend', 'Click {0} to return.', Html::a(Yii::t('backend', 'here'), ['/backend'])) ?>
 		</p>
 
 	</div>

@@ -37,4 +37,8 @@ return [
     'Create {0}' => 'Đăng {0}',
     'Update {0}' => 'Sửa thông tin {0}',
     'Update' => 'Sửa thông tin',
+
+    // error page
+    'Click {0} to return.' => 'Click vào {0} để quay lại.',
+    'here' => 'đây',
 ];

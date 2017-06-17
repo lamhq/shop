@@ -25,15 +25,12 @@ class Module extends \yii\base\Module
 						'enableAutoLogin' => true,
 						'loginUrl' => ['/backend/default/login'],
 					],
-					'errorHandler' => [
-						'class' => 'yii\web\ErrorHandler',
-						'errorAction' => ['/backend/default/error'],
-					],
 				],
 			]);
 
 			$this->layout = '@webroot/themes/adminlte/views/layouts/main-box';
 			Yii::$app->view->theme->baseUrl = '@web/themes/adminlte';
+			Yii::$app->errorHandler->errorAction = '/backend/default/error';
 
 			$this->on(Controller::EVENT_BEFORE_ACTION, function($event) {
 				Yii::$app->controller->attachBehavior('access', [

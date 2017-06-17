@@ -17,17 +17,9 @@ class Module extends \yii\base\Module
 	{
 		parent::init();
 		if (Yii::$app instanceof \yii\web\Application) {
-			Yii::configure(Yii::$app, [
-				'components' => [
-					'errorHandler' => [
-						'class' => 'yii\web\ErrorHandler',
-						'errorAction' => ['/frontend/default/error'],
-					],
-				],
-			]);
-
 			$this->layout = '@webroot/themes/shop/views/layouts/main';
 			Yii::$app->view->theme->baseUrl = '@web/themes/shop';
+			Yii::$app->errorHandler->errorAction = '/frontend/default/error';
 		}
 	}
 }
