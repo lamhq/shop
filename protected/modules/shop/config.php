@@ -57,6 +57,7 @@ return [
 				'controllers' => [
 					'shop/manage/product',
 					'shop/manage/category',
+					'shop/manage/order',
 				],
 				'roles' => ['@'],
 			],

@@ -24,6 +24,8 @@ return [
 	'Stock Quantity' => 'Số lượng tồn',
 	'Display Order' => 'Thứ tự hiển thị',
 	'Parent Category' => 'Danh mục cha',
+	'Create Time' => 'Ngày tạo',
+	'Update Time' => 'Ngày chỉnh sửa',
 	
 	// email template
 	'Order' => 'Đơn hàng',
@@ -112,14 +114,13 @@ return [
 	'Customer' => 'Khách hàng',
 	'No. of Products' => 'Số lượng sản phẩm',
 	'Status' => 'Trạng thái',
-	'Create Time' => 'Ngày tạo',
 	'Comment' => 'Ghi chú',
 	'Pending' => 'Chờ xử lý',
 	'Processing' => 'Đang xử lý',
 	'Shipped' => 'Đã giao hàng',
 	'Complete' => 'Hoàn tất',
 	'Cancelled' => 'Bị hủy',
-	'Refunded' => 'Đã hoàn lại',
+	'Refunded' => 'Đã hoàn tiền',
 
 	// backend: manage product
 	'The day which product will be shown up in your website.' => 'Ngày sản phẩm hiển thị trên website.',

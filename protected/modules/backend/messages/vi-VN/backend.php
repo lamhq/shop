@@ -30,6 +30,7 @@ return [
 	// other
 	'-- Please select --' => '-- Chọn --',
 	'Add New' => 'Thêm',
+	'Delete' => 'Xóa',
 	'Filter' => 'Lọc',
 	'Home' => 'Trang chính',
     'Data saved.' => 'Thông tin đã được lưu.',

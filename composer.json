@@ -28,7 +28,8 @@
         "vlucas/phpdotenv": "^2.4",
         "bower-asset/bootstrap-select": "^1.12",
         "asofter/yii2-imperavi-redactor": "^0.0.3",
-        "hiqdev/yii2-asset-select2": "^4.0"
+        "hiqdev/yii2-asset-select2": "^4.0",
+        "bower-asset/typeahead.js": "^0.11.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

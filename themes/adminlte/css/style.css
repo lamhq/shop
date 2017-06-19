@@ -89,3 +89,48 @@
  * form
  */
 form .help-block { margin-top: 0; }
+
+
+/* additional styles for typeahead.js, adapted from http://twitter.github.io/typeahead.js/examples/ */
+
+.twitter-typeahead {
+    display: block !important;
+}
+
+.tt-hint {
+    color: #999
+}
+
+.tt-dropdown-menu, .tt-menu {
+    width: 100%;
+    margin-top: 2px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}

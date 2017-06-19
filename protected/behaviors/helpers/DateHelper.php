@@ -26,7 +26,7 @@ class DateHelper extends Behavior
 				$result = 'd-m-Y H:i';
 				break;
 
-			case 'datepicker':
+			case 'datepicker':	// day-month-year hour-minute
 				$result = 'DD-MM-YYYY HH:mm';
 				break;
 			
@@ -36,6 +36,18 @@ class DateHelper extends Behavior
 
 			case 'db':
 				$result = 'Y-m-d H:i:s';
+				break;
+
+			case 'datepicker2':	// day-month-year
+				$result = 'DD-MM-YYYY';
+				break;
+			
+			case 'php2':
+				$result = 'd-m-Y';
+				break;
+
+			case 'db2':
+				$result = 'Y-m-d';
 				break;
 		}
 		return $result;

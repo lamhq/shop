@@ -226,6 +226,10 @@ class Order extends \yii\db\ActiveRecord
 	}
 
 	static public function getStatuses() {
+		return self::getStatusOptions();
+	}
+	
+	static public function getStatusOptions() {
 		return [
 			self::STATUS_PENDING => Yii::t('shop', 'Pending'),
 			self::STATUS_PROCESSING => Yii::t('shop', 'Processing'),
@@ -237,7 +241,7 @@ class Order extends \yii\db\ActiveRecord
 	}
 	
 	static public function getStatusText($status) {
-		return \yii\helpers\ArrayHelper::getValue(self::getStatuses(), $status);
+		return \yii\helpers\ArrayHelper::getValue(self::getStatusOptions(), $status);
 	}
 
 	public function getDisplayStatus() {
