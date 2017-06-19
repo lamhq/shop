@@ -69,14 +69,4 @@ class Order extends BaseOrder
 		]);
 		return $dataProvider;
 	}
-
-	static public function getCustomerNames() {
-		$names = (new \yii\db\Query())
-			->select(['name'])
-			->from('{{%shop_order}}')
-			->distinct(true)
-			->addOrderBy('name')
-			->column();
-		return $names;
-	}
 }

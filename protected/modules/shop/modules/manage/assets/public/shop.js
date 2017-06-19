@@ -15,4 +15,26 @@ app = Object.assign(app, {
 			};
 		});
 	},
+
+	setupOrderFilterForm: function() {
+		$('#order-name').bsAutocomplete({
+			source: function (request, response) {
+				app.ajax({
+					url: app.baseUrl+'/shop/manage/order/customer',
+					data: { term: request },
+					dataType: 'json'
+				}).then(function (json) {
+					response($.map(json, function(item) {
+						return {
+							value: item,
+							label: item
+						};
+					}));
+				});
+			},
+			select: function(item) {
+				this.value = item.value;
+			}
+		});
+	}
 });

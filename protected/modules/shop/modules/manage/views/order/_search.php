@@ -5,8 +5,7 @@ use app\widgets\DateTimeWidget;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-\yii\gii\TypeAheadAsset::register($this);
-$this->registerJs(sprintf("app.setupTypeAhead('#order-name', %s);", json_encode($model->getCustomerNames()) ));
+$this->registerJs('app.setupOrderFilterForm();');
 ?>
 
 <div class="well">

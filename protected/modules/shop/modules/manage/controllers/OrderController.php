@@ -29,6 +29,18 @@ class OrderController extends Controller
 		]);
 	}
 
+	public function actionCustomer($term) {
+		$rows = (new \yii\db\Query())
+			->select(['name'])
+			->from('{{%shop_order}}')
+			->andWhere(['like', 'name', $term])
+			->addOrderBy('name')
+			->distinct(true)
+			->column();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		return $rows;
+	}
+
 	/**
 	 * Creates a new Order model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
