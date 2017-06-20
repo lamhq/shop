@@ -81,7 +81,6 @@ class ProductSearch extends Model
 		if ($this->inDescription) {
 			$condition = ['or'];
 			$condition[] = $this->buildWordCondition('name', $words);
-			$condition[] = $this->buildWordCondition('short_description', $words);
 			$condition[] = $this->buildWordCondition('description', $words);
 		} else {
 			$condition = $this->buildWordCondition('name', $words);

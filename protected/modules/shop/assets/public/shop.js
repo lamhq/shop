@@ -309,10 +309,6 @@ app = Object.assign(app, {
 	},
 
 	setupAddressControls: function () {
-		$('.selectpicker').selectpicker({
-			liveSearch: true
-		});
-
 		// update options of a select control
 		var setDropdownItems = function ($dropdown, items) {
 			// save the empty option
@@ -325,7 +321,6 @@ app = Object.assign(app, {
 				$option.text(this.label);
 				$dropdown.append($option);
 			});
-			$dropdown.closest('.selectpicker').selectpicker('refresh');
 			$dropdown.trigger('change');
 		};
 
@@ -361,6 +356,11 @@ app = Object.assign(app, {
 					setDropdownItems($('select.ward'), json.wards);
 				}
 			});
+		});
+
+		$('.selectpicker').select2({
+			theme: "bootstrap",
+			width: 'resolve'
 		});
 	},
 

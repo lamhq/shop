@@ -61,7 +61,7 @@ class Product extends \yii\db\ActiveRecord
             [['quantity', 'rating', 'status', 'viewed'], 'integer'],
             [['price'], 'number'],
             [['created_at', 'updated_at', 'available_time'], 'safe'],
-            [['name', 'short_description', 'image', 'meta_title', 'meta_description', 'meta_keyword', 'slug'], 'string', 'max' => 255],
+            [['name', 'image', 'meta_title', 'meta_description', 'meta_keyword', 'slug'], 'string', 'max' => 255],
             [['model'], 'string', 'max' => 64],
 		];
 	}
