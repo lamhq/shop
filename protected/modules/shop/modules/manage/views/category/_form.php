@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */ 
 /* @var $model shop\models\Category */ 
 /* @var $form yii\widgets\ActiveForm */ 
+$this->registerJs('app.setupCategoryForm();');
 ?> 
 <?php $this->beginBlock('buttons') ?>
 	<button type="submit" form="categoryForm" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="<?= Yii::t('backend', 'Save') ?>"><i class="fa fa-save"></i></button>
@@ -23,7 +24,7 @@ use yii\bootstrap\ActiveForm;
 	<?= $form->field($model, 'description')->widget(
 		\yii\imperavi\Widget::className(),
 		[
-			'id' => 'product-description',
+			'id' => 'category-description',
 			// 'plugins' => ['fullscreen', 'fontcolor', 'video'],
 			'options' => [
 				'minHeight' => 300,

@@ -16,7 +16,6 @@ class App extends AssetBundle
 
     public $depends = [
         'yii\web\JqueryAsset',
-        'lamhq\yii2\asset\NotifyJs',
     ];
 
     public function init() {

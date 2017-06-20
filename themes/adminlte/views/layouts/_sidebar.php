@@ -18,7 +18,7 @@ use backend\widgets\AdminLteMenu;
 					],
 					[
 						'label'=>Yii::t('shop', 'Category'), 
-						'url'=>['/shop/manage/category/index']
+						'url'=>['/shop/manage/category/create']
 					],
 					[
 						'label'=>Yii::t('shop', 'Order'), 

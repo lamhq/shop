@@ -11,7 +11,7 @@ class Category extends BaseCategory
 	 * image data being uploaded from client, format: [value, path, url]
 	 * @var array
 	 */
-	public $uploadImage = [];
+	public $uploadImage = [ 'value'=>'', 'path'=>'', 'url'=>''];
 
 	/**
 	 * @inheritdoc
@@ -39,13 +39,11 @@ class Category extends BaseCategory
 	}
 
 	public function afterFind() {
-		if ($this->image) {
-			$this->uploadImage = [
-				'value' => $this->image,
-				'path' => Yii::$app->helper->getStoragePath($this->image),
-				'url' => Yii::$app->helper->getStorageUrl($this->image),
-			];
-		}
+		$this->uploadImage = $this->image ? [
+			'value' => $this->image,
+			'path' => Yii::$app->helper->getStoragePath($this->image),
+			'url' => Yii::$app->helper->getStorageUrl($this->image),
+		] : [ 'value'=>'', 'path'=>'', 'url'=>''];
 	}
 
 	public function beforeSave($insert)
