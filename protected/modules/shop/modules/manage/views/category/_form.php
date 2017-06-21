@@ -16,7 +16,7 @@ $this->registerJs('app.setupCategoryForm();');
 
 <?php $form = ActiveForm::begin([
 	'id'=>'categoryForm',
-	// 'layout'=>'horizontal',
+	'layout'=>'default',
 ]); ?> 
  
 	<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

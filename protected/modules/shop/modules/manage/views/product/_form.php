@@ -17,14 +17,6 @@ $this->registerJs('app.setupProductForm();');
 
 <?php $form = ActiveForm::begin([
 	'id'=>'productForm',
-	'layout'=>'horizontal',
-	'fieldConfig' => [
-		'horizontalCssClasses' => [
-			'label' => 'col-sm-2',
-			'wrapper' => 'col-sm-10',
-			'hint' => 'col-sm-10 col-sm-offset-2',
-		],
-	],
 ]); ?>
 	<?= $form->field($model, 'name')->textInput() ?>
 	<?= $form->field($model, 'imageItems')->widget('app\widgets\AjaxUpload', [

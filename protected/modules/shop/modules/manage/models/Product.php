@@ -137,8 +137,6 @@ class Product extends BaseProduct
 	}
 
 	public function afterFind() {
-		if ($this->isNewRecord) return;
-
 		$this->categoryIds = ArrayHelper::getColumn($this->categories, 'id');
 		foreach ($this->productImages as $model) {
 			$this->imageItems[] = [

@@ -5,7 +5,8 @@ $config = [
 	'vendorPath' => __DIR__ . '/../../vendor',
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
-	'language'=>'vi-VN',
+	'language'=>'en-US',
+	// 'language'=>'vi-VN',
 	'sourceLanguage'=>'en-US',
 	'as observable' => [ 'class'=>'app\behaviors\Observable', ],
 	'params' => [

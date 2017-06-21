@@ -9,6 +9,12 @@ use shop\models\Order as BaseOrder;
 
 class Order extends BaseOrder
 {
+	/**
+	 * list of order items
+	 * @var array
+	 */
+	public $cartItems=[];
+
 	public function behaviors() {
 		$h = Yii::$app->helper;
 		return array_merge(parent::behaviors(), [
@@ -69,4 +75,11 @@ class Order extends BaseOrder
 		]);
 		return $dataProvider;
 	}
+
+	public function afterFind() {
+		foreach ($this->orderProducts as $item) {
+			$this->cartItems[] = $item->attributes;
+		}
+	}
+
 }

@@ -10,7 +10,10 @@ $this->title = Yii::t('backend', 'Sign In');
 ?>
 <!-- <p class="login-box-msg">Sign in to start your session</p> -->
 
-<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+<?php $form = ActiveForm::begin([
+	'id' => 'login-form',
+	'layout' => 'default',
+]); ?>
 <div class="body">
 	<?php echo $form->field($model, 'username') ?>
 	<?php echo $form->field($model, 'password')->passwordInput() ?>

@@ -14,10 +14,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-request-password-reset">
 	<p class="login-box-msg"><?= Html::encode($this->title) ?></p>
 	
-	<?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+	<?php $form = ActiveForm::begin([
+		'id' => 'request-password-reset-form',
+		'layout' => 'default',
+	]); ?>
 	<div class="body">
 		<p><?= Yii::t('backend', 'Please fill out your email. A link to reset password will be sent there.') ?></p>
-		<?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+		<?= $form->field($model, 'email')->label(false)->textInput(['autofocus' => true]) ?>
 	</div>
 	<div class="footer">
 		<?= Html::submitButton(Yii::t('backend', 'Get my password'), ['class' => 'btn btn-primary']) ?>

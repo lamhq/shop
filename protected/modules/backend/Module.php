@@ -38,6 +38,17 @@ class Module extends \yii\base\Module
 					'rules'=> Yii::$app->params['accessRules']
 				]);
 			});
+
+			\Yii::$container->set('yii\bootstrap\ActiveForm', [
+				'layout'=>'horizontal',
+				'fieldConfig' => [
+					'horizontalCssClasses' => [
+						'label' => 'col-sm-2',
+						'wrapper' => 'col-sm-10',
+						'hint' => 'col-sm-10 col-sm-offset-2',
+					],
+				],
+			]);
 		}
 	}
 }

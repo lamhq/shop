@@ -12,6 +12,7 @@ use shop\models\Category;
 <?php $form = ActiveForm::begin([
 	'action' => ['index'],
 	'method' => 'get',
+	'layout'=>'default',
 ]); ?>
 	<div class="row">
 		<div class="col-sm-6">

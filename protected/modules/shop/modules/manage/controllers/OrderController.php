@@ -6,6 +6,8 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use shop\modules\manage\models\Order;
+use shop\models\Customer;
+use shop\models\Product;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -29,6 +31,11 @@ class OrderController extends Controller
 		]);
 	}
 
+	/**
+	 * search customer by name from order's customer names
+	 * @param  string $term
+	 * @return string       json text
+	 */
 	public function actionCustomer($term) {
 		$rows = (new \yii\db\Query())
 			->select(['name'])
@@ -58,6 +65,46 @@ class OrderController extends Controller
 				'model' => $model,
 			]);
 		}
+	}
+
+	/**
+	 * search customer by name from existing customers in system
+	 * @param  string $term
+	 * @return string       json text
+	 */
+	public function actionExistCustomer($term) {
+		$customers = Customer::find()
+			->andWhere(['like', 'name', $term])
+			->addOrderBy('name')
+			->all();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		return array_map(function ($item) {
+			return [
+				'value' => $item->id,
+				'label' => $item->name,
+				'email' => $item->email,
+				'telephone' => $item->telephone,
+			];
+		}, $customers);
+	}
+
+	/**
+	 * search product by name
+	 * @param  string $term
+	 * @return string       json text
+	 */
+	public function actionProduct($term) {
+		$products = Product::find()
+			->andWhere(['like', 'name', $term])
+			->addOrderBy('name')
+			->all();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		return array_map(function ($item) {
+			return [
+				'value' => $item->id,
+				'label' => $item->name,
+			];
+		}, $products);
 	}
 
 	/**
