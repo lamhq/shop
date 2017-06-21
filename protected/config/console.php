@@ -13,6 +13,7 @@ $config['bootstrap'] = ['log'];
 
 unset($config['defaultRoute']);
 unset($config['components']['request']);
+unset($config['components']['errorHandler']);
 unset($config['modules']['debug']);
 unset($config['modules']['gii']);
 

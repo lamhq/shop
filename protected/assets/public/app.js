@@ -43,8 +43,10 @@ app = {
 	},
 
 	load: function(target, setting) {
+		// the sub part of response text we want to extract
 		var src = setting.src==='undefined' ? false : setting.src;
 		return app.ajax(setting)
+		// update the DOM
 		.then(function (data, textStatus, jqXHR) {
 			var html = '';
 			if (src) {
@@ -311,6 +313,7 @@ app = {
 				clearTimeout(this.timer);
 
 				this.timer = setTimeout(function(object) {
+					if ( $(object).val().length<3 ) return;
 					object.source($(object).val(), $.proxy(object.response, object));
 				}, 200, this);
 			}

@@ -33,6 +33,7 @@ class Order extends BaseOrder
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
+			[['cartItems'], 'required', 'on'=>['insert','update']],
 			[['id', 'name', 'status', 'total', 'created_at', 'updated_at'], 'safe', 'on'=>'search'],
 		]);
 	}
@@ -45,6 +46,36 @@ class Order extends BaseOrder
 		return array_merge(parent::attributeLabels(), [
 		]);
 	}
+
+    public function load($data, $formName = null) {
+    	if (!parent::load($data, $formName)) return false;
+    	// reset data for property that accept array
+    	if (!is_array($this->cartItems)) {
+    		$this->cartItems = [];
+    	}
+
+    	// update item quantity
+    	$items = [];
+    	foreach ($this->cartItems as $key => $item) {
+    		$productId = $item['product_id'];
+    		if ( isset($items[$productId]) ) {
+    			$it = &$items[$productId];
+    			$it['quantity'] += $item['quantity'];
+    			$it['price'] = $item['price'];
+    			$it['total'] = $it['price']*$it['quantity'];
+    		} else {
+    			$items[$productId] = $item;
+    		}
+    	}
+    	$this->cartItems = $items;
+
+    	// remove item with quantity = 0
+    	foreach ($this->cartItems as $key => $item) {
+    		if ($item['quantity']==0)
+    			unset($this->cartItems[$key]);
+		}
+		return true;
+    }
 
 	/**
 	 * Creates data provider instance with search query applied

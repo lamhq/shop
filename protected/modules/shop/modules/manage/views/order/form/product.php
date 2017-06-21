@@ -1,6 +1,10 @@
 <?php
 use yii\helpers\Html;
+$f = Yii::$app->formatter;
 ?>
+<!-- place holder input to submit data for cartItems -->
+<input type="hidden" name="Order[cartItems]" value="" id="fakeItemsInput"/>
+
 <div class="table-responsive">
 	<table class="table table-bordered">
 		<thead>
@@ -18,6 +22,10 @@ use yii\helpers\Html;
 			<tr>
 				<td>
 					<?= $item['name'] ?>
+					<?= Html::hiddenInput("Order[cartItems][$k][product_id]", $item['product_id']) ?>
+					<?= Html::hiddenInput("Order[cartItems][$k][name]", $item['name']) ?>
+					<?= Html::hiddenInput("Order[cartItems][$k][price]", $item['price']) ?>
+					<?= Html::hiddenInput("Order[cartItems][$k][total]", $item['total']) ?>
 				</td>
 				<td>
 					<div class="input-group btn-block" style="max-width: 200px;">
@@ -27,8 +35,11 @@ use yii\helpers\Html;
 						</span>
 					</div>
 				</td>
-				<td></td>
-				<td></td>
+				<td><?= $f->asCurrency($item['price']) ?></td>
+				<td><?= $f->asCurrency($item['total']) ?></td>
+				<td>
+					<button type="button" title="Remove" class="btn btn-danger btn-remove-product"><i class="fa fa-minus-circle"></i></button>
+				</td>
 			</tr>
 			<?php endforeach ?>
 			<?php else: ?>

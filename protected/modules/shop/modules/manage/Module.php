@@ -10,6 +10,8 @@ class Module extends \backend\Module {
 	public function init()
 	{
 		parent::init();
-		Shop::register(Yii::$app->view);
+		if (Yii::$app instanceof \yii\web\Application) {
+			Shop::register(Yii::$app->view);
+		}
 	}
 }
