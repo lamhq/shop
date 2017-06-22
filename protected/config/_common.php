@@ -6,7 +6,6 @@ $config = [
 	'basePath' => dirname(__DIR__),
 	'bootstrap' => ['log'],
 	'language'=>'en-US',
-	// 'language'=>'vi-VN',
 	'sourceLanguage'=>'en-US',
 	'as observable' => [ 'class'=>'app\behaviors\Observable', ],
 	'params' => [

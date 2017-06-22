@@ -49,7 +49,6 @@ class Order extends \yii\db\ActiveRecord
 	const STATUS_CANCELED = 7;
 	const STATUS_REFUNDED = 11;
 
-	const EVENT_ORDER_PLACED = 'orderPlaced';
 	const EVENT_COLLECT_PRICE = 'collectPrice';
 	const EVENT_COLLECT_PAYMENT_METHOD = 'collectPaymentMethod';
 
@@ -197,25 +196,29 @@ class Order extends \yii\db\ActiveRecord
 
 	public function addOrderHistory($status) {
 		$oldStatus = $this->status;
-		// add order status history record
+		// If current order status is not processing or complete but new status is processing or complete then commence completing the order
+
+			// Stock subtraction
+
+		// Update the DB with the new statuses
+		$this->status = $status;
+		$this->update(false, ['status']);
+
 		$oh = new OrderHistory([
 			'order_id' => $this->id,
 			'status' => $status,
 		]);
-		$oh->save() || Yii::$app->helper->throwException('Error when saving order history: '.json_encode($oh->getFirstErrors()));
+		$oh->save();
 
-		// update current order status
-		$this->status = $status;
-		$this->update(false, ['status']);
 
-		// If order status is null(or 0) then becomes greater than 0,
+		// If order status is null then becomes not null,
 		// send new order email to customer and admin
 		if (!$oldStatus && $status) {
 			Yii::$app->helper->sendNewOrderMailToCustomer($this);
 			Yii::$app->helper->sendNewOrderMailToAdmin($this);
 		}
 
-		// If order status is not 0 then,
+		// If order status is not null then,
 		// send order status alert email to customer
 		if ($oldStatus && $status) {
 		}

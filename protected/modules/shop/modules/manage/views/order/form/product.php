@@ -1,10 +1,9 @@
 <?php
 use yii\helpers\Html;
 $f = Yii::$app->formatter;
+$name = Html::getInputName($model, 'items');
 ?>
-<!-- place holder input to submit data for cartItems -->
-<input type="hidden" name="Order[cartItems]" value="" id="fakeItemsInput"/>
-
+<?= Html::hiddenInput($name, '') ?>
 <div class="table-responsive">
 	<table class="table table-bordered">
 		<thead>
@@ -17,26 +16,21 @@ $f = Yii::$app->formatter;
 			</tr>
 		</thead>
 		<tbody>
-			<?php if ($model->cartItems): ?>
-			<?php foreach ($model->cartItems as $k => $item): ?>
+			<?php if ($model->items): ?>
+			<?php foreach ($model->items as $k => $item): ?>
 			<tr>
 				<td>
-					<?= $item['name'] ?>
-					<?= Html::hiddenInput("Order[cartItems][$k][product_id]", $item['product_id']) ?>
-					<?= Html::hiddenInput("Order[cartItems][$k][name]", $item['name']) ?>
-					<?= Html::hiddenInput("Order[cartItems][$k][price]", $item['price']) ?>
-					<?= Html::hiddenInput("Order[cartItems][$k][total]", $item['total']) ?>
+					<?= $item->name ?>
 				</td>
 				<td>
-					<div class="input-group btn-block" style="max-width: 200px;">
-						<input type="text" name="Order[cartItems][<?= $k ?>][quantity]" value="<?= $item['quantity'] ?>" class="form-control">
-						<span class="input-group-btn">
-							<button type="button" title="Refresh" class="btn btn-primary btn-update"><i class="fa fa-refresh"></i></button>
-						</span>
-					</div>
+					<?= Html::textInput("{$name}[$k][quantity]", $item->quantity, ['class'=>'form-control quantity']) ?>
+					<?= Html::hiddenInput("{$name}[$k][product_id]", $item->product_id) ?>
+					<?= Html::hiddenInput("{$name}[$k][name]", $item->name) ?>
+					<?= Html::hiddenInput("{$name}[$k][price]", $item->price) ?>
+					<?= Html::hiddenInput("{$name}[$k][total]", $item->total) ?>
 				</td>
-				<td><?= $f->asCurrency($item['price']) ?></td>
-				<td><?= $f->asCurrency($item['total']) ?></td>
+				<td><?= $f->asCurrency($item->price) ?></td>
+				<td><?= $f->asCurrency($item->total) ?></td>
 				<td>
 					<button type="button" title="Remove" class="btn btn-danger btn-remove-product"><i class="fa fa-minus-circle"></i></button>
 				</td>

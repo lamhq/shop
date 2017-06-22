@@ -13,6 +13,8 @@ class CheckoutForm extends Order
 	const ADDRESS_TYPE_EXISTING = 'existing';
 	const ADDRESS_TYPE_NEW = 'new';
 
+	const EVENT_ORDER_PLACED = 'orderPlaced';
+
 	/**
 	 * list of item in cart
 	 * @var \shop\components\CartItemCollection

@@ -8,15 +8,13 @@ app = Object.assign(app, {
 		$('.selectpicker').select2();
 
 		// setup redactor wyswyg widget
-		app.wait(500)
-		.then(function () {
+		app.wait(500).then(function () {
 			app.setupRedactorUpload('#product-description');
 		});
 	},
 
 	setupCategoryForm: function () {
-		app.wait(500)
-		.then(function () {
+		app.wait(500).then(function () {
 			app.setupRedactorUpload('#category-description');
 		});
 	},
@@ -44,6 +42,19 @@ app = Object.assign(app, {
 	},
 
 	setupOrderForm: function() {
+		var reloadForm = function() {
+			var orderForm = $('#orderForm');
+			// set the flag to inform server to not save this order
+			data = orderForm.serializeArray();
+			data.push({ name: 'reload', 'value':1 });
+			
+			return app.load(orderForm, {
+				url: orderForm.attr('action'),
+				method: 'post',
+				data: data
+			}).then(app.setupOrderForm);
+		};
+
 		// search customer
 		$('#order-name').bsAutocomplete({
 			source: function (request, response) {
@@ -56,10 +67,13 @@ app = Object.assign(app, {
 				});
 			},
 			select: function(item) {
+				this.value = item.label;
 				$('#order-customer_id').val(item.value);
 				$('#order-telephone').val(item.telephone);
 				$('#order-email').val(item.email);
-				this.value = item.label;
+				reloadForm().then(function() {
+					$('[href="#tab-customer"]').trigger('click');
+				});
 			}
 		});
 
@@ -75,73 +89,154 @@ app = Object.assign(app, {
 				});
 			},
 			select: function(item) {
-				$('#input-product_id').val(item.value);
 				this.value = item.label;
 				$(this).data('product', item);
+				$('#input-product_id').val(item.value);
 			}
 		});
 
-		// get index for adding cart item
-		var getItemKey = function() {
-			if (typeof app.maxKey === "undefined") {
-				app.maxKey = 90;
-			}
-			var result = app.maxKey;
-			app.maxKey++;
-			return result;
-		};
-
-		// add hidden input contain data of cart item
-		var addProductInputs = function(product) {
-			var orderForm = $('#orderForm');
-			var key = getItemKey();
-			var quantity = parseInt($('#input-quantity').val());
-			$('<input type="hidden" name="Order[cartItems]['+key+'][product_id]" />')
-				.val(product.id).appendTo(orderForm);
-			$('<input type="hidden" name="Order[cartItems]['+key+'][name]" />')
-				.val(product.name).appendTo(orderForm);
-			$('<input type="hidden" name="Order[cartItems]['+key+'][quantity]" />')
-				.val(quantity).appendTo(orderForm);
-			$('<input type="hidden" name="Order[cartItems]['+key+'][price]" />')
-				.val(product.price).appendTo(orderForm);
-			$('<input type="hidden" name="Order[cartItems]['+key+'][total]" />')
-				.val(product.price*quantity).appendTo(orderForm);
-		};
-
-		var reloadForm = function() {
-			var orderForm = $('#orderForm');
-			
-			// disable fake input if cart has items
-			$('#fakeItemsInput').prop('disabled', 
-				orderForm.find('tr input[name^="Order[cartItems]"]').length>0);
-			
-			// set the flag to inform server to not save this order
-			data = orderForm.serializeArray();
-			data.push({ name: 'reload', 'value':1 });
-			
-			return app.load(orderForm, {
-				url: orderForm.attr('action'),
-				method: 'post',
-				data: data
-			}).then(app.setupOrderForm);
-		};
-
+		// add product to cart
 		$('#btnAddProduct').on('click', function() {
 			var productId = $('#input-product_id').val();
 			var quantity = parseInt($('#input-quantity').val());
 			if ( productId=='' || isNaN(parseInt(quantity)) || quantity<=0 ) return;
 
-			addProductInputs($('#input-product').data('product'));
+			addProduct($('#input-product').data('product'));
 			reloadForm().then(function() {
 				$('[href="#tab-product"]').trigger('click');
 			});
 		});
 
+		// add hidden input contain data of item
+		var addProduct = function(product) {
+			var orderForm = $('#orderForm');
+
+			var getItemKey = function() {
+				if (typeof app.maxKey === "undefined") {
+					app.maxKey = 90;
+				}
+				var result = app.maxKey;
+				app.maxKey++;
+				return result;
+			};
+			var key = getItemKey();
+			var quantity = parseInt($('#input-quantity').val());
+			$('<input type="hidden" name="Order[items]['+key+'][product_id]" />')
+				.val(product.id).appendTo(orderForm);
+			$('<input type="hidden" name="Order[items]['+key+'][name]" />')
+				.val(product.name).appendTo(orderForm);
+			$('<input type="hidden" name="Order[items]['+key+'][quantity]" />')
+				.val(quantity).appendTo(orderForm);
+			$('<input type="hidden" name="Order[items]['+key+'][price]" />')
+				.val(product.price).appendTo(orderForm);
+			$('<input type="hidden" name="Order[items]['+key+'][total]" />')
+				.appendTo(orderForm);
+		};
+
+		// remove product in cart
 		$('.btn-remove-product').on('click', function() {
 			$(this).closest('tr').remove();
 			reloadForm().then(function() {
 				$('[href="#tab-product"]').trigger('click');
 			});
+		});
+
+		// reload form after changing quantity
+		$('.quantity').on('change', function() {
+			reloadForm().then(function() {
+				$('[href="#tab-product"]').trigger('click');
+			});
+		});
+
+		// reload form if user choose an existing address
+		$('#order-shippingaddressid').on('change', function() {
+			app.ajax({
+				url: app.baseUrl+'/shop/manage/order/address',
+				method: 'get',
+				data: { id: this.value }
+			}).then(function(json) {
+				var orderForm = $('#orderForm');
+				var data = json.data;
+				$('#order-shipping_city_id').val(data.city_id);
+
+				$('#order-shipping_district_id').prop('disabled', true);
+				$('<input type="hidden" name="Order[shipping_district_id]"/>')
+					.val(data.district_id).appendTo(orderForm);
+					
+				$('#order-shipping_ward_id').prop('disabled', true);
+				$('<input type="hidden" name="Order[shipping_ward_id]"/>')
+					.val(data.ward_id).appendTo(orderForm);
+
+				$('#order-shipping_address').val(data.address);
+			}).then(reloadForm).then(function() {
+				$('[href="#tab_shipping"]').trigger('click');			
+			});
+		});
+
+		app.setupAddressControls();
+	},
+
+	setupAddressControls: function () {
+		// update options of a select control
+		var setDropdownItems = function ($dropdown, items) {
+			// save the empty option
+			var $option = $dropdown.find('option:first');
+			$dropdown.empty();
+			$dropdown.append($option);
+
+			$(items).each(function() {
+				var $option = $('<option></option>');
+				$option.val(this.value);
+				$option.text(this.label);
+				$dropdown.append($option);
+			});
+			$dropdown.val('');
+			$dropdown.trigger('change');
+		};
+
+		// reload + reset district dropdown when changing city
+		$('select.city').on('change', function () {
+			var city = this.value;
+			if (city=='') {
+				setDropdownItems($('select.district'), []);
+				return;
+			}
+
+			$.ajax({
+				url: app.baseUrl+'/shop/default/districts',
+				type: 'get',
+				data: { city: city },
+				dataType: 'json'
+			}).then(function (json, textStatus, jqXHR) {
+				if (typeof json === 'object') {
+					setDropdownItems($('select.district'), json.districts);
+				}
+			});
+		});
+
+		// reload + reset ward dropdown when changing district
+		$('select.district').on('change', function () {
+			var district = this.value;
+			if (district=='') {
+				setDropdownItems($('select.ward'), []);
+				return;
+			}
+
+			$.ajax({
+				url: app.baseUrl+'/shop/default/wards',
+				type: 'get',
+				data: { district: district },
+				dataType: 'json'
+			}).then(function (json, textStatus, jqXHR) {
+				if (typeof json === 'object') {
+					setDropdownItems($('select.ward'), json.wards);
+				}
+			});
+		});
+
+		$('.selectpicker').select2({
+			theme: "bootstrap",
+			width: '100%'
 		});
 	}
 });
