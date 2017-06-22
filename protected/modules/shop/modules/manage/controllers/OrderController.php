@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use shop\modules\manage\models\Order;
 use shop\models\Customer;
 use shop\models\Product;
+use shop\models\Address;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -156,6 +157,16 @@ class OrderController extends Controller
 				'label' => $item->name,
 			], $item->attributes);
 		}, $products);
+	}
+
+	/**
+	 * get address data
+	 * @param  string $id
+	 * @return string json text
+	 */
+	public function actionAddress($id) {
+		$address = Address::findOne($id);
+		return Yii::$app->helper->jsonSuccess('',['data'=>$address->attributes]);
 	}
 
 }

@@ -31,7 +31,7 @@ $f = Yii::$app->formatter;
 					<div class="input-group btn-block" style="max-width: 200px;">
 						<input type="text" name="Order[cartItems][<?= $k ?>][quantity]" value="<?= $item['quantity'] ?>" class="form-control">
 						<span class="input-group-btn">
-							<button type="button" data-toggle="tooltip" title="" data-loading-text="Loading..." class="btn btn-primary" data-original-title="Refresh"><i class="fa fa-refresh"></i></button>
+							<button type="button" title="Refresh" class="btn btn-primary btn-update"><i class="fa fa-refresh"></i></button>
 						</span>
 					</div>
 				</td>

@@ -129,8 +129,8 @@ class Customer extends \yii\db\ActiveRecord
     }
 
     /**
-     * [addAddress description]
-     * @param Address $address [description]
+     * get address dropdown options
+     * @return  array
      */
     public function getAddressOptions() {
     	$result = [];

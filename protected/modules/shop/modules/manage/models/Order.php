@@ -9,6 +9,8 @@ use shop\models\Order as BaseOrder;
 
 class Order extends BaseOrder
 {
+	public $shippingAddressId;
+	
 	/**
 	 * list of order items
 	 * @var array
@@ -47,35 +49,37 @@ class Order extends BaseOrder
 		]);
 	}
 
-    public function load($data, $formName = null) {
-    	if (!parent::load($data, $formName)) return false;
-    	// reset data for property that accept array
-    	if (!is_array($this->cartItems)) {
-    		$this->cartItems = [];
-    	}
-
-    	// update item quantity
-    	$items = [];
-    	foreach ($this->cartItems as $key => $item) {
-    		$productId = $item['product_id'];
-    		if ( isset($items[$productId]) ) {
-    			$it = &$items[$productId];
-    			$it['quantity'] += $item['quantity'];
-    			$it['price'] = $item['price'];
-    			$it['total'] = $it['price']*$it['quantity'];
-    		} else {
-    			$items[$productId] = $item;
-    		}
-    	}
-    	$this->cartItems = $items;
-
-    	// remove item with quantity = 0
-    	foreach ($this->cartItems as $key => $item) {
-    		if ($item['quantity']==0)
-    			unset($this->cartItems[$key]);
+	public function load($data, $formName = null) {
+		if (!parent::load($data, $formName)) return false;
+		// reset data for property that accept array
+		if (!is_array($this->cartItems)) {
+			$this->cartItems = [];
 		}
+
+		// update item quantity
+		$items = [];
+		foreach ($this->cartItems as $key => $item) {
+			$productId = $item['product_id'];
+			if ( isset($items[$productId]) ) {
+				$it = &$items[$productId];
+				$it['quantity'] += $item['quantity'];
+				$it['price'] = $item['price'];
+			} else {
+				$items[$productId] = $item;
+			}
+		}
+		$this->cartItems = $items;
+
+		foreach ($this->cartItems as $key => &$item) {
+			// remove item with quantity = 0
+			if ($item['quantity']==0)
+				unset($this->cartItems[$key]);
+			// update total
+			$item['total'] = $item['price']*$item['quantity'];
+		}
+
 		return true;
-    }
+	}
 
 	/**
 	 * Creates data provider instance with search query applied
@@ -111,6 +115,28 @@ class Order extends BaseOrder
 		foreach ($this->orderProducts as $item) {
 			$this->cartItems[] = $item->attributes;
 		}
+	}
+
+	/**
+	 * get list of payment method
+	 * @return array [ [code, title] ]
+	 */
+	public function getAvailablePaymentMethods() {
+		$event = Yii::$app->helper->createEvent([
+			'sender' => $this,
+			'triggerData' => [],
+		]);
+		Yii::$app->trigger(self::EVENT_COLLECT_PAYMENT_METHOD, $event);
+
+		return $event->triggerData;
+	}
+
+	public function getPaymentMethodOptions() {
+		$result = [];
+		foreach ($this->getAvailablePaymentMethods() as $method) {
+			$result[$method['code']] = $method['title'];
+		}
+		return $result;
 	}
 
 }
