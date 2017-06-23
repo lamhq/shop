@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property string $city_id
- * @property string $district_id
- * @property string $ward_id
+ * @property int $city_id
+ * @property int $district_id
+ * @property int $ward_id
  * @property string $address
  * @property int $customer_id
  *
@@ -40,9 +40,8 @@ class Address extends \yii\db\ActiveRecord
             [['name','city_id','address'], 'required', 'on'=>['guestCheckout','accountCheckout']],
             [['name','city_id','address','customer_id'], 'required', 'on'=>['insert','update']],
             
-            [['customer_id'], 'integer'],
+            [['city_id', 'district_id', 'ward_id', 'customer_id'], 'integer'],
             [['name'], 'string', 'max' => 64],
-            [['city_id', 'district_id', 'ward_id'], 'string', 'max' => 5],
             [['address'], 'string', 'max' => 128],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],

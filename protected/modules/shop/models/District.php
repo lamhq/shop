@@ -7,12 +7,13 @@ use Yii;
 /**
  * This is the model class for table "{{%shop_district}}".
  *
- * @property string $id
+ * @property int $id
+ * @property string $code
  * @property string $name
  * @property string $type
  * @property string $location
  * @property int $sort_order
- * @property string $city_id
+ * @property int $city_id
  *
  * @property Address[] $shopAddresses
  * @property City $city
@@ -35,9 +36,9 @@ class District extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'type', 'city_id'], 'required'],
-            [['sort_order'], 'integer'],
-            [['id', 'city_id'], 'string', 'max' => 5],
+            [['code', 'name', 'type', 'city_id'], 'required'],
+            [['sort_order', 'city_id'], 'integer'],
+            [['code'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 100],
             [['type', 'location'], 'string', 'max' => 30],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],

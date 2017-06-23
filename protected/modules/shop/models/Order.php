@@ -18,9 +18,9 @@ use yii\db\Expression;
  * @property string $payment_method
  * @property string $payment_code
  * @property string $shipping_name
- * @property string $shipping_city_id
- * @property string $shipping_district_id
- * @property string $shipping_ward_id
+ * @property int $shipping_city_id
+ * @property int $shipping_district_id
+ * @property int $shipping_ward_id
  * @property string $shipping_address
  * @property string $shipping_method
  * @property string $shipping_code
@@ -68,17 +68,16 @@ class Order extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['invoice_no', 'customer_id', 'status'], 'integer'],
-			[['comment'], 'string'],
-			[['total'], 'number'],
-			[['created_at', 'updated_at'], 'safe'],
-			[['name'], 'string', 'max' => 64],
-			[['email'], 'string', 'max' => 96],
-			[['telephone', 'shipping_name'], 'string', 'max' => 32],
-			[['payment_method', 'payment_code', 'shipping_address', 'shipping_method', 'shipping_code'], 'string', 'max' => 128],
-			[['shipping_city_id', 'shipping_district_id', 'shipping_ward_id'], 'string', 'max' => 5],
-			[['ip'], 'string', 'max' => 40],
-			[['user_agent', 'accept_language'], 'string', 'max' => 255],
+			[['invoice_no', 'customer_id', 'shipping_city_id', 'shipping_district_id', 'shipping_ward_id', 'status'], 'integer'],
+            [['comment'], 'string'],
+            [['total'], 'number'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['name'], 'string', 'max' => 64],
+            [['email'], 'string', 'max' => 96],
+            [['telephone', 'shipping_name'], 'string', 'max' => 32],
+            [['payment_method', 'payment_code', 'shipping_address', 'shipping_method', 'shipping_code'], 'string', 'max' => 128],
+            [['ip'], 'string', 'max' => 40],
+            [['user_agent', 'accept_language'], 'string', 'max' => 255],
 			[['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
 			[['shipping_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['shipping_city_id' => 'id']],
 			[['shipping_district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['shipping_district_id' => 'id']],
@@ -94,17 +93,17 @@ class Order extends \yii\db\ActiveRecord
 		return [
 			'id' => Yii::t('shop', 'Order ID'),
 			'invoice_no' => Yii::t('shop', 'Invoice No'),
-			'customer_id' => Yii::t('shop', 'Customer ID'),
+			'customer_id' => Yii::t('shop', 'Customer'),
 			'name' => Yii::t('shop', 'Customer'),
 			'email' => Yii::t('shop', 'Email'),
 			'telephone' => Yii::t('shop', 'Telephone'),
 			'payment_method' => Yii::t('shop', 'Payment Method'),
 			'payment_code' => Yii::t('shop', 'Payment Code'),
 			'shipping_name' => Yii::t('shop', 'Shipping Name'),
-			'shipping_city_id' => Yii::t('shop', 'Shipping City ID'),
-			'shipping_district_id' => Yii::t('shop', 'Shipping District ID'),
-			'shipping_ward_id' => Yii::t('shop', 'Shipping Ward ID'),
-			'shipping_address' => Yii::t('shop', 'Shipping Address'),
+			'shipping_city_id' => Yii::t('shop', 'City'),
+			'shipping_district_id' => Yii::t('shop', 'District'),
+			'shipping_ward_id' => Yii::t('shop', 'Ward'),
+			'shipping_address' => Yii::t('shop', 'Address'),
 			'shipping_method' => Yii::t('shop', 'Shipping Method'),
 			'shipping_code' => Yii::t('shop', 'Shipping Code'),
 			'comment' => Yii::t('shop', 'Comment'),

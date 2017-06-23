@@ -7,7 +7,8 @@ use Yii;
 /**
  * This is the model class for table "{{%shop_city}}".
  *
- * @property string $id
+ * @property int $id
+ * @property string $code
  * @property string $name
  * @property string $type
  * @property int $sort_order
@@ -32,9 +33,9 @@ class City extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'type'], 'required'],
+            [['code', 'name', 'type'], 'required'],
             [['sort_order'], 'integer'],
-            [['id'], 'string', 'max' => 5],
+            [['code'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 100],
             [['type'], 'string', 'max' => 30],
         ];
