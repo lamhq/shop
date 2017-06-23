@@ -8,13 +8,12 @@ use shop\models\Order;
 
 class Cod extends Object
 {
-	public function onOrderPlaced($event) {
+	public function onOrderSaved($event) {
 		$order = $event->sender;
 		if ($order->payment_code!='cod') return;
 		
 		$order->payment_method = Yii::t('shop','Cash On Delivery');
 		$order->update(false, ['payment_method']);
-		$order->addOrderHistory(Order::STATUS_PENDING);
 	}
 
 	public function onCollectPaymentMethod($event) {
@@ -28,6 +27,7 @@ class Cod extends Object
 	public function onAfterCheckout($event) {
 		$order = $event->sender;
 		if ($order->payment_code!='cod') return;
+		$order->addOrderHistory(Order::STATUS_PENDING);
 		$event->triggerData = ['redirect' => Url::to(['/shop/checkout/success'])];
 	}
 

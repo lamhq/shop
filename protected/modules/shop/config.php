@@ -63,10 +63,10 @@ return [
 			],
 		],
 		'events' => [
-			'orderPlaced' => [
+			'orderSaved' => [
 				'codPayment' => [
 					'class' => 'shop\observers\payment\Cod',
-					'method' => 'onOrderPlaced',
+					'method' => 'onOrderSaved',
 					'runOrder' => 10,
 				],
 			],

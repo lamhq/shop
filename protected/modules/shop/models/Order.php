@@ -4,6 +4,7 @@ namespace shop\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%shop_order}}".
@@ -51,6 +52,7 @@ class Order extends \yii\db\ActiveRecord
 
 	const EVENT_COLLECT_PRICE = 'collectPrice';
 	const EVENT_COLLECT_PAYMENT_METHOD = 'collectPaymentMethod';
+	const EVENT_ORDER_SAVED = 'orderSaved';
 
 	/**
 	 * @inheritdoc
@@ -196,31 +198,40 @@ class Order extends \yii\db\ActiveRecord
 
 	public function addOrderHistory($status) {
 		$oldStatus = $this->status;
-		// If current order status is not processing or complete but new status is processing or complete then commence completing the order
+		$completeStatuses = [self::STATUS_PROCESSING, self::STATUS_COMPLETE];
 
+		// If current order status is not processing or complete but new status is processing or complete then commence completing the order
+		if ( !in_array($oldStatus, $completeStatuses) 
+			&& in_array($status, $completeStatuses) ) {
 			// Stock subtraction
+			foreach ($this->orderProducts as $op) {
+				Product::updateAll(['quantity'=>new Expression('quantity-'.$op->quantity)], 'id='.$op->product_id);
+			}
+		}
 
 		// Update the DB with the new statuses
 		$this->status = $status;
-		$this->update(false, ['status']);
-
+		self::updateAll(['status'=>$status], 'id='.$this->id);
 		$oh = new OrderHistory([
 			'order_id' => $this->id,
 			'status' => $status,
 		]);
 		$oh->save();
-
-
-		// If order status is null then becomes not null,
-		// send new order email to customer and admin
-		if (!$oldStatus && $status) {
-			Yii::$app->helper->sendNewOrderMailToCustomer($this);
-			Yii::$app->helper->sendNewOrderMailToAdmin($this);
+		
+		// If old order status is the processing or complete status but new status is not then commence restock
+		if ( in_array($oldStatus, $completeStatuses) 
+			&& !in_array($status, $completeStatuses) ) {
+			// ReStock
+			foreach ($this->orderProducts as $op) {
+				Product::updateAll(['quantity'=>new Expression('quantity+'.$op->quantity)], 'id='.$op->product_id);
+			}
 		}
 
-		// If order status is not null then,
-		// send order status alert email to customer
-		if ($oldStatus && $status) {
+		// If order status is null then becomes not null (new order placed),
+		// send new order email to customer and admin
+		if ( !$oldStatus && $status ) {
+			Yii::$app->helper->sendNewOrderMailToCustomer($this);
+			Yii::$app->helper->sendNewOrderMailToAdmin($this);
 		}
 	}
 

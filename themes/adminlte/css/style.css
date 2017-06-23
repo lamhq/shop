@@ -89,3 +89,4 @@
  * form
  */
 form .help-block { margin-top: 0; }
+.error-message { color: #f00; }

@@ -4,6 +4,11 @@ $f = Yii::$app->formatter;
 $name = Html::getInputName($model, 'items');
 ?>
 <?= Html::hiddenInput($name, '') ?>
+
+<?php if ($model->hasErrors('items')): ?>
+<?= Html::error($model, 'items',['tag'=>'p', 'class'=>'error-message']) ?>
+<?php endif ?>
+
 <div class="table-responsive">
 	<table class="table table-bordered">
 		<thead>

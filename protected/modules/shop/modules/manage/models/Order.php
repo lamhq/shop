@@ -2,9 +2,6 @@
 namespace shop\modules\manage\models;
 
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
-use app\behaviors\DateFormatConvertBehavior;
 use shop\models\Order as BaseOrder;
 use shop\models\OrderProduct;
 use shop\models\OrderPrice;
@@ -19,26 +16,13 @@ class Order extends BaseOrder
 	 */
 	public $items=[];
 
-	public function behaviors() {
-		$h = Yii::$app->helper;
-		return array_merge(parent::behaviors(), [
-			[
-				'class' => DateFormatConvertBehavior::className(),
-				'attributes'=> ['created_at','updated_at'],
-				'displayFormat'=>$h->getDateFormat('php2'),
-				'storageFormat'=>$h->getDateFormat('db2'),
-			],
-		]);
-	}
-
 	/**
 	 * @inheritdoc
 	 */
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
-			[['items'], 'required', 'on'=>['insert','update']],
-			[['id', 'name', 'status', 'total', 'created_at', 'updated_at'], 'safe', 'on'=>'search'],
+			[['name', 'telephone', 'shipping_city_id', 'shipping_address', 'payment_code', 'status', 'items'], 'required', 'on'=>['insert','update']],
 		]);
 	}
 
@@ -53,6 +37,11 @@ class Order extends BaseOrder
 
 	public function afterFind() {
 		$this->items = $this->orderProducts;
+	}
+
+	public function afterValidate () {
+		$this->total = $this->calculateTotal();
+		$this->shipping_name = $this->name;
 	}
 
 	public function load($data, $formName = null) {
@@ -79,36 +68,6 @@ class Order extends BaseOrder
 		}
 		$this->items = $items;
 		return true;
-	}
-
-	/**
-	 * Creates data provider instance with search query applied
-	 * @return ActiveDataProvider
-	 */
-	public function search($params)
-	{
-		$query = BaseOrder::find();
-
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-		]);
-
-		if (!($this->load($params) && $this->validate())) {
-			return $dataProvider;
-		}
-
-		$h = Yii::$app->helper;
-		$createdAt = $h->convertDateTime($this->created_at, $h->getDateFormat('php2'), $h->getDateFormat('db2'));
-		$updatedAt = $h->convertDateTime($this->updated_at, $h->getDateFormat('php2'), $h->getDateFormat('db2'));
-		$query->andFilterWhere(['like', 'name', $this->name]);
-		$query->andFilterWhere(['like', 'created_at', $createdAt]);
-		$query->andFilterWhere(['like', 'updated_at', $updatedAt]);
-		$query->andFilterWhere([
-			'id'=>$this->id,
-			'total'=>$this->total,
-			'status'=>$this->status,
-		]);
-		return $dataProvider;
 	}
 
 	public function getPaymentMethodOptions() {
@@ -165,10 +124,9 @@ class Order extends BaseOrder
 		return $this->total;
 	}
 
-	public function save ( $runValidation = true, $attributeNames = null ) {
+	public function save( $runValidation = true, $attributeNames = null ) {
 		$transaction = Yii::$app->db->beginTransaction();
 		try {
-			$this->total = $this->calculateTotal();
 			if (!parent::save($runValidation, $attributeNames)) {
 				return false;
 			}
@@ -176,8 +134,11 @@ class Order extends BaseOrder
 			$this->saveOrderProductRecords();
 			$this->saveOrderPrices();
 			$this->addOrderHistory($this->status);
-
 			$transaction->commit();
+
+			// trigger event after saving order
+			$event = Yii::$app->helper->createEvent(['sender' => $this]);
+			Yii::$app->trigger(self::EVENT_ORDER_SAVED, $event);
 		} catch(\Exception $e) {
 			$transaction->rollBack();
 			throw $e;

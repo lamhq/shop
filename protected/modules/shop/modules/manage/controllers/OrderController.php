@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use shop\modules\manage\models\Order;
+use shop\modules\manage\models\OrderSearch;
 use shop\models\Customer;
 use shop\models\Product;
 use shop\models\Address;
@@ -21,7 +22,7 @@ class OrderController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = new Order(['scenario'=>'search']);
+		$model = new OrderSearch(['scenario'=>'search']);
 		$dataProvider = $model->search(Yii::$app->request->queryParams);
 		$dataProvider->sort = [
 			'defaultOrder'=>['updated_at'=>SORT_DESC]
@@ -39,18 +40,21 @@ class OrderController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$req = Yii::$app->request;
 		$model = new Order(['scenario'=>'insert']);
+		$model->ip = $req->userIP;
+		$model->user_agent = $req->userAgent;
+		$model->accept_language = implode(';',$req->acceptableLanguages);
 
-		if ( Yii::$app->request->post('reload')
-			&& $model->load(Yii::$app->request->post()) ) {
-			return $this->render('_form', [
+		if ( $req->post('reload') && $model->load(Yii::$app->request->post()) ) {
+			return $this->renderPartial('_form', [
 				'model' => $model,
 			]);
 		}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			// Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
-			// return $this->redirect(['index']);
+		if ($model->load($req->post()) && $model->save()) {
+			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
+			return $this->redirect(['index']);
 		} else {
 			return $this->render('create', [
 				'model' => $model,
@@ -66,16 +70,19 @@ class OrderController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+		$req = Yii::$app->request;
 		$model = $this->findModel($id);
+		$model->ip = $req->userIP;
+		$model->user_agent = $req->userAgent;
+		$model->accept_language = implode(';',$req->acceptableLanguages);
 
-		if ( Yii::$app->request->post('reload')
-			&& $model->load(Yii::$app->request->post()) ) {
+		if ( $req->post('reload') && $model->load(Yii::$app->request->post()) ) {
 			return $this->renderPartial('_form', [
 				'model' => $model,
 			]);
 		}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		if ($model->load($req->post()) && $model->save()) {
 			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
 			return $this->redirect(['index']);
 		} else {

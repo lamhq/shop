@@ -13,8 +13,6 @@ class CheckoutForm extends Order
 	const ADDRESS_TYPE_EXISTING = 'existing';
 	const ADDRESS_TYPE_NEW = 'new';
 
-	const EVENT_ORDER_PLACED = 'orderPlaced';
-
 	/**
 	 * list of item in cart
 	 * @var \shop\components\CartItemCollection
@@ -258,7 +256,6 @@ class CheckoutForm extends Order
 				$this->createCustomerAccount();
 			}
 
-			// load address from existing address
 			if ($this->customer_id) {
 				$this->loadCustomerAddressData();
 			}
@@ -268,8 +265,9 @@ class CheckoutForm extends Order
 			$this->saveOrderPrices();
 			$transaction->commit();
 
+			// trigger event after saving order
 			$event = Yii::$app->helper->createEvent(['sender' => $this]);
-			Yii::$app->trigger(self::EVENT_ORDER_PLACED, $event);
+			Yii::$app->trigger(self::EVENT_ORDER_SAVED, $event);
 		} catch(\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
