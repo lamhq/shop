@@ -53,6 +53,8 @@ class OrderController extends Controller
 		}
 
 		if ($model->load($req->post()) && $model->save()) {
+			$data = $req->post($model->formName());
+			$model->addOrderHistory($data['status']);
 			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
 			return $this->redirect(['index']);
 		} else {
@@ -83,6 +85,8 @@ class OrderController extends Controller
 		}
 
 		if ($model->load($req->post()) && $model->save()) {
+			$data = $req->post($model->formName());
+			$model->addOrderHistory($data['status']);
 			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
 			return $this->redirect(['index']);
 		} else {
@@ -91,6 +95,18 @@ class OrderController extends Controller
 			]);
 		}
 	}
+
+    /**
+     * Displays a single Order model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
 	/**
 	 * Finds the Order model based on its primary key value.
@@ -167,7 +183,7 @@ class OrderController extends Controller
 	}
 
 	/**
-	 * get address data
+	 * get address detail
 	 * @param  string $id
 	 * @return string json text
 	 */

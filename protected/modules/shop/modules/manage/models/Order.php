@@ -9,7 +9,7 @@ use shop\models\OrderPrice;
 class Order extends BaseOrder
 {
 	public $shippingAddressId;
-	
+
 	/**
 	 * list of order items
 	 * @var array
@@ -22,7 +22,8 @@ class Order extends BaseOrder
 	public function rules()
 	{
 		return array_merge(parent::rules(), [
-			[['name', 'telephone', 'shipping_city_id', 'shipping_address', 'payment_code', 'status', 'items'], 'required', 'on'=>['insert','update']],
+			[['!status', '!total'], 'safe', 'on'=>['insert','update']],			
+			[['name', 'telephone', 'shipping_city_id', 'shipping_address', 'payment_code', 'items'], 'required', 'on'=>['insert','update']],
 		]);
 	}
 
@@ -32,7 +33,8 @@ class Order extends BaseOrder
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), [
-		]);
+			'shippingAddressId' => Yii::t('shop', 'Choose Address'),
+		]); 
 	}
 
 	public function afterFind() {

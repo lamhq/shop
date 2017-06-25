@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = [
 	'label' => Yii::t('shop', 'Orders'), 
 	'url' => ['index']
 ];
-$this->params['breadcrumbs'][] = Yii::t('shop', 'Add Order');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?= $this->render('_form', [
