@@ -41,13 +41,17 @@ app = Object.assign(app, {
 		});
 	},
 
+	getOrderForm: function() {
+		return $('#orderForm');
+	},
+
 	setupOrderForm: function() {
 		var reloadForm = function() {
-			var orderForm = $('#orderForm');
+			var orderForm = app.getOrderForm();
 			// set the flag to inform server to not save this order
 			data = orderForm.serializeArray();
 			data.push({ name: 'reload', 'value':1 });
-			
+
 			return app.load(orderForm, {
 				url: orderForm.attr('action'),
 				method: 'post',
@@ -109,17 +113,12 @@ app = Object.assign(app, {
 
 		// add hidden input contain data of item
 		var addProduct = function(product) {
-			var orderForm = $('#orderForm');
+			var orderForm = app.getOrderForm();
 
-			var getItemKey = function() {
-				if (typeof app.maxKey === "undefined") {
-					app.maxKey = 90;
-				}
-				var result = app.maxKey;
-				app.maxKey++;
-				return result;
-			};
-			var key = getItemKey();
+			if ( typeof app.maxKey === "undefined" ) {
+				app.maxKey = 90;
+			}
+			var key = app.maxKey++;
 			var quantity = parseInt($('#input-quantity').val());
 			$('<input type="hidden" name="Order[items]['+key+'][product_id]" />')
 				.val(product.id).appendTo(orderForm);
@@ -155,24 +154,26 @@ app = Object.assign(app, {
 				method: 'get',
 				data: { id: this.value }
 			}).then(function(json) {
-				var orderForm = $('#orderForm');
+				var orderForm = app.getOrderForm();
 				var data = json.data;
 				$('#order-shipping_city_id').val(data.city_id);
 
 				$('#order-shipping_district_id').prop('disabled', true);
 				$('<input type="hidden" name="Order[shipping_district_id]"/>')
 					.val(data.district_id).appendTo(orderForm);
-					
+
 				$('#order-shipping_ward_id').prop('disabled', true);
 				$('<input type="hidden" name="Order[shipping_ward_id]"/>')
 					.val(data.ward_id).appendTo(orderForm);
 
 				$('#order-shipping_address').val(data.address);
 			}).then(reloadForm).then(function() {
-				$('[href="#tab_shipping"]').trigger('click');			
+				$('[href="#tab_shipping"]').trigger('click');
 			});
 		});
 
+		app.getOrderForm().on('afterValidate', app.openErrorTab);
+		app.openErrorTab();
 		app.setupAddressControls();
 	},
 
@@ -238,5 +239,29 @@ app = Object.assign(app, {
 			theme: "bootstrap",
 			width: '100%'
 		});
-	}
+	},
+
+	setupOrderGrid: function() {
+		$('.btn-delete').on('click', function() {
+			var keys = $('#orderGrid').yiiGridView('getSelectedRows');
+			if (keys.length==0) {
+				alert('Please select item to delete! - Hãy chọn mục cần xóa bên dưới!');
+				return;
+			}
+
+			return app.ajax({
+				url: app.baseUrl+'/shop/manage/order/delete',
+				type: 'post',
+				data: { ids: keys },
+				dataType: 'json'
+			}).then(function (json) {
+				if (json.success) {
+					location.reload();
+				} else {
+					alert(json.message);
+				}
+			});
+		});
+	},
+
 });

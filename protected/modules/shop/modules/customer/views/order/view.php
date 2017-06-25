@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $title;
 ?>
 <h1><?= $title ?></h1>
 
+<!-- Order Details-->
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
@@ -43,6 +44,7 @@ $this->params['breadcrumbs'][] = $title;
 	</tbody>
 </table>
 
+<!-- Order's Comment -->
 <?php if ($model->comment): ?>
 <table class="table table-bordered table-hover">
 	<thead>
@@ -60,10 +62,11 @@ $this->params['breadcrumbs'][] = $title;
 </table>
 <?php endif ?>
 
+<!-- Shipping Address -->
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th><?= Yii::t('shop', 'Shipping Detail') ?></th>
+			<th><?= Yii::t('shop', 'Shipping Address') ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -79,6 +82,7 @@ $this->params['breadcrumbs'][] = $title;
 	</tbody>
 </table>
 
+<!-- Products -->
 <div class="table-responsive">
 	<table class="table table-bordered table-hover">
 		<thead>
@@ -110,14 +114,13 @@ $this->params['breadcrumbs'][] = $title;
 	</table>
 </div>
 
+<!-- History -->
 <h3><?= Yii::t('shop', 'Order History') ?></h3>
-
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
 			<th><?= Yii::t('shop', 'Create Time') ?></th>
 			<th><?= Yii::t('shop', 'Status') ?></th>
-			<th><?= Yii::t('shop', 'Comment') ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -125,7 +128,6 @@ $this->params['breadcrumbs'][] = $title;
 		<tr>
 			<td><?= $f->asDate($oh->created_at) ?></td>
 			<td><?= $model->getStatusText($oh->status) ?></td>
-			<td><?= $oh->comment ?></td>
 		</tr>
 		<?php endforeach ?>
 	</tbody>

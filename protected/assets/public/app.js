@@ -239,6 +239,13 @@ app = {
 		$(selector).data('redactor').opts.uploadStartCallback = function(e, formData) {
 			formData.append(app.getCsrfParamName(), app.getCsrfParamValue());
 		};
+	},
+
+	openErrorTab: function() {
+		var errorTabId = $('.error-message,.has-error').closest('.tab-pane').attr('id');
+		if (errorTabId) {
+			$('a[href="#'+errorTabId+'"]').trigger('click');
+		}
 	}
 };
 
@@ -248,7 +255,7 @@ app = {
 		return this.each(function() {
 			var $this = $(this);
 			var $dropdown = $('<ul class="dropdown-menu" />');
-			
+
 			this.timer = null;
 			this.items = [];
 

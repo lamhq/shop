@@ -11,15 +11,17 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('shop', 'Order');
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerJs('app.setupOrderGrid();');
 ?>
 <?= $this->render('_search', ['model' => $model]); ?>
 
 <?php $this->beginBlock('buttons') ?>
 	<a href="<?= Url::to(['create']) ?>" class="btn btn-primary" data-toggle="tooltip" data-original-title="<?= Yii::t('backend', 'Add New') ?>"><i class="fa fa-plus"></i></a>
-	<button class="btn btn-danger" data-toggle="tooltip" data-original-title="<?= Yii::t('backend', 'Delete') ?>"><i class="fa fa-trash-o"></i></button>
+	<button class="btn btn-danger btn-delete" data-toggle="tooltip" data-original-title="<?= Yii::t('backend', 'Delete') ?>"><i class="fa fa-trash-o"></i></button>
 <?php $this->endBlock() ?>
 
 <?= GridView::widget([
+	'id' => 'orderGrid',
 	'dataProvider' => $dataProvider,
 	'options' => [
 		'class' => 'grid-view table-responsive'

@@ -103,9 +103,29 @@ class OrderController extends Controller
      */
     public function actionView($id)
     {
+		$this->layout = '@webroot/themes/adminlte/views/layouts/main';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Deletes an existing Category model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete()
+    {
+        $ids = Yii::$app->request->post('ids');
+        $msg = '';
+        if (is_array($ids) && $ids) {
+        	$cond = sprintf('id in (%s)', implode(',', $ids));
+        	$deleteds = Order::deleteAll($cond);
+        	$msg = Yii::t('backend', '{0} items deleted.', $deleteds);
+			Yii::$app->helper->setSuccess($msg);
+        }
+        return Yii::$app->helper->jsonSuccess($msg);
     }
 
 	/**
