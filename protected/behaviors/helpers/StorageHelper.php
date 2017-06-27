@@ -99,4 +99,25 @@ class StorageHelper extends Behavior {
 		ImageHelper::resize($src, $dst, ['width'=>$width, 'height'=>$height]);
 		return $url;
 	}
+
+	/**
+	 * get config file's location generated in setting page
+	 * @return string
+	 */
+	private function getLocalConfigFile() {
+		return Yii::$app->basePath.'/config/local.json';
+	}
+
+	public function getLocalSetting() {
+		$f = $this->getLocalConfigFile();
+		$data = is_file($f) ? json_decode(file_get_contents($f),true) : [];
+		return $data;
+	}
+
+	public function saveLocalSetting($data) {
+		$f = $this->getLocalConfigFile();
+		if ( is_file($f) ) unlink($f);
+		$content = json_encode($data,JSON_PRETTY_PRINT);
+		file_put_contents($f, $content);
+	}
 }

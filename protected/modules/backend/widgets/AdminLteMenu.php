@@ -35,7 +35,7 @@ class AdminLteMenu extends AuthMenu
 		
 		$url = isset($item['url']) ? Url::to($item['url']) : '';
 		
-		$icon = Html::tag('i', '', ['class'=>isset($item['icon']) ? $item['icon'] : 'fa fa-circle-o']);
+		$icon = Html::tag('i', '', ['class'=>isset($item['icon']) ? $item['icon'] : 'fa fa-angle-double-right']);
 
 		$rightHtml = '';
 		if (isset($item['items'])) {

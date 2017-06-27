@@ -57,11 +57,11 @@ class OrderController extends Controller
 			$model->addOrderHistory($data['status']);
 			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
 			return $this->redirect(['index']);
-		} else {
-			return $this->render('create', [
-				'model' => $model,
-			]);
 		}
+
+		return $this->render('create', [
+			'model' => $model,
+		]);
 	}
 
 	/**
@@ -89,11 +89,11 @@ class OrderController extends Controller
 			$model->addOrderHistory($data['status']);
 			Yii::$app->helper->setSuccess(Yii::t('backend', 'Data saved.'));
 			return $this->redirect(['index']);
-		} else {
-			return $this->render('update', [
-				'model' => $model,
-			]);
 		}
+
+		return $this->render('update', [
+			'model' => $model,
+		]);
 	}
 
     /**

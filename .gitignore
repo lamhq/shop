@@ -30,6 +30,7 @@ phpunit.phar
 tests/_output/*
 tests/_support/_generated
 storage/
+protected/config/local.json
 
 # Env
 /.env

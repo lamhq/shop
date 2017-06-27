@@ -28,10 +28,13 @@ class Module extends \yii\base\Module
 				],
 			]);
 
+			// set theme to use for backend
 			$this->layout = '@webroot/themes/adminlte/views/layouts/main-box';
 			Yii::$app->view->theme->baseUrl = '@web/themes/adminlte';
 			Yii::$app->errorHandler->errorAction = '/backend/default/error';
+			\app\assets\App::register(Yii::$app->view);
 
+			// attach permission check
 			$this->on(Controller::EVENT_BEFORE_ACTION, function($event) {
 				Yii::$app->controller->attachBehavior('access', [
 					'class' => 'yii\filters\AccessControl',
@@ -39,6 +42,7 @@ class Module extends \yii\base\Module
 				]);
 			});
 
+			// set default options for ActiveForm widget
 			\Yii::$container->set('yii\bootstrap\ActiveForm', [
 				'layout'=>'horizontal',
 				'fieldConfig' => [

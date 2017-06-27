@@ -20,9 +20,17 @@ use backend\widgets\AdminLteMenu;
 						'label'=>Yii::t('shop', 'Category'), 
 						'url'=>['/shop/manage/category/create']
 					],
+				]],
+				['label'=>Yii::t('shop', 'Sales'), 'icon'=>'fa fa-shopping-cart fw', 'items'=>[
 					[
 						'label'=>Yii::t('shop', 'Order'), 
 						'url'=>['/shop/manage/order/index']
+					],
+				]],
+				['label'=>Yii::t('shop', 'System'), 'icon'=>'fa fa-cog fw', 'items'=>[
+					[
+						'label'=>Yii::t('shop', 'Setting'), 
+						'url'=>['/backend/setting/index']
 					],
 				]],
 			]

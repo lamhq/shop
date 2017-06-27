@@ -55,7 +55,7 @@ $this->registerJs('app.setupProductForm();');
 	?>
 	<?= $form->field($model, 'model')->textInput() ?>
 	<?= $form->field($model, 'meta_title')->textInput()
-		->hint(Yii::t('shop','Use for SEO.')) ?>
+		->hint(Yii::t('shop','Title displayed in browser.')) ?>
 	<?= $form->field($model, 'meta_description')->textArea(['rows'=>5])
 		->hint(Yii::t('shop','Use for SEO.')) ?>
 	<?= $form->field($model, 'meta_keyword')->textArea(['rows'=>5])

@@ -7,7 +7,7 @@ use yii\helpers\Url;
 			<ul class="list-inline">
 				<li>
 					<a href="<?= Yii::$app->helper->getPageUrl('gioi-thieu') ?>"><i class="fa fa-phone fa-cs"></i></a>
-					<span class="hidden-xs"><?= Yii::$app->params['phone'] ?></span>
+					<span class="hidden-xs"><?= Yii::$app->params['telephone'] ?></span>
 				</li>
 				<li class="dropdown">
 					<a href="<?= Url::to(['/shop/customer/account']) ?>" title="<?= Yii::t('app', 'My Account') ?>" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
