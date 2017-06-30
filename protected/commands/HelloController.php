@@ -35,14 +35,14 @@ class HelloController extends Controller
 	public function actionAsset()
 	{
 		$paths = [
-			'assets/assets-public-63ddb47d/shop.js' => 
-				'protected/modules/shop/assets/public/shop.js',
+			'assets/assets-public-63ddb47d/shop-frontend.js' => 
+				'protected/modules/shop/assets/public/shop-frontend.js',
 			
-			'assets/assets-public-6602d939/app.js' => 
-				'protected/assets/public/app.js',
+			'assets/assets-public-6602d939/common.js' => 
+				'protected/assets/public/common.js',
 			
-			'assets/assets-public-aa0f3846/shop.js' => 
-				'protected/modules/shop/modules/manage/assets/public/shop.js',
+			'assets/assets-public-aa0f3846/shop-backend.js' => 
+				'protected/modules/shop/modules/manage/assets/public/shop-backend.js',
 		];
 		foreach($paths as $from => $to) {
 			$src = realpath(Yii::getAlias('@app').'/../'.$from);

@@ -6,12 +6,12 @@ use Yii;
 use yii\web\AssetBundle;
 use yii\web\View;
 
-class App extends AssetBundle
+class Common extends AssetBundle
 {
     public $sourcePath = '@app/assets/public';
     
     public $js = [
-        'app.js',
+        'common.js',
     ];
 
     public $depends = [

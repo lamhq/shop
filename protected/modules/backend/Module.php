@@ -32,7 +32,7 @@ class Module extends \yii\base\Module
 			$this->layout = '@webroot/themes/adminlte/views/layouts/main-box';
 			Yii::$app->view->theme->baseUrl = '@web/themes/adminlte';
 			Yii::$app->errorHandler->errorAction = '/backend/default/error';
-			\app\assets\App::register(Yii::$app->view);
+			\app\assets\Common::register(Yii::$app->view);
 
 			// attach permission check
 			$this->on(Controller::EVENT_BEFORE_ACTION, function($event) {

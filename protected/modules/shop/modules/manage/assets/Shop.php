@@ -10,11 +10,11 @@ class Shop extends AssetBundle
     ];
     
     public $js = [
-        'shop.js',
+        'shop-backend.js',
     ];
 
     public $depends = [
-        'app\assets\App',
+        'app\assets\Common',
     ];
 
     public function init() {

@@ -12,11 +12,11 @@ class Shop extends AssetBundle
 	];
 	
 	public $js = [
-		'shop.js',
+		'shop-frontend.js',
 	];
 
 	public $depends = [
-		'app\assets\App',
+		'app\assets\Common',
 		'lamhq\yii2\asset\NotifyJs',
 	];
 }
