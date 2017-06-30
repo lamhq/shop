@@ -33,7 +33,11 @@ return [
 			// user
 			[
 				'allow' => true,
-				'controllers' => ['backend/default','backend/setting'],
+				'controllers' => [
+					'backend/default',
+					'backend/setting',
+					'backend/slideshow',
+				],
 				'roles' => ['@'],
 			],
 		],

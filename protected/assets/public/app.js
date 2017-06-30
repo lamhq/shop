@@ -85,7 +85,7 @@ app = {
 
 		var isImage = function(name) {
 			var extension = name.split('.').pop();
-			return ['jpg', 'png', 'gif'].indexOf(extension.toLowerCase()) > -1;
+			return ['jpg', 'png', 'gif', 'ico'].indexOf(extension.toLowerCase()) > -1;
 		}
 
 		var uploadFile = function(file) {

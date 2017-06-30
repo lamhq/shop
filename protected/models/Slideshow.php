@@ -65,4 +65,12 @@ class Slideshow extends \yii\db\ActiveRecord
     {
         return new \app\models\query\SlideshowQuery(get_called_class());
     }
+
+    static public function getStatusOptions() {
+        return [
+            self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+            self::STATUS_INACTIVE => Yii::t('app', 'In-active'),
+        ];
+    }
+
 }
